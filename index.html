@@ -428,6 +428,66 @@
         };
 
         init();
-    </script>
+    </script> <script src='//libtl.com/sdk.js' data-zone='10844896' data-sdk='show_10844896'></script>
+
+<script type="module">
+    // ... আপনার আগের Firebase এবং অন্যান্য কোড এখানে থাকবে ...
+
+    window.startTask = (id, url) => {
+        if(!url) return alert("System offline. Try again later.");
+        
+        // Monetag Ad Show Logic
+        if (typeof show_10844896 === 'function') {
+            show_10844896().then(() => {
+                // বিজ্ঞাপন শেষ হওয়ার পর এই অংশটি কাজ করবে
+                processTask(id, url);
+            }).catch(() => {
+                // যদি বিজ্ঞাপন লোড না হয় তবুও টাস্ক শুরু হবে
+                processTask(id, url);
+            });
+        } else {
+            processTask(id, url);
+        }
+    };
+
+    // আসল টাস্ক প্রসেসিং ফাংশন
+    async function processTask(id, url) {
+        tg.openLink(url);
+        
+        const overlay = document.getElementById('timer-overlay');
+        const circle = document.getElementById('timer-circle');
+        const timerTxt = document.getElementById('timer-text');
+        overlay.classList.remove('hidden');
+        
+        let count = 30;
+        const fullDash = 465;
+        
+        const itv = setInterval(async () => {
+            count--;
+            timerTxt.innerText = count;
+            circle.style.strokeDashoffset = fullDash - (fullDash * count / 30);
+            
+            if(count <= 0) {
+                clearInterval(itv);
+                overlay.classList.add('hidden');
+                
+                // কনফার্মেশন প্রম্পট
+                if(confirm("Node connection verified. Confirm asset claim?")) {
+                    try {
+                        const upd = { balance: increment(50) };
+                        upd[`task${id}LastDone`] = serverTimestamp();
+                        await updateDoc(doc(db, "users", userData.uid), upd);
+                        tg.HapticFeedback.notificationOccurred('success');
+                    } catch (e) {
+                        console.error("Update failed", e);
+                    }
+                }
+            }
+        }, 1000);
+    }
+
+    // ... বাকি ফাংশনগুলো (navigateTo, copyRefer ইত্যাদি) এখানে থাকবে ...
+</script>
+
 </body>
 </html>
