@@ -3,88 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TK Income BD - Professional V4</title>
+    <title>TK Income BD - Pro V5</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-        
-        :root {
-            --primary: #10b981;
-            --secondary: #3b82f6;
-            --bg: #030712;
-            --card: rgba(17, 24, 39, 0.7);
-        }
-
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: var(--bg); 
-            color: #f3f4f6;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 0% 0%, rgba(16, 185, 129, 0.1) 0%, transparent 35%),
-                radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.1) 0%, transparent 35%);
-        }
-
-        .blob {
-            position: fixed;
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            filter: blur(80px);
-            border-radius: 50%;
-            z-index: -1;
-            opacity: 0.15;
-            animation: move 20s infinite alternate;
-        }
-
-        @keyframes move {
-            from { transform: translate(-10%, -10%); }
-            to { transform: translate(20%, 20%); }
-        }
-
-        .glass-card {
-            background: var(--card);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 28px;
-        }
-
-        .earn-card {
-            background: linear-gradient(145deg, rgba(16, 185, 129, 0.1), rgba(0, 0, 0, 0));
-            border-left: 4px solid var(--primary);
-        }
-
+        :root { --primary: #10b981; --bg: #030712; --card: rgba(17, 24, 39, 0.7); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: #f3f4f6; overflow-x: hidden; }
+        .glass-card { background: var(--card); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 28px; }
         .nav-item { transition: all 0.3s ease; }
         .nav-active { color: var(--primary); transform: translateY(-3px); }
-
         .sub-page { display: none; }
         .sub-page.active { display: block; animation: slideUp 0.5s ease; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .progress-container {
-            background: rgba(255,255,255,0.05);
-            border-radius: 20px;
-            height: 10px;
-            overflow: hidden;
-        }
-        #ref-fill {
-            background: linear-gradient(90deg, #10b981, #3b82f6);
-            height: 100%;
-            width: 0%;
-            transition: width 1s ease;
-        }
     </style>
 </head>
 <body class="max-w-md mx-auto">
 
-    <div class="blob"></div>
-    
     <header class="p-5 flex justify-between items-center sticky top-0 z-50 backdrop-blur-xl border-b border-white/5">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg">
-                <i data-lucide="gem" class="text-white w-6 h-6"></i>
+            <div class="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                <i data-lucide="zap" class="text-white w-6 h-6"></i>
             </div>
             <h1 class="font-black text-lg tracking-tight">TK <span class="text-emerald-500">INCOME</span></h1>
         </div>
@@ -94,16 +34,15 @@
     </header>
 
     <main class="p-4 pb-32">
-        
         <div id="home-page" class="sub-page active space-y-6">
-            <div class="glass-card p-8 text-center relative overflow-hidden">
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Total Balance</p>
-                <h2 class="text-5xl font-black text-white">৳ <span id="tk-balance">0.00</span></h2>
+            <div class="glass-card p-8 text-center border-emerald-500/10">
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Current Balance</p>
+                <h2 class="text-5xl font-black text-white tracking-tighter">৳ <span id="tk-balance">0.00</span></h2>
             </div>
 
             <div class="space-y-4">
                 <h3 class="text-sm font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                    <i data-lucide="zap" class="w-4 h-4 text-emerald-500"></i> Active Tasks
+                    <i data-lucide="layers" class="w-4 h-4 text-emerald-500"></i> Available Tasks
                 </h3>
                 <div id="task-list" class="space-y-4">
                     </div>
@@ -112,94 +51,51 @@
 
         <div id="refer-page" class="sub-page space-y-6">
             <div class="glass-card p-8 text-center">
-                <h2 class="text-2xl font-black text-white">Partner Program</h2>
-                <p class="text-slate-400 text-sm mt-2">Earn ৳100 for every active referral.</p>
-                
-                <div class="mt-6">
-                    <div class="flex justify-between mb-2">
-                        <span class="text-[10px] font-bold text-slate-500 uppercase">Refer Progress (Target 15)</span>
-                        <span id="req-ref" class="text-[10px] font-bold text-white">0</span>
-                    </div>
-                    <div class="progress-container">
-                        <div id="ref-fill"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="glass-card p-6 space-y-4">
-                <p class="text-xs font-bold text-emerald-500 uppercase">Your Partner Link</p>
-                <div class="bg-black/40 p-4 rounded-2xl border border-white/5 break-all text-[10px] font-mono text-slate-400" id="refer-link-text">
-                    Loading...
-                </div>
-                <button onclick="copyRefer()" class="w-full bg-emerald-600 py-4 rounded-2xl font-black text-sm">COPY LINK</button>
+                <h2 class="text-2xl font-black text-white">Referral Network</h2>
+                <div class="bg-black/40 p-4 rounded-2xl border border-white/5 mt-6 break-all text-[10px] font-mono text-slate-400" id="refer-link-text">Loading...</div>
+                <button onclick="copyRefer()" class="w-full bg-emerald-600 mt-4 py-4 rounded-2xl font-black text-sm shadow-lg shadow-emerald-600/20">COPY PARTNER LINK</button>
             </div>
         </div>
 
         <div id="wallet-page" class="sub-page space-y-6">
             <div class="glass-card p-8">
-                <h2 class="text-xl font-black text-white mb-6">Withdraw Funds</h2>
+                <h2 class="text-xl font-black text-white mb-6">Withdraw</h2>
                 <div class="space-y-4">
-                    <select id="withdraw-method" class="w-full p-4 rounded-2xl bg-black/20 outline-none text-sm border border-white/5">
-                        <option value="Bkash">Bkash</option>
-                        <option value="Nagad">Nagad</option>
-                    </select>
-                    <input id="withdraw-amount" type="number" placeholder="Amount (৳)" class="w-full p-4 rounded-2xl bg-black/20 outline-none text-sm border border-white/5">
-                    <input id="payment-number" type="number" placeholder="Number" class="w-full p-4 rounded-2xl bg-black/20 outline-none text-sm border border-white/5">
-                    <button id="withdraw-btn" class="w-full bg-blue-600 py-4 rounded-2xl font-black text-sm mt-4">SEND REQUEST</button>
+                    <select id="withdraw-method" class="w-full p-4 rounded-2xl bg-black/20 border border-white/5 outline-none text-sm"><option value="Bkash">Bkash</option><option value="Nagad">Nagad</option></select>
+                    <input id="withdraw-amount" type="number" placeholder="Amount (min 500)" class="w-full p-4 rounded-2xl bg-black/20 border border-white/5 outline-none text-sm">
+                    <input id="payment-number" type="number" placeholder="Account Number" class="w-full p-4 rounded-2xl bg-black/20 border border-white/5 outline-none text-sm">
+                    <button id="withdraw-btn" class="w-full bg-blue-600 py-4 rounded-2xl font-black text-sm">REQUEST PAYOUT</button>
                 </div>
             </div>
         </div>
 
         <div id="profile-page" class="sub-page space-y-6">
             <div class="glass-card p-10 text-center">
-                <div class="w-20 h-20 bg-emerald-500/20 rounded-full mx-auto flex items-center justify-center mb-4 border border-emerald-500/30">
-                    <i data-lucide="user" class="text-emerald-500 w-10 h-10"></i>
-                </div>
-                <h2 id="user-name" class="text-xl font-black text-white">Verified User</h2>
-                <p id="user-id" class="text-[10px] text-slate-500 font-mono mt-1">ID: 0000</p>
-                <div class="mt-8 grid grid-cols-2 gap-4">
-                    <div class="p-4 bg-white/5 rounded-2xl border border-white/5">
-                        <p class="text-[10px] text-slate-500 uppercase font-black">Refers</p>
-                        <p id="total-ref" class="text-xl font-black text-white">0</p>
-                    </div>
-                    <div onclick="contactAdmin()" class="p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 cursor-pointer">
-                        <i data-lucide="headset" class="w-5 h-5 text-emerald-500 mx-auto mb-1"></i>
-                        <p class="text-[10px] text-emerald-500 font-black uppercase">Support</p>
-                    </div>
-                </div>
+                <div class="w-20 h-20 bg-emerald-500/20 rounded-full mx-auto flex items-center justify-center mb-4 border border-emerald-500/30"><i data-lucide="user" class="text-emerald-500 w-10 h-10"></i></div>
+                <h2 id="user-name" class="text-xl font-black text-white">User</h2>
+                <p id="total-ref" class="text-sm font-bold text-emerald-500 mt-2">Refers: 0</p>
+                <button onclick="contactAdmin()" class="mt-6 text-xs font-bold text-slate-500 uppercase tracking-widest border border-white/10 px-6 py-2 rounded-full">Contact Support</button>
             </div>
         </div>
     </main>
 
-    <nav class="fixed bottom-6 left-6 right-6 glass-card p-4 flex justify-between items-center z-[100]">
-        <button onclick="navigateTo('home-page', this)" class="nav-item nav-active flex flex-col items-center gap-1">
-            <i data-lucide="grid" class="w-6 h-6"></i>
-            <span class="text-[8px] font-black uppercase">Home</span>
-        </button>
-        <button onclick="navigateTo('refer-page', this)" class="nav-item flex flex-col items-center gap-1 text-slate-500">
-            <i data-lucide="users" class="w-6 h-6"></i>
-            <span class="text-[8px] font-black uppercase">Refer</span>
-        </button>
-        <button onclick="navigateTo('wallet-page', this)" class="nav-item flex flex-col items-center gap-1 text-slate-500">
-            <i data-lucide="wallet" class="w-6 h-6"></i>
-            <span class="text-[8px] font-black uppercase">Wallet</span>
-        </button>
-        <button onclick="navigateTo('profile-page', this)" class="nav-item flex flex-col items-center gap-1 text-slate-500">
-            <i data-lucide="user" class="w-6 h-6"></i>
-            <span class="text-[8px] font-black uppercase">Profile</span>
-        </button>
+    <nav class="fixed bottom-6 left-6 right-6 glass-card p-4 flex justify-between items-center z-[100] border-white/10 shadow-2xl">
+        <button onclick="navigateTo('home-page', this)" class="nav-item nav-active px-4 flex flex-col items-center gap-1"><i data-lucide="grid" class="w-5 h-5"></i><span class="text-[8px] font-black uppercase">Home</span></button>
+        <button onclick="navigateTo('refer-page', this)" class="nav-item px-4 flex flex-col items-center gap-1 text-slate-500"><i data-lucide="users" class="w-5 h-5"></i><span class="text-[8px] font-black uppercase">Refer</span></button>
+        <button onclick="navigateTo('wallet-page', this)" class="nav-item px-4 flex flex-col items-center gap-1 text-slate-500"><i data-lucide="wallet" class="w-5 h-5"></i><span class="text-[8px] font-black uppercase">Wallet</span></button>
+        <button onclick="navigateTo('profile-page', this)" class="nav-item px-4 flex flex-col items-center gap-1 text-slate-500"><i data-lucide="settings" class="w-5 h-5"></i><span class="text-[8px] font-black uppercase">Profile</span></button>
     </nav>
 
-    <div id="timer-overlay" class="fixed inset-0 bg-slate-950/98 z-[200] hidden flex items-center justify-center p-10">
-        <div class="glass-card p-10 w-full text-center space-y-6">
-            <div class="text-4xl font-black text-emerald-500" id="timer-text">30</div>
-            <p class="text-sm font-bold text-white uppercase tracking-widest">Verifying Visit...</p>
+    <div id="timer-overlay" class="fixed inset-0 bg-slate-950/98 z-[200] hidden flex items-center justify-center p-10 backdrop-blur-md">
+        <div class="glass-card p-10 w-full text-center space-y-6 border-emerald-500/30">
+            <div id="timer-text" class="text-5xl font-black text-emerald-500">30</div>
+            <p class="text-sm font-bold text-white uppercase tracking-widest animate-pulse">Verifying Website Visit...</p>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-        import { getFirestore, doc, getDoc, updateDoc, setDoc, increment, addDoc, collection, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+        import { getFirestore, doc, updateDoc, setDoc, increment, addDoc, collection, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDpH_zn1KQPcIsPojC02UzXLdc017e-Unw",
@@ -213,34 +109,25 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const tg = window.Telegram.WebApp;
-        let userData = null;
-        let config = {};
+        let userData = null, config = {};
 
         async function init() {
             lucide.createIcons();
             const user = tg.initDataUnsafe?.user;
-            if(!user) { alert("Please open in Telegram!"); return; }
+            if(!user) return;
             const uid = user.id.toString();
 
-            onSnapshot(doc(db, "config", "main"), (snap) => {
-                config = snap.data() || {};
-                if(userData) renderTasks();
-            });
+            onSnapshot(doc(db, "config", "main"), (snap) => { config = snap.data() || {}; if(userData) renderTasks(); });
 
             onSnapshot(doc(db, "users", uid), async (snap) => {
-                if(snap.exists()) {
-                    userData = snap.data();
-                } else {
-                    userData = { uid, name: user.first_name, balance: 50, totalRefer: 0, 
-                                 task1LastDone: null, task2LastDone: null, task3LastDone: null };
+                if(snap.exists()) { userData = snap.data(); } 
+                else {
+                    userData = { uid, name: user.first_name, balance: 50, totalRefer: 0, task1LastDone: null, task2LastDone: null, task3LastDone: null };
                     await setDoc(doc(db, "users", uid), userData);
-                    const startParam = tg.initDataUnsafe?.start_param;
-                    if(startParam && startParam !== uid) {
-                        await updateDoc(doc(db, "users", startParam), { balance: increment(100), totalRefer: increment(1) });
-                    }
+                    const sp = tg.initDataUnsafe?.start_param;
+                    if(sp && sp !== uid) await updateDoc(doc(db, "users", sp), { balance: increment(100), totalRefer: increment(1) });
                 }
-                updateUI();
-                renderTasks();
+                updateUI(); renderTasks();
             });
         }
 
@@ -248,85 +135,65 @@
             document.getElementById('tk-balance').innerText = userData.balance.toFixed(2);
             document.getElementById('header-balance').innerText = "৳ " + userData.balance.toFixed(2);
             document.getElementById('user-name').innerText = userData.name;
-            document.getElementById('user-id').innerText = "ID: " + userData.uid;
-            document.getElementById('total-ref').innerText = userData.totalRefer || 0;
-            document.getElementById('req-ref').innerText = userData.totalRefer || 0;
-            
-            const refCount = userData.totalRefer || 0;
-            document.getElementById('ref-fill').style.width = Math.min(100, (refCount/15)*100) + '%';
+            document.getElementById('total-ref').innerText = "Refers: " + (userData.totalRefer || 0);
             document.getElementById('refer-link-text').innerText = `https://t.me/bdfreeincometkBot/app?startapp=${userData.uid}`;
         }
 
         function renderTasks() {
             const list = document.getElementById('task-list');
             list.innerHTML = '';
-            
             const now = Date.now();
-            const waitTime = 16 * 60 * 60 * 1000;
+            const lockTime = 20 * 60 * 60 * 1000; // 20 Hours
 
-            const t1 = userData.task1LastDone?.toMillis() || 0;
-            const t2 = userData.task2LastDone?.toMillis() || 0;
-            const t3 = userData.task3LastDone?.toMillis() || 0;
+            for(let i=1; i<=3; i++) {
+                const lastDone = userData[`task${i}LastDone`]?.toMillis() || 0;
+                const diff = now - lastDone;
+                const isLocked = lastDone > 0 && diff < lockTime;
 
-            // Tinoti task shesh kina check kora hochhe
-            const allTasksDone = (t1 > 0 && t2 > 0 && t3 > 0);
-            const lastDoneTime = Math.max(t1, t2, t3);
-            const isLockActive = allTasksDone && (now < lastDoneTime + waitTime);
-
-            if (isLockActive) {
-                const diff = (lastDoneTime + waitTime) - now;
-                const h = Math.floor(diff / 3600000);
-                const m = Math.floor((diff % 3600000) / 60000);
-                list.innerHTML = `
-                    <div class="glass-card p-10 text-center border-emerald-500/20">
-                        <i data-lucide="clock" class="w-10 h-10 text-emerald-500 mx-auto mb-4 animate-pulse"></i>
-                        <h3 class="text-white font-black">Tasks Locked!</h3>
-                        <p class="text-xs text-slate-500 mt-1">Wait 16 hours for next batch.</p>
-                        <div class="mt-4 text-2xl font-black text-emerald-400">${h}h ${m}m</div>
-                    </div>`;
-            } else {
-                // Jodi 16 ghonta par hoye jay, tobe field gulo server-e null kora uchit. 
-                // Kintu ekhane reset logic automatic kaj korbe.
-                const tasks = [1, 2, 3];
-                tasks.forEach(i => {
-                    const taskDone = userData[`task${i}LastDone`]?.toMillis() || 0;
-                    // Jodi 16 ghonta par hoye thake, tobe task abar kora jabe
-                    const canDo = !allTasksDone || (now > lastDoneTime + waitTime);
-                    const isAlreadyDoneThisCycle = taskDone > (now - waitTime) && taskDone > 0;
-
+                if(isLocked) {
+                    const remaining = lockTime - diff;
+                    const h = Math.floor(remaining / 3600000);
+                    const m = Math.floor((remaining % 3600000) / 60000);
                     list.innerHTML += `
-                        <div class="glass-card p-5 flex justify-between items-center earn-card ${isAlreadyDoneThisCycle ? 'opacity-40' : ''}">
-                            <div class="flex items-center gap-3">
-                                <i data-lucide="globe" class="text-emerald-500 w-5 h-5"></i>
-                                <div>
-                                    <p class="text-sm font-bold text-white">Task 0${i}</p>
-                                    <p class="text-[10px] text-emerald-400 font-black">৳ 50.00</p>
-                                </div>
+                    <div class="glass-card p-5 flex justify-between items-center opacity-60">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="clock" class="text-slate-500 w-5 h-5"></i>
+                            <div>
+                                <p class="text-sm font-bold text-slate-400">Task 0${i} Locked</p>
+                                <p class="text-[10px] text-emerald-500 font-black tracking-widest">${h}h ${m}m Left</p>
                             </div>
-                            ${isAlreadyDoneThisCycle ? 
-                                '<span class="text-[10px] font-black text-emerald-500">COMPLETED</span>' : 
-                                `<button onclick="startTask(${i}, '${config['linkWeb'+i]}')" class="px-5 py-2.5 bg-emerald-600 rounded-xl text-[10px] font-black">START</button>`
-                            }
-                        </div>`;
-                });
+                        </div>
+                        <button class="px-5 py-2 bg-slate-800 rounded-xl text-[10px] font-black text-slate-500 cursor-not-allowed">LOCKED</button>
+                    </div>`;
+                } else {
+                    list.innerHTML += `
+                    <div class="glass-card p-5 flex justify-between items-center border-l-4 border-emerald-500">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="globe" class="text-emerald-500 w-5 h-5"></i>
+                            <div>
+                                <p class="text-sm font-bold text-white">Enterprise Task 0${i}</p>
+                                <p class="text-[10px] text-emerald-400 font-black">REWARD: ৳ 50.00</p>
+                            </div>
+                        </div>
+                        <button onclick="startTask(${i}, '${config['linkWeb'+i]}')" class="px-6 py-2.5 bg-emerald-600 rounded-xl text-[10px] font-black hover:bg-emerald-500 transition-all active:scale-95 shadow-lg shadow-emerald-600/20">START</button>
+                    </div>`;
+                }
             }
             lucide.createIcons();
         }
 
         window.startTask = (id, url) => {
-            if(!url) return alert("Link Error!");
+            if(!url) return;
             tg.openLink(url);
             const overlay = document.getElementById('timer-overlay');
             const timerTxt = document.getElementById('timer-text');
             overlay.classList.remove('hidden');
             let count = 30;
             const itv = setInterval(async () => {
-                count--;
-                timerTxt.innerText = count;
+                count--; timerTxt.innerText = count;
                 if(count <= 0) {
-                    clearInterval(itv);
-                    overlay.classList.add('hidden');
-                    if(confirm("Confirm Reward?")) {
+                    clearInterval(itv); overlay.classList.add('hidden');
+                    if(confirm("Task Complete! Claim Reward?")) {
                         const updateData = { balance: increment(50) };
                         updateData[`task${id}LastDone`] = serverTimestamp();
                         await updateDoc(doc(db, "users", userData.uid), updateData);
@@ -341,34 +208,25 @@
             document.getElementById(id).classList.add('active');
             document.querySelectorAll('.nav-item').forEach(i => i.classList.add('text-slate-500'));
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('nav-active'));
-            btn.classList.remove('text-slate-500');
-            btn.classList.add('nav-active');
+            btn.classList.remove('text-slate-500'); btn.classList.add('nav-active');
             tg.HapticFeedback.impactOccurred('light');
         };
 
         window.copyRefer = () => {
-            const link = document.getElementById('refer-link-text').innerText;
-            navigator.clipboard.writeText(link);
+            navigator.clipboard.writeText(document.getElementById('refer-link-text').innerText);
             alert("Link Copied!");
         };
 
-        window.contactAdmin = () => {
-            if(config.linkAdmin) tg.openTelegramLink("https://t.me/" + config.linkAdmin);
-        };
+        window.contactAdmin = () => { if(config.linkAdmin) tg.openTelegramLink("https://t.me/" + config.linkAdmin); };
 
         document.getElementById('withdraw-btn').onclick = async () => {
             const amt = parseFloat(document.getElementById('withdraw-amount').value);
             const num = document.getElementById('payment-number').value;
-            const method = document.getElementById('withdraw-method').value;
-
-            if(userData.totalRefer < 15) return alert("15 Refers Required!");
+            if(userData.totalRefer < 15) return alert("15 Refer Required!");
             if(amt < 500 || amt > userData.balance) return alert("Invalid Amount!");
-            
             await updateDoc(doc(db, "users", userData.uid), { balance: increment(-amt) });
-            await addDoc(collection(db, "withdrawals"), { 
-                uid: userData.uid, name: userData.name, amount: amt, method, number: num, status: "Pending", time: serverTimestamp() 
-            });
-            alert("Request Sent!");
+            await addDoc(collection(db, "withdrawals"), { uid: userData.uid, name: userData.name, amount: amt, method: document.getElementById('withdraw-method').value, number: num, status: "Pending", time: serverTimestamp() });
+            alert("Withdrawal Requested!");
         };
 
         init();
