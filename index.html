@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TK Income BD - Global Enterprise</title>
+    <title>TK INCOME | GLOBAL ENTERPRISE V4</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -13,146 +13,244 @@
         :root {
             --primary: #10b981;
             --secondary: #3b82f6;
-            --bg: #030712;
-            --card: rgba(17, 24, 39, 0.7);
+            --accent: #f59e0b;
+            --bg: #020617;
+            --glass: rgba(15, 23, 42, 0.8);
         }
 
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             background-color: var(--bg); 
-            color: #f3f4f6;
+            color: #f8fafc;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 0% 0%, rgba(16, 185, 129, 0.1) 0%, transparent 35%),
-                radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.1) 0%, transparent 35%);
-        }
-
-        .blob {
-            position: fixed;
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            filter: blur(80px);
-            border-radius: 50%;
-            z-index: -1;
-            opacity: 0.15;
-            animation: move 20s infinite alternate;
-        }
-
-        @keyframes move {
-            from { transform: translate(-10%, -10%); }
-            to { transform: translate(20%, 20%); }
+                radial-gradient(circle at 10% 10%, rgba(16, 185, 129, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(59, 130, 246, 0.12) 0%, transparent 40%);
         }
 
         .glass-card {
-            background: var(--card);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 28px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 32px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
 
-        .earn-card {
-            background: linear-gradient(145deg, rgba(16, 185, 129, 0.15), rgba(0, 0, 0, 0));
-            border-left: 4px solid var(--primary);
+        .premium-gradient {
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
         }
 
-        .nav-item { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .nav-active { color: var(--primary); transform: translateY(-5px); }
-        .nav-active i { filter: drop-shadow(0 0 8px var(--primary)); }
+        .nav-active { 
+            color: var(--primary); 
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 20px;
+        }
 
         .sub-page { display: none; }
-        .sub-page.active { display: block; animation: slideUp 0.5s ease; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .sub-page.active { display: block; animation: pageIn 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
+        @keyframes pageIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 
-        .progress-container {
-            background: rgba(255,255,255,0.05);
-            border-radius: 20px;
-            height: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05);
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
         }
-        #ref-fill {
-            background: linear-gradient(90deg, #10b981, #3b82f6);
-            height: 100%;
-            width: 0%;
-            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 0; }
     </style>
 </head>
-<body class="max-w-md mx-auto">
+<body class="max-w-md mx-auto min-h-screen pb-32">
 
-    <div class="blob"></div>
-    
-    <header class="p-5 flex justify-between items-center sticky top-0 z-50 backdrop-blur-xl border-b border-white/5">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
-                <i data-lucide="gem" class="text-white w-6 h-6"></i>
+    <header class="p-6 flex justify-between items-center sticky top-0 z-[100] backdrop-blur-xl border-b border-white/5">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 premium-gradient rounded-2xl flex items-center justify-center">
+                <i data-lucide="shield-check" class="text-white w-7 h-7"></i>
             </div>
             <div>
-                <h1 class="font-black text-lg tracking-tight leading-none">TK <span class="text-emerald-500">INCOME</span></h1>
-                <p class="text-[9px] uppercase tracking-[0.2em] text-slate-500 font-bold">Global Network</p>
+                <h1 class="font-black text-xl tracking-tighter leading-none">GLOBAL <span class="text-emerald-500">TK</span></h1>
+                <div class="flex items-center gap-1.5 mt-1">
+                    <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                    <p class="text-[9px] uppercase tracking-widest text-slate-500 font-bold">Encrypted Network</p>
+                </div>
             </div>
         </div>
-        <div class="glass-card px-4 py-2 border-emerald-500/20 flex items-center gap-2">
-            <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-            <span id="header-balance" class="text-emerald-400 font-black text-sm">৳ 0.00</span>
+        <div class="flex flex-col items-end">
+            <span class="text-[10px] font-black text-slate-500 uppercase">Live Balance</span>
+            <span id="header-balance" class="text-emerald-400 font-black text-lg tracking-tighter">৳ 0.00</span>
         </div>
     </header>
 
-    <main class="p-4 pb-32">
+    <main class="p-5">
+        
         <div id="home-page" class="sub-page active space-y-6">
-            <div class="glass-card p-8 text-center relative overflow-hidden">
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Available Balance</p>
-                <h2 class="text-5xl font-black tracking-tighter text-white">৳ <span id="tk-balance">0.00</span></h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="glass-card p-4 border-emerald-500/10">
+                    <p class="text-[10px] font-black text-slate-500 uppercase mb-1">Global Payout</p>
+                    <p class="text-lg font-black text-white">৳ 2,482,100</p>
+                </div>
+                <div class="glass-card p-4 border-blue-500/10">
+                    <p class="text-[10px] font-black text-slate-500 uppercase mb-1">Users Online</p>
+                    <p class="text-lg font-black text-white">84,102</p>
+                </div>
+            </div>
+
+            <div class="glass-card p-8 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <i data-lucide="wallet-2" class="w-32 h-32"></i>
+                </div>
+                <div class="relative z-10">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="px-3 py-1 bg-emerald-500/10 rounded-full border border-emerald-500/20 text-[9px] font-black text-emerald-500 uppercase">Premium Tier</span>
+                        <span class="px-3 py-1 bg-blue-500/10 rounded-full border border-blue-500/20 text-[9px] font-black text-blue-500 uppercase">Verified</span>
+                    </div>
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">Withdrawable Asset</p>
+                    <h2 class="text-6xl font-black tracking-tighter text-white my-2">৳ <span id="tk-balance">0.00</span></h2>
+                    <div class="flex gap-3 mt-8">
+                        <button onclick="navigateTo('wallet-page')" class="flex-1 py-4 premium-gradient rounded-2xl text-sm font-black uppercase tracking-widest text-white active:scale-95 transition-all">Withdraw</button>
+                        <button onclick="navigateTo('refer-page')" class="flex-1 py-4 bg-white/5 rounded-2xl text-sm font-black uppercase tracking-widest text-slate-400 active:scale-95 transition-all">Network</button>
+                    </div>
+                </div>
             </div>
 
             <div class="space-y-4">
-                <h3 class="text-sm font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                    <i data-lucide="zap" class="w-4 h-4 text-emerald-500"></i> Active Earning Hub
-                </h3>
-                <div id="task-list" class="space-y-4"></div>
+                <div class="flex justify-between items-center px-2">
+                    <h3 class="text-sm font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                        <i data-lucide="zap" class="w-4 h-4 text-emerald-500"></i> Enterprise Nodes
+                    </h3>
+                    <span class="text-[10px] font-bold text-emerald-500">REFRESHING LIVE</span>
+                </div>
+                <div id="task-list" class="space-y-4">
+                    </div>
             </div>
         </div>
 
         <div id="refer-page" class="sub-page space-y-6">
+            <div class="glass-card p-10 text-center relative overflow-hidden">
+                <div class="w-24 h-24 premium-gradient rounded-[2.5rem] mx-auto flex items-center justify-center shadow-2xl rotate-12 mb-8">
+                    <i data-lucide="gem" class="text-white w-12 h-12 -rotate-12"></i>
+                </div>
+                <h2 class="text-3xl font-black text-white leading-tight">Elite Partner<br>Network</h2>
+                <p class="text-slate-400 text-sm mt-4 px-4">Refer high-value partners to our network and unlock ৳100 instantly for each node.</p>
+            </div>
+
             <div class="glass-card p-6">
-                <h2 class="text-white font-black uppercase mb-4">Referral Progress</h2>
-                <div class="progress-container"><div id="ref-fill"></div></div>
-                <p id="refer-link-text" class="mt-4 text-[10px] font-mono text-slate-400 break-all"></p>
-                <button onclick="copyRefer()" class="w-full bg-emerald-600 mt-4 py-4 rounded-2xl font-black text-sm">COPY LINK</button>
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Withdrawal Unlock</p>
+                        <p class="text-xl font-black text-white"><span id="req-ref">0</span> / 15 <span class="text-xs text-slate-500">Active Nodes</span></p>
+                    </div>
+                    <div class="w-12 h-12 rounded-full border-4 border-slate-800 flex items-center justify-center">
+                        <span id="ref-percent-text" class="text-[10px] font-black">0%</span>
+                    </div>
+                </div>
+                <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden">
+                    <div id="ref-fill" class="h-full premium-gradient transition-all duration-1000" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="glass-card p-6 space-y-4">
+                <p class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Personal Referral Link</p>
+                <div class="bg-black/40 p-5 rounded-2xl border border-white/5 font-mono text-[11px] text-slate-400 break-all" id="refer-link-text">
+                    Generating...
+                </div>
+                <button onclick="copyRefer()" class="w-full py-5 premium-gradient rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl active:scale-95 transition-all">
+                    Copy Network Link
+                </button>
             </div>
         </div>
 
         <div id="wallet-page" class="sub-page space-y-6">
-            <div class="glass-card p-8">
-                <h2 class="text-xl font-black text-white mb-6">Payout Center</h2>
-                <input id="withdraw-amount" type="number" placeholder="Enter Amount" class="w-full p-4 mb-4 rounded-2xl glass-card border-none outline-none text-white">
-                <input id="payment-number" type="number" placeholder="Account Number" class="w-full p-4 mb-4 rounded-2xl glass-card border-none outline-none text-white">
-                <button id="withdraw-btn" class="w-full bg-blue-600 py-4 rounded-2xl font-black text-sm">INITIATE WITHDRAWAL</button>
+            <div class="glass-card p-8 border-blue-500/20">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-600/30">
+                        <i data-lucide="landmark" class="text-white w-7 h-7"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-black text-white leading-tight">Payout Hub</h2>
+                        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Secure Global Transfer</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-5">
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2">Select Channel</label>
+                        <select id="withdraw-method" class="w-full p-5 rounded-2xl glass-card border-none outline-none text-white font-bold">
+                            <option value="Bkash">bKash Global Merchant</option>
+                            <option value="Nagad">Nagad Fast-Pay Network</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2">Payout Amount</label>
+                        <input id="withdraw-amount" type="number" placeholder="৳ 500.00" class="w-full p-5 rounded-2xl glass-card border-none outline-none text-white font-black text-xl placeholder:text-slate-700">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2">Recipient Address</label>
+                        <input id="payment-number" type="number" placeholder="01XXXXXXXXX" class="w-full p-5 rounded-2xl glass-card border-none outline-none text-white font-black text-xl placeholder:text-slate-700">
+                    </div>
+                    <button id="withdraw-btn" class="w-full bg-blue-600 py-6 rounded-2xl font-black text-sm uppercase tracking-[0.2em] shadow-xl active:scale-95 transition-all">
+                        Initiate Payout
+                    </button>
+                </div>
             </div>
         </div>
 
         <div id="profile-page" class="sub-page space-y-6">
-            <div class="glass-card p-10 text-center">
-                <h2 id="user-name" class="text-2xl font-black text-white">Partner</h2>
-                <p id="total-ref" class="text-xl font-black text-emerald-500 mt-4">0 Refers</p>
-                <button onclick="contactAdmin()" class="w-full mt-6 py-4 rounded-2xl bg-white/5 border border-white/5 font-black text-xs uppercase text-slate-400">Contact Support</button>
+            <div class="glass-card p-12 text-center relative overflow-hidden">
+                <div class="w-28 h-28 premium-gradient p-1 mx-auto rounded-[3rem] mb-6 shadow-2xl">
+                    <div class="w-full h-full bg-slate-950 rounded-[2.8rem] flex items-center justify-center">
+                        <i data-lucide="user-check" class="text-emerald-500 w-12 h-12"></i>
+                    </div>
+                </div>
+                <h2 id="user-name" class="text-2xl font-black text-white">Partner Name</h2>
+                <div class="flex justify-center gap-2 mt-4">
+                    <span class="px-4 py-1 bg-white/5 rounded-full text-[10px] font-black text-slate-500 uppercase border border-white/5" id="user-id">ID: 00000</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 mt-10">
+                    <div class="p-6 rounded-3xl bg-white/5 border border-white/5">
+                        <p class="text-[10px] font-black text-slate-500 uppercase mb-1">Total Nodes</p>
+                        <p id="total-ref" class="text-3xl font-black text-white">0</p>
+                    </div>
+                    <div onclick="contactAdmin()" class="p-6 rounded-3xl bg-emerald-500/5 border border-emerald-500/10 cursor-pointer hover:bg-emerald-500/10 transition-all">
+                        <i data-lucide="headset" class="w-6 h-6 text-emerald-500 mx-auto mb-2"></i>
+                        <p class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Support</p>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
-    <nav class="fixed bottom-6 left-6 right-6 glass-card p-4 flex justify-between items-center z-[100] border-white/10 shadow-2xl">
-        <button onclick="navigateTo('home-page', this)" class="nav-item nav-active px-4 flex flex-col items-center gap-1"><i data-lucide="grid"></i></button>
-        <button onclick="navigateTo('refer-page', this)" class="nav-item px-4 flex flex-col items-center gap-1 text-slate-500"><i data-lucide="users-2"></i></button>
-        <button onclick="navigateTo('wallet-page', this)" class="nav-item px-4 flex flex-col items-center gap-1 text-slate-500"><i data-lucide="arrow-up-right"></i></button>
-        <button onclick="navigateTo('profile-page', this)" class="nav-item px-4 flex flex-col items-center gap-1 text-slate-500"><i data-lucide="settings"></i></button>
+    <nav class="fixed bottom-6 left-6 right-6 glass-card p-4 flex justify-between items-center z-[200] border-white/10">
+        <button onclick="navigateTo('home-page', this)" class="nav-item nav-active p-4 transition-all">
+            <i data-lucide="layout-grid" class="w-6 h-6"></i>
+        </button>
+        <button onclick="navigateTo('refer-page', this)" class="nav-item p-4 text-slate-500 transition-all">
+            <i data-lucide="users" class="w-6 h-6"></i>
+        </button>
+        <button onclick="navigateTo('wallet-page', this)" class="nav-item p-4 text-slate-500 transition-all">
+            <i data-lucide="rocket" class="w-6 h-6"></i>
+        </button>
+        <button onclick="navigateTo('profile-page', this)" class="nav-item p-4 text-slate-500 transition-all">
+            <i data-lucide="fingerprint" class="w-6 h-6"></i>
+        </button>
     </nav>
 
-    <div id="timer-overlay" class="fixed inset-0 bg-slate-950/95 z-[200] hidden flex items-center justify-center p-10 backdrop-blur-md">
-        <div class="glass-card p-10 w-full text-center space-y-6 border-emerald-500/30">
-            <div id="timer-text" class="text-4xl font-black text-white">30</div>
-            <h3 class="text-lg font-black text-white">Verifying Activity...</h3>
-            <p class="text-xs text-slate-500 font-bold uppercase tracking-widest animate-pulse">Do not go back</p>
+    <div id="timer-overlay" class="fixed inset-0 bg-slate-950/98 z-[1000] hidden flex items-center justify-center p-12 backdrop-blur-xl">
+        <div class="glass-card p-12 w-full text-center space-y-8 border-emerald-500/20">
+            <div class="relative w-40 h-40 mx-auto">
+                <svg class="w-full h-full transform -rotate-90">
+                    <circle cx="80" cy="80" r="74" stroke="currentColor" stroke-width="6" fill="transparent" class="text-slate-900" />
+                    <circle id="timer-circle" cx="80" cy="80" r="74" stroke="currentColor" stroke-width="6" fill="transparent" stroke-dasharray="465" stroke-dashoffset="0" class="text-emerald-500 transition-all duration-1000" />
+                </svg>
+                <div id="timer-text" class="absolute inset-0 flex items-center justify-center text-5xl font-black text-white">30</div>
+            </div>
+            <div>
+                <h3 class="text-xl font-black text-white uppercase tracking-tighter">Syncing Node Data</h3>
+                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-[0.3em] mt-2 animate-pulse">Connection Encryption Active</p>
+            </div>
         </div>
     </div>
 
@@ -174,19 +272,23 @@
         const tg = window.Telegram.WebApp;
         let userData = null;
         let config = {};
-
+        
         async function init() {
             lucide.createIcons();
             tg.expand();
+            tg.ready();
+
             const user = tg.initDataUnsafe?.user;
             if(!user) return;
             const uid = user.id.toString();
 
+            // Config Listener
             onSnapshot(doc(db, "config", "main"), (snap) => {
                 config = snap.data() || {};
                 if(userData) renderTasks();
             });
 
+            // Real-time User Listener
             onSnapshot(doc(db, "users", uid), async (snap) => {
                 if(snap.exists()) {
                     userData = snap.data();
@@ -198,17 +300,23 @@
                         await updateDoc(doc(db, "users", sp), { balance: increment(100), totalRefer: increment(1) });
                     }
                 }
-                updateUI(); renderTasks();
+                updateUI();
+                renderTasks();
             });
         }
 
         function updateUI() {
-            document.getElementById('tk-balance').innerText = userData.balance.toFixed(2);
-            document.getElementById('header-balance').innerText = "৳ " + userData.balance.toFixed(2);
+            const bal = userData.balance || 0;
+            document.getElementById('tk-balance').innerText = bal.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            document.getElementById('header-balance').innerText = "৳ " + bal.toLocaleString('en-IN', {minimumFractionDigits: 2});
             document.getElementById('user-name').innerText = userData.name;
-            document.getElementById('total-ref').innerText = (userData.totalRefer || 0) + " Refers";
+            document.getElementById('user-id').innerText = "ID: " + userData.uid;
+            document.getElementById('total-ref').innerText = userData.totalRefer || 0;
+            document.getElementById('req-ref').innerText = userData.totalRefer || 0;
+            
             const percentage = Math.min(100, ((userData.totalRefer || 0) / 15) * 100);
             document.getElementById('ref-fill').style.width = percentage + '%';
+            document.getElementById('ref-percent-text').innerText = Math.floor(percentage) + '%';
             document.getElementById('refer-link-text').innerText = `https://t.me/bdfreeincometkBot/app?startapp=${userData.uid}`;
         }
 
@@ -216,42 +324,39 @@
             const list = document.getElementById('task-list');
             list.innerHTML = '';
             const now = Date.now();
-            const lockDuration = 20 * 60 * 60 * 1000; // 20 Hours in MS
+            const lockTime = 20 * 60 * 60 * 1000; // 20 Hours logic
 
             for(let i=1; i<=3; i++) {
                 const lastDone = userData[`task${i}LastDone`]?.toMillis() || 0;
                 const timeDiff = now - lastDone;
 
-                if(lastDone > 0 && timeDiff < lockDuration) {
-                    const remaining = lockDuration - timeDiff;
-                    const h = Math.floor(remaining / 3600000);
-                    const m = Math.floor((remaining % 3600000) / 60000);
+                if(lastDone > 0 && timeDiff < lockTime) {
+                    const rem = lockTime - timeDiff;
+                    const h = Math.floor(rem / 3600000);
+                    const m = Math.floor((rem % 3600000) / 60000);
                     list.innerHTML += `
-                        <div class="glass-card p-5 flex justify-between items-center opacity-50 border-white/5">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-slate-800 rounded-2xl flex items-center justify-center border border-white/5">
-                                    <i data-lucide="clock" class="text-slate-500 w-6 h-6"></i>
-                                </div>
+                        <div class="glass-card p-6 flex justify-between items-center opacity-40 grayscale shimmer">
+                            <div class="flex items-center gap-5">
+                                <div class="w-14 h-14 bg-slate-800 rounded-2xl flex items-center justify-center"><i data-lucide="lock" class="text-slate-500"></i></div>
                                 <div>
-                                    <p class="text-sm font-black text-slate-500 uppercase tracking-tighter">Locked</p>
-                                    <p class="text-[10px] text-emerald-500 font-bold uppercase tracking-widest">${h}h ${m}m Remaining</p>
+                                    <p class="text-sm font-black text-slate-500 uppercase">Node Synchronizing</p>
+                                    <p class="text-[10px] text-emerald-500 font-black">${h}H ${m}M UNTIL RE-ENTRY</p>
                                 </div>
                             </div>
-                            <span class="text-[10px] font-black text-slate-600">COOLDOWN</span>
                         </div>`;
                 } else {
                     list.innerHTML += `
-                        <div class="glass-card p-5 flex justify-between items-center earn-card">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center border border-white/5">
-                                    <i data-lucide="globe" class="text-emerald-500 w-6 h-6"></i>
+                        <div class="glass-card p-6 flex justify-between items-center border-emerald-500/10 group hover:scale-[1.02] transition-all">
+                            <div class="flex items-center gap-5">
+                                <div class="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20 group-hover:bg-emerald-500/20 transition-all">
+                                    <i data-lucide="globe" class="text-emerald-500"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-black text-white">Enterprise Task 0${i}</p>
-                                    <p class="text-[10px] text-emerald-400 font-bold uppercase">Reward: ৳ 50.00</p>
+                                    <p class="text-sm font-black text-white uppercase tracking-tight">Enterprise Node 0${i}</p>
+                                    <p class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Reward: ৳ 50.00</p>
                                 </div>
                             </div>
-                            <button onclick="startTask(${i}, '${config['linkWeb'+i]}')" class="px-6 py-3 bg-emerald-600 rounded-xl text-[10px] font-black text-white shadow-lg shadow-emerald-500/20 active:scale-95 transition-all">START</button>
+                            <button onclick="startTask(${i}, '${config['linkWeb'+i]}')" class="px-8 py-3 premium-gradient rounded-xl text-[10px] font-black text-white uppercase active:scale-90 transition-all">Connect</button>
                         </div>`;
                 }
             }
@@ -259,17 +364,26 @@
         }
 
         window.startTask = (id, url) => {
-            if(!url) return alert("Task Link Pending.");
+            if(!url) return alert("System offline. Try again later.");
             tg.openLink(url);
+            
             const overlay = document.getElementById('timer-overlay');
-            const timerText = document.getElementById('timer-text');
+            const circle = document.getElementById('timer-circle');
+            const timerTxt = document.getElementById('timer-text');
             overlay.classList.remove('hidden');
+            
             let count = 30;
+            const fullDash = 465;
+            
             const itv = setInterval(async () => {
-                count--; timerText.innerText = count;
+                count--;
+                timerTxt.innerText = count;
+                circle.style.strokeDashoffset = fullDash - (fullDash * count / 30);
+                
                 if(count <= 0) {
-                    clearInterval(itv); overlay.classList.add('hidden');
-                    if(confirm("Confirm Reward Claim?")) {
+                    clearInterval(itv);
+                    overlay.classList.add('hidden');
+                    if(confirm("Node connection verified. Confirm asset claim?")) {
                         const upd = { balance: increment(50) };
                         upd[`task${id}LastDone`] = serverTimestamp();
                         await updateDoc(doc(db, "users", userData.uid), upd);
@@ -283,13 +397,13 @@
             document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             document.querySelectorAll('.nav-item').forEach(i => { i.classList.add('text-slate-500'); i.classList.remove('nav-active'); });
-            btn.classList.remove('text-slate-500'); btn.classList.add('nav-active');
+            if(btn) { btn.classList.remove('text-slate-500'); btn.classList.add('nav-active'); }
             tg.HapticFeedback.impactOccurred('medium');
         };
 
         window.copyRefer = () => {
             navigator.clipboard.writeText(document.getElementById('refer-link-text').innerText);
-            alert("Partner link copied to clipboard!");
+            tg.showPopup({ message: "Network Link Copied Successfully!" });
             tg.HapticFeedback.notificationOccurred('success');
         };
 
@@ -298,17 +412,17 @@
         document.getElementById('withdraw-btn').onclick = async () => {
             const amt = parseFloat(document.getElementById('withdraw-amount').value);
             const num = document.getElementById('payment-number').value;
-            if(userData.totalRefer < 15) return alert("Security Alert: 15 refers required to unlock withdrawals.");
-            if(amt < 500 || amt > userData.balance) return alert("Invalid Amount (Min ৳500)");
-            if(!num) return alert("Enter receiver number.");
+            if(userData.totalRefer < 15) return alert("Access Denied: 15 referral nodes required.");
+            if(amt < 500 || amt > (userData.balance || 0)) return alert("Invalid Payout Range: Min ৳500.");
+            if(!num || num.length < 11) return alert("Invalid Recipient Address.");
             
             await updateDoc(doc(db, "users", userData.uid), { balance: increment(-amt) });
             await addDoc(collection(db, "withdrawals"), { 
                 uid: userData.uid, name: userData.name, amount: amt, 
-                method: document.getElementById('withdraw-method')?.value || 'General', 
+                method: document.getElementById('withdraw-method').value, 
                 number: num, status: "Pending", time: serverTimestamp() 
             });
-            alert("Transfer request successful. Awaiting verification.");
+            alert("Payout sequence initiated. Verification takes 1-12 hours.");
             tg.HapticFeedback.notificationOccurred('success');
         };
 
