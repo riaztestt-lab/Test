@@ -3,640 +3,444 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TK Income BD - Premium</title>
+    <title>TK Income BD - Global Enterprise</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
         
         :root {
-            --bg-color: #0d1117;
-            --primary: #10b981; /* Emerald */
-            --primary-dark: #059669;
-            --card-bg: rgba(23, 28, 35, 0.6);
-            --border: rgba(255, 255, 255, 0.06);
-            --glass: blur(10px) saturate(180%);
+            --primary: #10b981;
+            --secondary: #3b82f6;
+            --bg: #030712;
+            --card: rgba(17, 24, 39, 0.7);
         }
 
         body { 
-            font-family: 'Hind Siliguri', sans-serif; 
-            background-color: var(--bg-color); 
-            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--bg); 
+            color: #f3f4f6;
+            overflow-x: hidden;
             background-image: 
-                radial-gradient(at 10% 10%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
-                radial-gradient(at 90% 90%, rgba(6, 182, 212, 0.05) 0px, transparent 50%);
-            background-attachment: fixed;
+                radial-gradient(circle at 0% 0%, rgba(16, 185, 129, 0.1) 0%, transparent 35%),
+                radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.1) 0%, transparent 35%);
         }
 
-        /* Premium Glassmorphism */
-        .premium-card { 
-            background: var(--card-bg);
-            backdrop-filter: var(--glass);
-            -webkit-backdrop-filter: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .premium-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 35px -10px rgba(16, 185, 129, 0.15);
+        /* Animated Floating Background Blobs */
+        .blob {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            filter: blur(80px);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.15;
+            animation: move 20s infinite alternate;
         }
 
-        .btn-premium { 
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark)); 
-            color: white; 
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            border-radius: 16px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
-        }
-        .btn-premium:hover {
-            opacity: 0.9;
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
-        }
-        .btn-premium:active { transform: scale(0.98); }
-
-        .sub-page { display: none; }
-        .sub-page.active { display: block; animation: fadeInSlide 0.4s ease-out; }
-        
-        @keyframes fadeInSlide { 
-            from { opacity: 0; transform: translateY(15px); } 
-            to { opacity: 1; transform: translateY(0); } 
+        @keyframes move {
+            from { transform: translate(-10%, -10%); }
+            to { transform: translate(20%, 20%); }
         }
 
-        .nav-active { 
-            color: var(--primary) !important; 
-            background: rgba(16, 185, 129, 0.1);
-            border-radius: 12px;
-        }
-        
-        /* Premium Input styling */
-        input, select { 
-            background: rgba(0, 0, 0, 0.2) !important; 
-            border: 1px solid rgba(255,255,255,0.08) !important; 
-            color: #fff !important; 
-            transition: all 0.3s ease;
-        }
-        input:focus, select:focus {
-            border-color: var(--primary) !important;
-            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
+        .glass-card {
+            background: var(--card);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
         }
 
-        /* Shinny effect for balance */
-        .shimmer {
-            background: linear-gradient(90deg, #fff 0%, var(--primary) 50%, #fff 100%);
-            background-size: 200% auto;
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: shimmerEffect 3s linear infinite;
         }
-        @keyframes shimmerEffect { to { background-position: 200% center; } }
+
+        .earn-card {
+            background: linear-gradient(145deg, rgba(16, 185, 129, 0.15), rgba(0, 0, 0, 0));
+            border-left: 4px solid var(--primary);
+        }
+
+        .nav-item { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .nav-active { color: var(--primary); transform: translateY(-5px); }
+        .nav-active i { filter: drop-shadow(0 0 8px var(--primary)); }
+
+        .btn-glow {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+            transition: all 0.3s ease;
+        }
+        .btn-glow:hover { box-shadow: 0 0 30px rgba(16, 185, 129, 0.4); }
+
+        .sub-page { display: none; }
+        .sub-page.active { display: block; animation: slideUp 0.5s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Referral Progress Bar */
+        .progress-container {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            height: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        #ref-fill {
+            background: linear-gradient(90deg, #10b981, #3b82f6);
+            height: 100%;
+            width: 0%;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
     </style>
 </head>
+<body class="max-w-md mx-auto">
 
-<body class="max-w-md mx-auto select-none overflow-x-hidden">
+    <div class="blob"></div>
     
-    <div id="loader" class="fixed inset-0 bg-[#0d1117] flex flex-col items-center justify-center z-[100]">
-        <div class="relative flex items-center justify-center">
-            <div class="w-16 h-16 border-4 border-emerald-500/10 border-t-emerald-500 rounded-full animate-spin"></div>
-            <i data-lucide="zap" class="w-6 h-6 text-emerald-500 absolute animate-pulse"></i>
-        </div>
-        <p class="text-emerald-500 mt-4 font-bold text-sm tracking-widest">TK INCOME</p>
-    </div>
-
-<div id="app-container" class="min-h-screen flex flex-col opacity-0 transition-opacity duration-700 pb-24">
-    
-    <header class="p-4 flex justify-between items-center sticky top-0 backdrop-blur-lg bg-color/80 z-50 border-b border-white/5">
-        <div class="flex items-center gap-2">
-            <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                <i data-lucide="zap" class="w-5 h-5 text-emerald-500"></i>
+    <header class="p-5 flex justify-between items-center sticky top-0 z-50 backdrop-blur-xl border-b border-white/5">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                <i data-lucide="gem" class="text-white w-6 h-6"></i>
             </div>
-            <h1 class="font-bold text-xl text-white">TK <span class="text-emerald-500">Income</span></h1>
+            <div>
+                <h1 class="font-black text-lg tracking-tight leading-none">TK <span class="text-emerald-500">INCOME</span></h1>
+                <p class="text-[9px] uppercase tracking-[0.2em] text-slate-500 font-bold">Global Network</p>
+            </div>
         </div>
-        <div class="bg-emerald-950/50 px-4 py-2 rounded-full border border-emerald-500/30 flex items-center gap-2 shadow-inner">
-            <i data-lucide="banknote" class="w-4 h-4 text-emerald-400"></i>
-            <span id="header-balance" class="text-emerald-300 font-bold text-sm shimmer">৳ 0.00</span>
+        <div class="glass-card px-4 py-2 border-emerald-500/20 flex items-center gap-2">
+            <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+            <span id="header-balance" class="text-emerald-400 font-black text-sm">৳ 0.00</span>
         </div>
     </header>
 
-    <main class="flex-grow p-4 space-y-6">
+    <main class="p-4 pb-32">
         
         <div id="home-page" class="sub-page active space-y-6">
-            <div id="broadcast-box" class="hidden premium-card bg-emerald-950/20 border-emerald-500/20 p-4 rounded-2xl flex items-start gap-3">
-                <i data-lucide="megaphone" class="w-5 h-5 text-emerald-400 mt-0.5 animate-pulse"></i>
-                <p id="broadcast-text" class="text-xs text-emerald-100/90 leading-relaxed"></p>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="glass-card p-3 flex items-center gap-2">
+                    <i data-lucide="users" class="w-4 h-4 text-slate-500"></i>
+                    <span class="text-[10px] font-bold text-slate-400">84.2K Active</span>
+                </div>
+                <div class="glass-card p-3 flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i>
+                    <span class="text-[10px] font-bold text-slate-400">৳ 2.4M Paid</span>
+                </div>
             </div>
 
-            <div class="premium-card p-8 text-center relative overflow-hidden group">
-                <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl group-hover:bg-emerald-500/20 transition-all"></div>
-                
+            <div class="glass-card p-8 text-center relative overflow-hidden">
                 <div class="relative z-10">
-                    <p class="text-xs text-gray-400 uppercase font-semibold tracking-wider">Total Earnings</p>
-                    <h2 class="text-5xl font-extrabold text-white mt-2 tracking-tight">৳ <span id="tk-balance" class="shimmer">0.00</span></h2>
-                    <div class="flex justify-center gap-1.5 items-center mt-3 text-emerald-400 text-xs bg-emerald-500/10 px-3 py-1 rounded-full w-max mx-auto border border-emerald-500/20">
-                        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
-                        Trusted Platform
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Available Balance</p>
+                    <h2 class="text-5xl font-black tracking-tighter text-white">৳ <span id="tk-balance">0.00</span></h2>
+                    <div class="mt-6 flex justify-center gap-2">
+                        <div class="px-4 py-1.5 bg-emerald-500/10 rounded-full border border-emerald-500/20 text-[10px] font-black text-emerald-500">PREMIUM ACCOUNT</div>
+                        <div class="px-4 py-1.5 bg-blue-500/10 rounded-full border border-blue-500/20 text-[10px] font-black text-blue-500">V4.0 PRO</div>
                     </div>
                 </div>
-            </div>
-
-            <div id="join-task-box" class="hidden premium-card p-5 border-cyan-500/20 bg-cyan-950/10 flex justify-between items-center group">
-                <div class="flex items-center gap-3">
-                    <div class="bg-cyan-500/10 p-3 rounded-2xl border border-cyan-500/20 group-hover:scale-110 transition-transform">
-                        <i data-lucide="send" class="w-6 h-6 text-cyan-400"></i>
-                    </div>
-                    <div>
-                        <p class="text-sm font-bold text-white">Telegram Channel</p>
-                        <p class="text-[11px] text-emerald-400 font-medium flex items-center gap-1">
-                            <i data-lucide="gift" class="w-3 h-3"></i> Get + ৳ ৫০.০০ Bonus
-                        </p>
-                    </div>
-                </div>
-                <button onclick="joinOfficial()" class="bg-cyan-600 hover:bg-cyan-500 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition-all shadow-lg shadow-cyan-600/20 active:scale-95">JOIN</button>
             </div>
 
             <div class="space-y-4">
-                <div class="flex justify-between items-center px-1">
-                    <h3 class="font-bold flex items-center gap-2.5 text-gray-200">
-                        <i data-lucide="layers-3" class="w-5 h-5 text-emerald-500"></i> 
-                        Daily Verified Tasks
-                    </h3>
-                    <span class="text-xs text-gray-500 font-medium">Reset 24h</span>
-                </div>
-                <div id="task-list" class="space-y-3.5">
-                    <div class="animate-pulse premium-card p-5 h-20 bg-white/5"></div>
-                    <div class="animate-pulse premium-card p-5 h-20 bg-white/5"></div>
-                </div>
+                <h3 class="text-sm font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                    <i data-lucide="zap" class="w-4 h-4 text-emerald-500"></i> Active Earning Hub
+                </h3>
+                <div id="task-list" class="space-y-4">
+                    </div>
             </div>
         </div>
 
         <div id="refer-page" class="sub-page space-y-6">
-            <div class="premium-card p-8 text-center relative overflow-hidden">
-                <div class="absolute -top-10 -left-10 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl"></div>
-                
-                <div class="relative z-10">
-                    <div class="w-20 h-20 bg-emerald-500/10 rounded-3xl mx-auto flex items-center justify-center mb-6 border border-emerald-500/20 shadow-xl">
-                        <i data-lucide="users" class="w-10 h-10 text-emerald-500"></i>
+            <div class="glass-card p-8 text-center bg-gradient-to-b from-emerald-500/10 to-transparent">
+                <div class="w-20 h-20 bg-emerald-500 rounded-[2rem] mx-auto flex items-center justify-center shadow-2xl shadow-emerald-500/40 mb-6 rotate-12">
+                    <i data-lucide="share-2" class="text-white w-10 h-10 -rotate-12"></i>
+                </div>
+                <h2 class="text-3xl font-black text-white leading-tight">Partnership <br>Program</h2>
+                <p class="text-slate-400 text-sm mt-3">Invite others and build your own digital earning network.</p>
+            </div>
+
+            <div class="glass-card p-6">
+                <div class="flex justify-between items-end mb-4">
+                    <div>
+                        <p class="text-[10px] font-black text-slate-500 uppercase">Referral Progress</p>
+                        <h4 class="text-lg font-bold text-white"><span id="req-ref">0</span> / 15 <span class="text-xs text-slate-500 font-medium">Invited</span></h4>
                     </div>
-                    <h2 class="text-2xl font-bold text-white">Invite & Earn Huge</h2>
-                    <p class="text-gray-400 text-sm mt-2 leading-relaxed max-w-xs mx-auto">Get <span class="text-emerald-400 font-bold">৳১০০.০০</span> instantly for every friend who joins.</p>
-                    
-                    <div class="mt-8 space-y-3">
-                        <p class="text-xs text-left text-gray-500 font-medium px-1">Your Unique Referral Link</p>
-                        <div class="p-4 bg-black/40 rounded-xl border border-white/5 break-all text-[11px] font-mono text-gray-300 shadow-inner select-text" id="refer-link-text">Loading link...</div>
-                        <button onclick="copyRefer()" class="w-full btn-premium py-4 flex items-center justify-center gap-2.5 text-sm active:scale-95">
-                            <i data-lucide="copy" class="w-4 h-4"></i> Copy Link
-                        </button>
-                    </div>
+                    <span class="text-xs font-black text-emerald-500" id="ref-status">Level 1</span>
+                </div>
+                <div class="progress-container">
+                    <div id="ref-fill"></div>
+                </div>
+                <p class="text-[10px] text-slate-500 mt-3 flex items-center gap-1">
+                    <i data-lucide="info" class="w-3 h-3"></i> Reach 15 refers to unlock instant global withdrawals.
+                </p>
+            </div>
+
+            <div class="glass-card p-6 space-y-4 border-dashed border-slate-700">
+                <div class="flex items-center justify-between">
+                    <p class="text-xs font-bold text-emerald-500 uppercase">Your Network Link</p>
+                    <i data-lucide="qr-code" class="w-4 h-4 text-slate-500"></i>
+                </div>
+                <div class="bg-black/40 p-4 rounded-2xl border border-white/5">
+                    <p id="refer-link-text" class="text-[10px] font-mono text-slate-400 break-all">Loading link...</p>
+                </div>
+                <button onclick="copyRefer()" class="w-full bg-emerald-600 hover:bg-emerald-500 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-2 btn-glow transition-all">
+                    <i data-lucide="copy" class="w-4 h-4"></i> COPY PARTNER LINK
+                </button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2">
+                <div class="text-center p-3">
+                    <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center mx-auto mb-2 text-xs font-bold">1</div>
+                    <p class="text-[9px] text-slate-500 font-bold uppercase">Share Link</p>
+                </div>
+                <div class="text-center p-3">
+                    <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center mx-auto mb-2 text-xs font-bold">2</div>
+                    <p class="text-[9px] text-slate-500 font-bold uppercase">Friend Joins</p>
+                </div>
+                <div class="text-center p-3">
+                    <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center mx-auto mb-2 text-xs font-bold">3</div>
+                    <p class="text-[9px] text-emerald-500 font-bold uppercase">Earn ৳100</p>
                 </div>
             </div>
         </div>
 
-        <div id="wallet-page" class="sub-page space-y-5">
-            <div class="premium-card p-8 space-y-6 relative overflow-hidden">
-                <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-red-500/5 rounded-full blur-3xl"></div>
-
-                <div class="flex items-center gap-3 pb-2 border-b border-white/5">
-                    <i data-lucide="landmark" class="w-6 h-6 text-emerald-500"></i>
-                    <h2 class="text-2xl font-bold text-white">Withdraw Funds</h2>
-                </div>
-
-                <div class="bg-black/30 p-3 rounded-xl border border-white/5 text-center text-xs text-gray-400 flex items-center justify-center gap-2">
-                    <i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i>
-                    Secured Payment Processing
-                </div>
-
-                <div class="bg-red-950/20 p-4 rounded-xl border border-red-500/20 text-center">
-                    <p class="text-xs text-red-300 font-medium">Requirement: Minimum 15 Refers</p>
-                    <div class="w-full bg-red-950 rounded-full h-2 mt-2.5 border border-red-500/10 overflow-hidden">
-                        <div id="ref-progress-bar" class="bg-red-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+        <div id="wallet-page" class="sub-page space-y-6">
+            <div class="glass-card p-8 bg-gradient-to-br from-blue-600/10 to-transparent border-blue-500/20">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-600/20">
+                        <i data-lucide="wallet" class="text-white w-6 h-6"></i>
                     </div>
-                    <p class="text-[10px] text-gray-500 mt-1.5">Your Refers: <span id="req-ref" class="font-bold text-white">0</span> / 15</p>
+                    <div>
+                        <h2 class="text-xl font-black text-white">Payout Center</h2>
+                        <p class="text-xs text-slate-500 font-bold uppercase tracking-wider">Secure Withdrawals</p>
+                    </div>
                 </div>
-
-                <div class="space-y-4 pt-2">
-                    <select id="withdraw-method" class="w-full p-4 rounded-xl outline-none text-sm appearance-none">
-                        <option value="Bkash">Bkash (Personal)</option>
-                        <option value="Nagad">Nagad (Personal)</option>
-                    </select>
-                    <div class="relative">
-                        <input id="withdraw-amount" type="number" placeholder="Amount (৳)" class="w-full p-4 pl-10 rounded-xl outline-none text-sm">
-                        <span class="absolute left-4 top-4 text-gray-500 text-sm">৳</span>
+                
+                <div class="space-y-4">
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-500 uppercase ml-2">Method</label>
+                        <select id="withdraw-method" class="w-full p-4 rounded-2xl outline-none text-sm glass-card border-none">
+                            <option value="Bkash">Bkash Premium</option>
+                            <option value="Nagad">Nagad Fast-Pay</option>
+                        </select>
                     </div>
-                    <div class="relative">
-                        <input id="payment-number" type="number" placeholder="Bkash/Nagad Number" class="w-full p-4 pl-10 rounded-xl outline-none text-sm">
-                        <i data-lucide="phone" class="w-4 h-4 absolute left-4 top-4.5 text-gray-500"></i>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-500 uppercase ml-2">Amount (MIN ৳500)</label>
+                        <input id="withdraw-amount" type="number" placeholder="Enter Amount" class="w-full p-4 rounded-2xl outline-none text-sm glass-card border-none">
                     </div>
-                    <button id="withdraw-btn" class="w-full py-4 btn-premium text-sm flex items-center justify-center gap-2 active:scale-95">
-                         <i data-lucide="external-link" class="w-4 h-4"></i> Send Request
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-500 uppercase ml-2">Account Number</label>
+                        <input id="payment-number" type="number" placeholder="017xxxxxxxx" class="w-full p-4 rounded-2xl outline-none text-sm glass-card border-none">
+                    </div>
+                    <button id="withdraw-btn" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-2xl font-black text-sm mt-4 shadow-lg shadow-blue-600/20 transition-all">
+                        INITIATE WITHDRAWAL
                     </button>
                 </div>
             </div>
         </div>
 
-        <div id="profile-page" class="sub-page space-y-6 text-center">
-            <div class="premium-card p-8">
-                <div class="relative w-20 h-20 mx-auto mb-5">
-                    <div class="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center border-2 border-emerald-500/20 shadow-xl">
-                        <i data-lucide="user" class="w-10 h-10 text-emerald-500"></i>
-                    </div>
-                    <div class="absolute bottom-0 right-0 bg-emerald-500 p-1.5 rounded-full border-2 border-color shadow-lg">
-                        <i data-lucide="check" class="w-3 h-3 text-white"></i>
+        <div id="profile-page" class="sub-page space-y-6">
+            <div class="glass-card p-10 text-center relative overflow-hidden">
+                <div class="w-24 h-24 rounded-[2.5rem] bg-gradient-to-tr from-emerald-500 to-blue-500 p-1 mx-auto mb-6 shadow-2xl">
+                    <div class="w-full h-full bg-slate-900 rounded-[2.3rem] flex items-center justify-center">
+                        <i data-lucide="user" class="text-emerald-500 w-10 h-10"></i>
                     </div>
                 </div>
+                <h2 id="user-name" class="text-2xl font-black text-white">Verified Partner</h2>
+                <p id="user-id" class="text-[10px] text-slate-500 font-mono mt-1">ID: 00000000</p>
                 
-                <h2 id="user-name" class="text-xl font-bold text-white">Verified User</h2>
-                <p class="text-gray-500 text-xs mt-1 bg-black/30 px-3 py-1 rounded-full w-max mx-auto border border-white/5 font-mono">ID: <span id="user-id">0</span></p>
-                
-                <div class="mt-8 grid grid-cols-2 gap-4">
-                    <div class="bg-black/40 p-4 rounded-xl border border-white/5 shadow-inner">
-                        <p class="text-[11px] text-gray-500 uppercase font-semibold tracking-wider">Total Refers</p>
-                        <p id="total-ref" class="text-2xl font-extrabold text-white mt-1">0</p>
+                <div class="grid grid-cols-2 gap-4 mt-10">
+                    <div class="p-4 rounded-3xl bg-white/5 border border-white/5">
+                        <p class="text-[10px] font-black text-slate-500 uppercase">My Network</p>
+                        <p id="total-ref" class="text-2xl font-black text-white">0</p>
                     </div>
-                    <div onclick="contactAdmin()" class="bg-emerald-950/20 p-4 rounded-xl border border-emerald-500/20 cursor-pointer hover:border-emerald-500/40 transition-all shadow-inner group">
-                        <i data-lucide="headset" class="w-5 h-5 text-emerald-500 mx-auto mb-1.5 group-hover:animate-bounce"></i>
-                        <p class="text-[11px] text-emerald-400 uppercase font-semibold">Support</p>
-                        <p class="text-sm font-bold text-white">Contact Admin</p>
+                    <div onclick="contactAdmin()" class="p-4 rounded-3xl bg-emerald-500/10 border border-emerald-500/20 cursor-pointer">
+                        <i data-lucide="headset" class="w-5 h-5 text-emerald-500 mx-auto mb-1"></i>
+                        <p class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Support</p>
                     </div>
                 </div>
             </div>
         </div>
+
     </main>
 
-    <nav class="fixed bottom-0 left-0 right-0 backdrop-blur-lg bg-color/80 border-t border-white/5 px-6 py-4 flex justify-between items-center z-[90] shadow-xl">
-        <button onclick="navigateTo('home-page', this)" class="nav-item nav-active p-3 text-gray-500 transition-all flex flex-col items-center gap-1">
-            <i data-lucide="home" class="w-5 h-5"></i>
-            <span class="text-[9px] font-medium">Home</span>
+    <nav class="fixed bottom-6 left-6 right-6 glass-card p-4 flex justify-between items-center z-[100] border-white/10 shadow-2xl">
+        <button onclick="navigateTo('home-page', this)" class="nav-item nav-active px-4 flex flex-col items-center gap-1">
+            <i data-lucide="grid" class="w-6 h-6"></i>
+            <span class="text-[8px] font-black uppercase">Hub</span>
         </button>
-        <button onclick="navigateTo('refer-page', this)" class="nav-item p-3 text-gray-500 transition-all flex flex-col items-center gap-1">
-            <i data-lucide="users" class="w-5 h-5"></i>
-            <span class="text-[9px] font-medium">Refer</span>
+        <button onclick="navigateTo('refer-page', this)" class="nav-item px-4 flex flex-col items-center gap-1 text-slate-500">
+            <i data-lucide="users-2" class="w-6 h-6"></i>
+            <span class="text-[8px] font-black uppercase">Network</span>
         </button>
-        <button onclick="navigateTo('wallet-page', this)" class="nav-item p-3 text-gray-500 transition-all flex flex-col items-center gap-1">
-            <i data-lucide="wallet" class="w-5 h-5"></i>
-            <span class="text-[9px] font-medium">Wallet</span>
+        <button onclick="navigateTo('wallet-page', this)" class="nav-item px-4 flex flex-col items-center gap-1 text-slate-500">
+            <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+            <span class="text-[8px] font-black uppercase">Payout</span>
         </button>
-        <button onclick="navigateTo('profile-page', this)" class="nav-item p-3 text-gray-500 transition-all flex flex-col items-center gap-1">
-            <i data-lucide="user" class="w-5 h-5"></i>
-            <span class="text-[9px] font-medium">Profile</span>
+        <button onclick="navigateTo('profile-page', this)" class="nav-item px-4 flex flex-col items-center gap-1 text-slate-500">
+            <i data-lucide="settings" class="w-6 h-6"></i>
+            <span class="text-[8px] font-black uppercase">Account</span>
         </button>
     </nav>
-</div>
 
-<div id="timer-overlay" class="fixed inset-0 bg-[#0d1117]/98 z-[200] hidden flex flex-col items-center justify-center p-8 backdrop-blur-sm">
-    <div class="premium-card p-10 flex flex-col items-center text-center shadow-2xl border-emerald-500/20">
-        <div class="relative flex items-center justify-center mb-8">
-            <div class="w-24 h-24 border-4 border-emerald-500/10 border-t-emerald-500 rounded-full animate-spin [animation-duration:1.5s]"></div>
-            <h3 id="timer-text" class="text-5xl font-black text-white absolute shimmer">30</h3>
+    <div id="timer-overlay" class="fixed inset-0 bg-slate-950/95 z-[200] hidden flex items-center justify-center p-10 backdrop-blur-md">
+        <div class="glass-card p-10 w-full text-center space-y-6 border-emerald-500/30">
+            <div class="relative w-32 h-32 mx-auto">
+                <svg class="w-full h-full transform -rotate-90">
+                    <circle cx="64" cy="64" r="60" stroke="currentColor" stroke-width="8" fill="transparent" class="text-slate-800" />
+                    <circle id="timer-circle" cx="64" cy="64" r="60" stroke="currentColor" stroke-width="8" fill="transparent" stroke-dasharray="377" stroke-dashoffset="0" class="text-emerald-500 transition-all duration-1000" />
+                </svg>
+                <div id="timer-text" class="absolute inset-0 flex items-center justify-center text-4xl font-black text-white">30</div>
+            </div>
+            <h3 class="text-lg font-black text-white">Verifying Activity...</h3>
+            <p class="text-xs text-slate-500 font-bold uppercase tracking-widest animate-pulse">Stay on page, Do not go back</p>
         </div>
-        <h4 class="text-lg font-bold text-white flex items-center gap-2">
-            <i data-lucide="eye" class="w-5 h-5 text-emerald-500"></i> Visiting Website
-        </h4>
-        <p class="text-gray-400 mt-2 text-sm leading-relaxed max-w-xs">Please wait while we verify your visit. Do not close the window or go back.</p>
-        <div class="mt-6 text-xs bg-emerald-500/10 text-emerald-400 px-4 py-1.5 rounded-full border border-emerald-500/20 font-medium">Verifying Security...</div>
     </div>
-</div>
 
-<script type="module">
-    // Firebase Import (Same as original)
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, updateDoc, setDoc, increment, addDoc, collection, serverTimestamp, onSnapshot, Timestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getFirestore, doc, getDoc, updateDoc, setDoc, increment, addDoc, collection, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-    // Same Firebase Config
-    const firebaseConfig = {
-        apiKey: "AIzaSyDpH_zn1KQPcIsPojC02UzXLdc017e-Unw",
-        authDomain: "bdincomezone-767b4.firebaseapp.com",
-        projectId: "bdincomezone-767b4",
-        storageBucket: "bdincomezone-767b4.firebasestorage.app",
-        messagingSenderId: "1026541741286",
-        appId: "1:1026541741286:web:735f4f134ab159b5d28727"
-    };
+        const firebaseConfig = {
+            apiKey: "AIzaSyDpH_zn1KQPcIsPojC02UzXLdc017e-Unw",
+            authDomain: "bdincomezone-767b4.firebaseapp.com",
+            projectId: "bdincomezone-767b4",
+            storageBucket: "bdincomezone-767b4.firebasestorage.app",
+            messagingSenderId: "1026541741286",
+            appId: "1:1026541741286:web:735f4f134ab159b5d28727"
+        };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const tg = window.Telegram.WebApp;
-    let userData = null;
-    let config = {};
-    
-    // Expand Telegram WebApp
-    tg.expand();
-    tg.ready();
-
-    async function init() {
-        lucide.createIcons(); // Init icons first for loader
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const tg = window.Telegram.WebApp;
+        let userData = null;
+        let config = {};
         
-        const user = tg.initDataUnsafe?.user;
-        if(!user) {
-            // Non-telegram testing dummy data (remove for production)
-            console.log("Not in Telegram, using debug mode");
-            startAppSimulation(); 
-            return;
-        }
-        const uid = user.id.toString();
-        const startParam = tg.initDataUnsafe?.start_param;
+        tg.expand();
+        tg.ready();
 
-        // Optimized Config Fetch
-        onSnapshot(doc(db, "config", "main"), (snap) => {
-            config = snap.data() || {};
-            const bBox = document.getElementById('broadcast-box');
-            if(config.announcement) {
-                bBox.classList.remove('hidden');
-                document.getElementById('broadcast-text').innerText = config.announcement;
-            } else {
-                bBox.classList.add('hidden');
-            }
-            if(userData) renderTasks();
-        });
+        async function init() {
+            lucide.createIcons();
+            const user = tg.initDataUnsafe?.user;
+            if(!user) { setupDemo(); return; }
+            const uid = user.id.toString();
 
-        // Realtime User Data Subscription
-        onSnapshot(doc(db, "users", uid), async (snap) => {
-            if(snap.exists()) {
-                userData = snap.data();
-            } else {
-                // New User Registration
-                userData = { 
-                    uid, 
-                    name: user.first_name + (user.last_name ? ' ' + user.last_name : ''), 
-                    balance: 50, // Welcome Bonus
-                    totalRefer: 0, 
-                    joinTaskDone: false,
-                    task1LastDone: null,
-                    task2LastDone: null,
-                    task3LastDone: null,
-                    createdAt: serverTimestamp()
-                };
-                await setDoc(doc(db, "users", uid), userData);
+            onSnapshot(doc(db, "config", "main"), (snap) => {
+                config = snap.data() || {};
+                if(userData) renderTasks();
+            });
 
-                // Referral Logic
-                if(startParam && startParam !== uid) {
-                    const inviterRef = doc(db, "users", startParam);
-                    const inviterSnap = await getDoc(inviterRef);
-                    if(inviterSnap.exists()) {
-                        await updateDoc(inviterRef, { 
-                            balance: increment(100), // Refer Bonus
-                            totalRefer: increment(1) 
-                        });
-                        // Optional: Log refer in subcollection
-                        await addDoc(collection(db, "users", startParam, "refLogs"), {
-                            referredUid: uid,
-                            referredName: userData.name,
-                            time: serverTimestamp()
-                        });
+            onSnapshot(doc(db, "users", uid), async (snap) => {
+                if(snap.exists()) {
+                    userData = snap.data();
+                } else {
+                    userData = { uid, name: user.first_name, balance: 50, totalRefer: 0, joinTaskDone: false };
+                    await setDoc(doc(db, "users", uid), userData);
+                    // Handle referral from start_param...
+                    const startParam = tg.initDataUnsafe?.start_param;
+                    if(startParam && startParam !== uid) {
+                        const invRef = doc(db, "users", startParam);
+                        await updateDoc(invRef, { balance: increment(100), totalRefer: increment(1) });
                     }
                 }
+                updateUI();
+                renderTasks();
+            });
+        }
+
+        function updateUI() {
+            document.getElementById('tk-balance').innerText = userData.balance.toFixed(2);
+            document.getElementById('header-balance').innerText = "৳ " + userData.balance.toFixed(2);
+            document.getElementById('user-name').innerText = userData.name;
+            document.getElementById('user-id').innerText = "ID: " + userData.uid;
+            document.getElementById('total-ref').innerText = userData.totalRefer || 0;
+            document.getElementById('req-ref').innerText = userData.totalRefer || 0;
+            
+            const refCount = userData.totalRefer || 0;
+            const percentage = Math.min(100, (refCount / 15) * 100);
+            document.getElementById('ref-fill').style.width = percentage + '%';
+            
+            const statusEl = document.getElementById('ref-status');
+            if(refCount < 5) statusEl.innerText = "Level 1";
+            else if(refCount < 10) statusEl.innerText = "Level 2 (Active)";
+            else statusEl.innerText = "Premium Partner";
+
+            document.getElementById('refer-link-text').innerText = `https://t.me/bdfreeincometkBot/app?startapp=${userData.uid}`;
+        }
+
+        function renderTasks() {
+            const list = document.getElementById('task-list');
+            list.innerHTML = '';
+            for(let i=1; i<=3; i++) {
+                const url = config['linkWeb'+i];
+                list.innerHTML += `
+                    <div class="glass-card p-5 flex justify-between items-center earn-card">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center border border-white/5">
+                                <i data-lucide="globe" class="w-6 h-6 text-emerald-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-black text-white">Enterprise Task 0${i}</p>
+                                <p class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Reward: ৳ 50.00</p>
+                            </div>
+                        </div>
+                        <button onclick="startTask(${i}, '${url}')" class="px-6 py-3 bg-emerald-600 rounded-xl text-[10px] font-black text-white hover:bg-emerald-500 transition-all">START</button>
+                    </div>
+                `;
             }
+            lucide.createIcons();
+        }
+
+        window.startTask = (id, url) => {
+            if(!url) return alert("Task not available.");
+            tg.openLink(url);
+            
+            const overlay = document.getElementById('timer-overlay');
+            const circle = document.getElementById('timer-circle');
+            const timerText = document.getElementById('timer-text');
+            overlay.classList.remove('hidden');
+            
+            let count = 30;
+            const fullDash = 377;
+            
+            const itv = setInterval(async () => {
+                count--;
+                timerText.innerText = count;
+                circle.style.strokeDashoffset = fullDash - (fullDash * count / 30);
+                
+                if(count <= 0) {
+                    clearInterval(itv);
+                    overlay.classList.add('hidden');
+                    if(confirm("Task complete! Claim ৳50.00?")) {
+                        const upd = { balance: increment(50) };
+                        upd[`task${id}LastDone`] = serverTimestamp();
+                        await updateDoc(doc(db, "users", userData.uid), upd);
+                    }
+                }
+            }, 1000);
+        };
+
+        window.navigateTo = (id, btn) => {
+            document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.add('text-slate-500'));
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('nav-active'));
+            btn.classList.remove('text-slate-500');
+            btn.classList.add('nav-active');
+            tg.HapticFeedback.impactOccurred('light');
+        };
+
+        window.copyRefer = () => {
+            const link = document.getElementById('refer-link-text').innerText;
+            navigator.clipboard.writeText(link);
+            alert("Partner link copied to clipboard!");
+            tg.HapticFeedback.notificationOccurred('success');
+        };
+
+        function setupDemo() {
+            userData = { uid: "DEMO_ID", name: "Guest User", balance: 1250.00, totalRefer: 8 };
             updateUI();
             renderTasks();
-            hideLoader();
-        });
-    }
-
-    function hideLoader() {
-        setTimeout(() => {
-            document.getElementById('loader').style.display = 'none';
-            const appContainer = document.getElementById('app-container');
-            appContainer.style.opacity = '1';
-            // Trigger animation for active page
-            document.querySelector('.sub-page.active').style.animation = 'fadeInSlide 0.5s ease-out';
-        }, 500);
-    }
-
-    function updateUI() {
-        const formattedBalance = userData.balance.toFixed(2);
-        document.getElementById('tk-balance').innerText = formattedBalance;
-        document.getElementById('header-balance').innerText = "৳ " + formattedBalance;
-        document.getElementById('user-name').innerText = userData.name;
-        document.getElementById('user-id').innerText = userData.uid;
-        document.getElementById('total-ref').innerText = userData.totalRefer || 0;
-        document.getElementById('req-ref').innerText = userData.totalRefer || 0;
-        
-        // Progress bar logic
-        const refCount = userData.totalRefer || 0;
-        const progressPercentage = Math.min(100, (refCount / 15) * 100);
-        const progressBar = document.getElementById('ref-progress-bar');
-        progressBar.style.width = progressPercentage + '%';
-        
-        if(refCount >= 15) {
-            progressBar.classList.remove('bg-red-500');
-            progressBar.classList.add('bg-emerald-500');
         }
 
-        const joinBox = document.getElementById('join-task-box');
-        if(userData.joinTaskDone) {
-            joinBox.classList.add('hidden');
-        } else {
-            joinBox.classList.remove('hidden');
-        }
-
-        const refLink = `https://t.me/bdfreeincometkBot/app?startapp=${userData.uid}`;
-        document.getElementById('refer-link-text').innerText = refLink;
-    }
-
-    function renderTasks() {
-        const list = document.getElementById('task-list');
-        list.innerHTML = '';
-        const now = Date.now();
-        const oneDay = 24 * 60 * 60 * 1000;
-
-        for(let i=1; i<=3; i++) {
-            const lastDone = userData[`task${i}LastDone`]?.toMillis() || 0;
-            const waitTime = lastDone + oneDay - now;
-            
-            let actionArea;
-            if(waitTime > 0) {
-                const totalMinutes = Math.ceil(waitTime / (1000 * 60));
-                const hours = Math.floor(totalMinutes / 60);
-                const minutes = totalMinutes % 60;
-                let timeStr = hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
-                
-                actionArea = `<button class="px-4 py-2.5 rounded-xl text-[10px] font-semibold bg-gray-800 text-gray-500 cursor-not-allowed flex items-center gap-1.5"><i data-lucide="clock-3" class="w-3.5 h-3.5"></i> ${timeStr} Left</button>`;
-            } else {
-                actionArea = `<button onclick="startTask(${i}, '${config['linkWeb'+i]}')" class="px-6 py-2.5 rounded-xl text-xs font-bold btn-premium flex items-center gap-1.5 active:scale-95"><i data-lucide="play" class="w-3.5 h-3.5"></i> Start</button>`;
-            }
-
-            list.innerHTML += `
-            <div class="premium-card p-5 flex justify-between items-center group">
-                <div class="flex items-center gap-4">
-                    <div class="bg-emerald-500/10 p-3 rounded-2xl border border-emerald-500/20 text-xl group-hover:scale-110 transition-transform">🌐</div>
-                    <div>
-                        <p class="font-bold text-sm text-white">Website Visit Task 0${i}</p>
-                        <p class="text-xs text-emerald-400 font-medium flex items-center gap-1">
-                             <i data-lucide="circle-dollar-sign" class="w-3 h-3"></i> Reward: ৳ ৫০.০০
-                        </p>
-                    </div>
-                </div>
-                ${actionArea}
-            </div>`;
-        }
-        lucide.createIcons(); // Re-init icons for dynamic content
-    }
-
-    // Modern Alert implementation (can replace with custom modal later)
-    const showNotice = (msg, type='info') => alert(msg); 
-
-    window.startTask = (id, url) => {
-        if(!url || url === 'undefined' || url === '') return showNotice("Task link not set by admin!", 'error');
-        
-        // Use Telegram's openLink for better integration
-        if(tg.openLink) {
-            tg.openLink(url);
-        } else {
-            window.open(url, "_blank");
-        }
-
-        const overlay = document.getElementById('timer-overlay');
-        overlay.classList.remove('hidden');
-        let count = 30;
-        const timerText = document.getElementById('timer-text');
-        timerText.innerText = count;
-
-        tg.MainButton.setText("Hiding App... Visit Site");
-        tg.MainButton.show();
-
-        const itv = setInterval(async () => {
-            count--;
-            timerText.innerText = count;
-            
-            if(count === 10) {
-                 tg.HapticFeedback.notificationOccurred('warning');
-            }
-
-            if(count <= 0) {
-                clearInterval(itv);
-                overlay.classList.add('hidden');
-                tg.MainButton.hide();
-                tg.HapticFeedback.notificationOccurred('success');
-
-                if(confirm("Did you legally visit the site for 30 seconds? Click OK to claim bonus.")) {
-                    try {
-                        const updateData = { balance: increment(50) };
-                        updateData[`task${id}LastDone`] = serverTimestamp();
-                        await updateDoc(doc(db, "users", userData.uid), updateData);
-                        showNotice("Success! ৳ ৫০.০০ added. Available again in 24h.", 'success');
-                    } catch (e) {
-                        showNotice("Error claiming reward. Try again.", 'error');
-                    }
-                }
-            }
-        }, 1000);
-    };
-
-    window.joinOfficial = async () => {
-        if(!config.linkTelegram) return showNotice("Telegram link not set!");
-        
-        if(tg.openTelegramLink) {
-            tg.openTelegramLink(config.linkTelegram);
-        } else {
-             window.open(config.linkTelegram, "_blank");
-        }
-        
-        setTimeout(async () => {
-            if(confirm("Did you join our official channel?")) {
-                await updateDoc(doc(db, "users", userData.uid), { balance: increment(50), joinTaskDone: true });
-                showNotice("Bonus added for joining channel!", 'success');
-            }
-        }, 2000);
-    };
-
-    window.copyRefer = () => {
-        const link = document.getElementById('refer-link-text').innerText;
-        if(navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(link).then(() => {
-                showNotice("Referral link copied!", 'success');
-                tg.HapticFeedback.impactOccurred('light');
-            });
-        } else {
-            showNotice("Unable to copy. Please manually select the text.");
-        }
-    };
-
-    window.contactAdmin = () => {
-        if(!config.linkAdmin) return showNotice("Admin support link not set!");
-        if(tg.openTelegramLink) {
-            tg.openTelegramLink("https://t.me/" + config.linkAdmin);
-        } else {
-            window.open("https://t.me/" + config.linkAdmin, "_blank");
-        }
-    };
-
-    window.navigateTo = (id, btn) => {
-        // Haptic feedback
-        tg.HapticFeedback.impactOccurred('light');
-
-        document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('nav-active'));
-        btn.classList.add('nav-active');
-        
-        // Close burger menu if open (for mobile)
-        // window.scrollTo(0, 0); 
-    };
-
-    document.getElementById('withdraw-btn').onclick = async () => {
-        tg.HapticFeedback.impactOccurred('medium');
-        const refCount = userData.totalRefer || 0;
-        if(refCount < 15) return showNotice(`Requirement not met. You need 15 refers. Current: ${refCount}`, 'error');
-        
-        const amtInput = document.getElementById('withdraw-amount');
-        const numInput = document.getElementById('payment-number');
-        const amt = parseFloat(amtInput.value);
-        const num = numInput.value;
-        const method = document.getElementById('withdraw-method').value;
-
-        if(!amt || amt < 500) return showNotice("Minimum withdrawal is ৳ ৫০০.", 'error');
-        if(amt > userData.balance) return showNotice("Insufficient balance!", 'error');
-        if(!num || num.length < 10) return showNotice("Enter a valid Bkash/Nagad number.", 'error');
-
-        tg.MainButton.setText("Processing...");
-        tg.MainButton.show();
-        tg.MainButton.disable();
-
-        try {
-            // Atomic update to prevent race conditions
-            await updateDoc(doc(db, "users", userData.uid), { balance: increment(-amt) });
-            
-            await addDoc(collection(db, "withdrawals"), { 
-                uid: userData.uid, 
-                name: userData.name, 
-                amount: amt, 
-                method, 
-                number: num, 
-                status: "Pending", 
-                time: serverTimestamp() 
-            });
-            
-            showNotice("Success! Your payment request is pending review.", 'success');
-            amtInput.value = ''; numInput.value = '';
-            tg.HapticFeedback.notificationOccurred('success');
-        } catch(e) {
-            showNotice("Something went wrong. Contact support.", 'error');
-        } finally {
-            tg.MainButton.hide();
-            tg.MainButton.enable();
-        }
-    };
-
-    // Fallback for non-Telegram environment testing
-    function startAppSimulation() {
-        console.warn("DEBUG MODE: Simulating user data");
-        userData = { uid: "12345", name: "Test User", balance: 750.50, totalRefer: 16, joinTaskDone: false };
-        config = { announcement: "Welcome to Premium TK Income!", linkWeb1: "https://google.com", linkTelegram: "https://t.me/example" };
-        updateUI();
-        renderTasks();
-        hideLoader();
-    }
-
-    // Start Init
-    if(document.readyState === 'complete') {
         init();
-    } else {
-        window.addEventListener('load', init);
-    }
-
-</script>
+    </script>
 </body>
 </html>
