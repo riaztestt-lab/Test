@@ -3,259 +3,301 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TK INCOME | PREMIUM V5</title>
+    <title>TK Income BD - Global Enterprise</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
         
         :root {
-            --primary: #00ffa3;
-            --secondary: #00d1ff;
-            --accent: #7000ff;
-            --bg: #020617;
+            --primary: #10b981;
+            --secondary: #3b82f6;
+            --bg: #030712;
+            --card: rgba(17, 24, 39, 0.7);
         }
 
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             background-color: var(--bg); 
-            color: #f8fafc;
+            color: #f3f4f6;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 10% 10%, rgba(0, 255, 163, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 90%, rgba(112, 0, 255, 0.05) 0%, transparent 40%);
+                radial-gradient(circle at 0% 0%, rgba(16, 185, 129, 0.1) 0%, transparent 35%),
+                radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.1) 0%, transparent 35%);
         }
 
-        /* Premium Glassmorphism */
-        .glass-premium {
-            background: rgba(30, 41, 59, 0.4);
-            backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 32px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-        }
-
-        /* Neon Glow Button */
-        .btn-neon {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            box-shadow: 0 4px 20px rgba(0, 255, 163, 0.3);
-            border: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .btn-neon:active { transform: scale(0.95); opacity: 0.9; }
-
-        /* Animated Background Blobs */
+        /* Animated Floating Background Blobs */
         .blob {
             position: fixed;
-            width: 400px;
-            height: 400px;
-            background: linear-gradient(135deg, rgba(0, 255, 163, 0.1), rgba(112, 0, 255, 0.1));
-            filter: blur(100px);
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            filter: blur(80px);
             border-radius: 50%;
             z-index: -1;
-            animation: float 20s infinite alternate;
-        }
-        @keyframes float {
-            from { transform: translate(-20%, -20%) rotate(0deg); }
-            to { transform: translate(30%, 30%) rotate(360deg); }
+            opacity: 0.15;
+            animation: move 20s infinite alternate;
         }
 
-        /* Navigation Styling */
-        .nav-item { color: #64748b; transition: all 0.4s ease; }
-        .nav-active { color: var(--primary); }
+        @keyframes move {
+            from { transform: translate(-10%, -10%); }
+            to { transform: translate(20%, 20%); }
+        }
+
+        .glass-card {
+            background: var(--card);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .earn-card {
+            background: linear-gradient(145deg, rgba(16, 185, 129, 0.15), rgba(0, 0, 0, 0));
+            border-left: 4px solid var(--primary);
+        }
+
+        .nav-item { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .nav-active { color: var(--primary); transform: translateY(-5px); }
         .nav-active i { filter: drop-shadow(0 0 8px var(--primary)); }
 
-        .sub-page { display: none; }
-        .sub-page.active { display: block; animation: pageIn 0.5s ease-out; }
-        @keyframes pageIn { from { opacity: 0; transform: translateY(30px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .btn-glow {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+            transition: all 0.3s ease;
+        }
+        .btn-glow:hover { box-shadow: 0 0 30px rgba(16, 185, 129, 0.4); }
 
-        .task-card {
-            background: linear-gradient(165deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%);
-            border-left: 4px solid var(--primary);
+        .sub-page { display: none; }
+        .sub-page.active { display: block; animation: slideUp 0.5s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Referral Progress Bar */
+        .progress-container {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            height: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        #ref-fill {
+            background: linear-gradient(90deg, #10b981, #3b82f6);
+            height: 100%;
+            width: 0%;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
     </style>
 </head>
-<body class="max-w-md mx-auto min-h-screen">
+<body class="max-w-md mx-auto">
 
     <div class="blob"></div>
     
-    <header class="p-6 flex justify-between items-center sticky top-0 z-50 backdrop-blur-xl border-b border-white/5">
+    <header class="p-5 flex justify-between items-center sticky top-0 z-50 backdrop-blur-xl border-b border-white/5">
         <div class="flex items-center gap-3">
-            <div class="w-11 h-11 bg-gradient-to-tr from-emerald-400 to-cyan-400 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.3)]">
-                <i data-lucide="crown" class="text-slate-900 w-6 h-6"></i>
+            <div class="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                <i data-lucide="gem" class="text-white w-6 h-6"></i>
             </div>
             <div>
-                <h1 class="font-extrabold text-sm tracking-widest text-white uppercase">TK <span class="text-emerald-400">Income</span></h1>
-                <p class="text-[8px] font-bold text-slate-500 tracking-[3px] uppercase">Enterprise Edition</p>
+                <h1 class="font-black text-lg tracking-tight leading-none">TK <span class="text-emerald-500">INCOME</span></h1>
+                <p class="text-[9px] uppercase tracking-[0.2em] text-slate-500 font-bold">Global Network</p>
             </div>
         </div>
-        <div class="glass-premium px-4 py-2 border-emerald-500/20">
-            <div class="flex items-center gap-2">
-                <div class="w-2 h-2 bg-emerald-500 rounded-full animate-ping"></div>
-                <span id="header-balance" class="text-emerald-400 font-black text-xs tabular-nums">৳ 0.00</span>
-            </div>
+        <div class="glass-card px-4 py-2 border-emerald-500/20 flex items-center gap-2">
+            <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+            <span id="header-balance" class="text-emerald-400 font-black text-sm">৳ 0.00</span>
         </div>
     </header>
 
-    <main class="p-5 pb-32">
+    <main class="p-4 pb-32">
         
-        <div id="home-page" class="sub-page active space-y-8">
-            <div class="glass-premium p-10 text-center relative overflow-hidden group border-emerald-500/10">
-                <div class="absolute -right-10 -top-10 w-32 h-32 bg-emerald-500/10 blur-3xl rounded-full"></div>
-                <p class="text-[10px] font-black text-slate-500 uppercase tracking-[5px] mb-3">Portfolio Balance</p>
-                <h2 class="text-5xl font-black text-white tracking-tighter italic">৳ <span id="tk-balance">0.00</span></h2>
-                <div class="mt-6 flex justify-center gap-4">
-                    <div class="flex items-center gap-1.5 bg-emerald-500/5 px-3 py-1.5 rounded-full border border-emerald-500/10">
-                        <i data-lucide="shield-check" class="w-3 h-3 text-emerald-400"></i>
-                        <span class="text-[9px] font-bold text-emerald-400 uppercase tracking-tighter">Verified Assets</span>
+        <div id="home-page" class="sub-page active space-y-6">
+            <div class="grid grid-cols-2 gap-3">
+                <div class="glass-card p-3 flex items-center gap-2">
+                    <i data-lucide="users" class="w-4 h-4 text-slate-500"></i>
+                    <span class="text-[10px] font-bold text-slate-400">84.2K Active</span>
+                </div>
+                <div class="glass-card p-3 flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i>
+                    <span class="text-[10px] font-bold text-slate-400">৳ 2.4M Paid</span>
+                </div>
+            </div>
+
+            <div class="glass-card p-8 text-center relative overflow-hidden">
+                <div class="relative z-10">
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Available Balance</p>
+                    <h2 class="text-5xl font-black tracking-tighter text-white">৳ <span id="tk-balance">0.00</span></h2>
+                    <div class="mt-6 flex justify-center gap-2">
+                        <div class="px-4 py-1.5 bg-emerald-500/10 rounded-full border border-emerald-500/20 text-[10px] font-black text-emerald-500">PREMIUM ACCOUNT</div>
+                        <div class="px-4 py-1.5 bg-blue-500/10 rounded-full border border-blue-500/20 text-[10px] font-black text-blue-500">V4.0 PRO</div>
                     </div>
                 </div>
             </div>
 
             <div class="space-y-4">
-                <div class="flex justify-between items-center px-2">
-                    <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[3px] flex items-center gap-2">
-                        <i data-lucide="zap" class="w-4 h-4 text-yellow-400"></i> High Yield Tasks
-                    </h3>
-                    <span class="text-[9px] font-bold text-slate-600 uppercase">20h Refresh</span>
-                </div>
+                <h3 class="text-sm font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                    <i data-lucide="zap" class="w-4 h-4 text-emerald-500"></i> Active Earning Hub
+                </h3>
                 <div id="task-list" class="space-y-4">
                     </div>
             </div>
         </div>
 
-        <div id="refer-page" class="sub-page space-y-8">
-            <div class="glass-premium p-8 text-center relative border-blue-500/10">
-                <div class="w-20 h-20 bg-blue-500/10 rounded-3xl mx-auto flex items-center justify-center mb-5 rotate-12">
-                    <i data-lucide="share-2" class="text-blue-400 w-10 h-10 -rotate-12"></i>
+        <div id="refer-page" class="sub-page space-y-6">
+            <div class="glass-card p-8 text-center bg-gradient-to-b from-emerald-500/10 to-transparent">
+                <div class="w-20 h-20 bg-emerald-500 rounded-[2rem] mx-auto flex items-center justify-center shadow-2xl shadow-emerald-500/40 mb-6 rotate-12">
+                    <i data-lucide="share-2" class="text-white w-10 h-10 -rotate-12"></i>
                 </div>
-                <h2 class="text-2xl font-black text-white italic">Affiliate Network</h2>
-                <p class="text-slate-400 text-xs mt-2 leading-relaxed px-4">Expand your network and earn <span class="text-blue-400 font-bold">৳100</span> instant liquidity per referral.</p>
-                
-                <div class="mt-8 relative group">
-                    <div class="bg-black/40 p-5 rounded-2xl border border-white/5 break-all text-[9px] font-mono text-slate-500 group-hover:border-blue-500/30 transition-colors" id="refer-link-text">
-                        Loading Network ID...
-                    </div>
-                    <button onclick="copyRefer()" class="w-full btn-neon mt-4 py-4 rounded-2xl font-black text-xs text-slate-900 uppercase tracking-[2px]">Copy Invitation Link</button>
-                </div>
+                <h2 class="text-3xl font-black text-white leading-tight">Partnership <br>Program</h2>
+                <p class="text-slate-400 text-sm mt-3">Invite others and build your own digital earning network.</p>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
-                <div class="glass-premium p-5 border-white/5">
-                    <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Commission</p>
-                    <p class="text-lg font-black text-white mt-1">12%</p>
+            <div class="glass-card p-6">
+                <div class="flex justify-between items-end mb-4">
+                    <div>
+                        <p class="text-[10px] font-black text-slate-500 uppercase">Referral Progress</p>
+                        <h4 class="text-lg font-bold text-white"><span id="req-ref">0</span> / 15 <span class="text-xs text-slate-500 font-medium">Invited</span></h4>
+                    </div>
+                    <span class="text-xs font-black text-emerald-500" id="ref-status">Level 1</span>
                 </div>
-                <div class="glass-premium p-5 border-white/5">
-                    <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Network</p>
-                    <p class="text-lg font-black text-white mt-1">Global</p>
+                <div class="progress-container">
+                    <div id="ref-fill"></div>
+                </div>
+                <p class="text-[10px] text-slate-500 mt-3 flex items-center gap-1">
+                    <i data-lucide="info" class="w-3 h-3"></i> Reach 15 refers to unlock instant global withdrawals.
+                </p>
+            </div>
+
+            <div class="glass-card p-6 space-y-4 border-dashed border-slate-700">
+                <div class="flex items-center justify-between">
+                    <p class="text-xs font-bold text-emerald-500 uppercase">Your Network Link</p>
+                    <i data-lucide="qr-code" class="w-4 h-4 text-slate-500"></i>
+                </div>
+                <div class="bg-black/40 p-4 rounded-2xl border border-white/5">
+                    <p id="refer-link-text" class="text-[10px] font-mono text-slate-400 break-all">Loading link...</p>
+                </div>
+                <button onclick="copyRefer()" class="w-full bg-emerald-600 hover:bg-emerald-500 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-2 btn-glow transition-all">
+                    <i data-lucide="copy" class="w-4 h-4"></i> COPY PARTNER LINK
+                </button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2">
+                <div class="text-center p-3">
+                    <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center mx-auto mb-2 text-xs font-bold">1</div>
+                    <p class="text-[9px] text-slate-500 font-bold uppercase">Share Link</p>
+                </div>
+                <div class="text-center p-3">
+                    <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center mx-auto mb-2 text-xs font-bold">2</div>
+                    <p class="text-[9px] text-slate-500 font-bold uppercase">Friend Joins</p>
+                </div>
+                <div class="text-center p-3">
+                    <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center mx-auto mb-2 text-xs font-bold">3</div>
+                    <p class="text-[9px] text-emerald-500 font-bold uppercase">Earn ৳100</p>
                 </div>
             </div>
         </div>
 
-        <div id="wallet-page" class="sub-page space-y-8">
-            <div class="glass-premium p-8 border-accent/10">
-                <div class="flex items-center gap-4 mb-8">
-                    <div class="w-12 h-12 bg-accent/10 rounded-2xl flex items-center justify-center border border-accent/20">
-                        <i data-lucide="landmark" class="text-purple-400 w-6 h-6"></i>
+        <div id="wallet-page" class="sub-page space-y-6">
+            <div class="glass-card p-8 bg-gradient-to-br from-blue-600/10 to-transparent border-blue-500/20">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-600/20">
+                        <i data-lucide="wallet" class="text-white w-6 h-6"></i>
                     </div>
                     <div>
-                        <h2 class="text-lg font-black text-white italic tracking-tight">Withdrawal Vault</h2>
-                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Secured by SSL-256</p>
+                        <h2 class="text-xl font-black text-white">Payout Center</h2>
+                        <p class="text-xs text-slate-500 font-bold uppercase tracking-wider">Secure Withdrawals</p>
                     </div>
                 </div>
-
-                <div class="space-y-5">
+                
+                <div class="space-y-4">
                     <div class="space-y-2">
-                        <label class="text-[9px] font-black text-slate-500 uppercase tracking-widest ml-1">Transfer Protocol</label>
-                        <select id="withdraw-method" class="w-full p-4 rounded-2xl bg-slate-900/50 border border-white/5 outline-none text-sm text-white focus:border-purple-500/50 transition-all">
+                        <label class="text-[10px] font-black text-slate-500 uppercase ml-2">Method</label>
+                        <select id="withdraw-method" class="w-full p-4 rounded-2xl outline-none text-sm glass-card border-none">
                             <option value="Bkash">Bkash Premium</option>
-                            <option value="Nagad">Nagad Fast-Track</option>
+                            <option value="Nagad">Nagad Fast-Pay</option>
                         </select>
                     </div>
                     <div class="space-y-2">
-                        <label class="text-[9px] font-black text-slate-500 uppercase tracking-widest ml-1">Amount (Min ৳500)</label>
-                        <input id="withdraw-amount" type="number" placeholder="0.00" class="w-full p-4 rounded-2xl bg-slate-900/50 border border-white/5 outline-none text-sm text-white focus:border-purple-500/50 placeholder:text-slate-700">
+                        <label class="text-[10px] font-black text-slate-500 uppercase ml-2">Amount (MIN ৳500)</label>
+                        <input id="withdraw-amount" type="number" placeholder="Enter Amount" class="w-full p-4 rounded-2xl outline-none text-sm glass-card border-none">
                     </div>
                     <div class="space-y-2">
-                        <label class="text-[9px] font-black text-slate-500 uppercase tracking-widest ml-1">Destination Account</label>
-                        <input id="payment-number" type="number" placeholder="8801xxxxxxxxx" class="w-full p-4 rounded-2xl bg-slate-900/50 border border-white/5 outline-none text-sm text-white focus:border-purple-500/50">
+                        <label class="text-[10px] font-black text-slate-500 uppercase ml-2">Account Number</label>
+                        <input id="payment-number" type="number" placeholder="017xxxxxxxx" class="w-full p-4 rounded-2xl outline-none text-sm glass-card border-none">
                     </div>
-                    <button id="withdraw-btn" class="w-full bg-gradient-to-r from-purple-600 to-blue-600 py-4 rounded-2xl font-black text-xs text-white uppercase tracking-[2px] mt-4 shadow-xl shadow-purple-600/20 active:scale-95 transition-all">Initialize Transfer</button>
+                    <button id="withdraw-btn" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-2xl font-black text-sm mt-4 shadow-lg shadow-blue-600/20 transition-all">
+                        INITIATE WITHDRAWAL
+                    </button>
                 </div>
             </div>
         </div>
 
         <div id="profile-page" class="sub-page space-y-6">
-            <div class="glass-premium p-10 text-center relative">
-                <div class="absolute top-6 right-6">
-                    <span class="bg-emerald-500/10 text-emerald-400 text-[8px] font-black px-3 py-1 rounded-full border border-emerald-500/20 uppercase tracking-widest">Online</span>
-                </div>
-                <div class="w-24 h-24 bg-gradient-to-tr from-slate-800 to-slate-900 rounded-[40px] mx-auto flex items-center justify-center mb-6 border border-white/10 shadow-2xl relative">
-                    <i data-lucide="user-round" class="text-white w-10 h-10"></i>
-                    <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-emerald-500 rounded-2xl border-4 border-[#020617] flex items-center justify-center">
-                        <i data-lucide="check" class="text-white w-5 h-5"></i>
+            <div class="glass-card p-10 text-center relative overflow-hidden">
+                <div class="w-24 h-24 rounded-[2.5rem] bg-gradient-to-tr from-emerald-500 to-blue-500 p-1 mx-auto mb-6 shadow-2xl">
+                    <div class="w-full h-full bg-slate-900 rounded-[2.3rem] flex items-center justify-center">
+                        <i data-lucide="user" class="text-emerald-500 w-10 h-10"></i>
                     </div>
                 </div>
-                <h2 id="user-name" class="text-2xl font-black text-white tracking-tight">Elite Member</h2>
-                <div class="flex justify-center gap-3 mt-4">
-                    <div class="bg-white/5 px-4 py-2 rounded-2xl border border-white/5">
-                        <p class="text-[8px] font-black text-slate-500 uppercase mb-1">Total Refers</p>
-                        <p id="total-ref" class="text-sm font-black text-emerald-400">0</p>
+                <h2 id="user-name" class="text-2xl font-black text-white">Verified Partner</h2>
+                <p id="user-id" class="text-[10px] text-slate-500 font-mono mt-1">ID: 00000000</p>
+                
+                <div class="grid grid-cols-2 gap-4 mt-10">
+                    <div class="p-4 rounded-3xl bg-white/5 border border-white/5">
+                        <p class="text-[10px] font-black text-slate-500 uppercase">My Network</p>
+                        <p id="total-ref" class="text-2xl font-black text-white">0</p>
                     </div>
-                    <div class="bg-white/5 px-4 py-2 rounded-2xl border border-white/5">
-                        <p class="text-[8px] font-black text-slate-500 uppercase mb-1">Rank Status</p>
-                        <p class="text-sm font-black text-blue-400">Gold</p>
+                    <div onclick="contactAdmin()" class="p-4 rounded-3xl bg-emerald-500/10 border border-emerald-500/20 cursor-pointer">
+                        <i data-lucide="headset" class="w-5 h-5 text-emerald-500 mx-auto mb-1"></i>
+                        <p class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Support</p>
                     </div>
-                </div>
-                <div class="mt-10 space-y-3">
-                    <button onclick="contactAdmin()" class="w-full py-4 border border-white/10 rounded-2xl text-[10px] font-black text-slate-400 uppercase tracking-[3px] hover:bg-white/5 transition-all">Support Center</button>
-                    <button onclick="tg.close()" class="w-full py-4 rounded-2xl text-[10px] font-black text-red-500 uppercase tracking-[3px] opacity-50">Secure Logout</button>
                 </div>
             </div>
         </div>
+
     </main>
 
-    <nav class="fixed bottom-6 left-6 right-6 glass-premium p-4 flex justify-around items-center z-[100] shadow-2xl border-white/10">
-        <button onclick="navigateTo('home-page', this)" class="nav-item nav-active flex flex-col items-center gap-1.5">
-            <i data-lucide="layout-grid" class="w-6 h-6"></i>
-            <span class="text-[8px] font-bold uppercase tracking-widest">Home</span>
+    <nav class="fixed bottom-6 left-6 right-6 glass-card p-4 flex justify-between items-center z-[100] border-white/10 shadow-2xl">
+        <button onclick="navigateTo('home-page', this)" class="nav-item nav-active px-4 flex flex-col items-center gap-1">
+            <i data-lucide="grid" class="w-6 h-6"></i>
+            <span class="text-[8px] font-black uppercase">Hub</span>
         </button>
-        <button onclick="navigateTo('refer-page', this)" class="nav-item flex flex-col items-center gap-1.5">
-            <i data-lucide="users" class="w-6 h-6"></i>
-            <span class="text-[8px] font-bold uppercase tracking-widest">Nodes</span>
+        <button onclick="navigateTo('refer-page', this)" class="nav-item px-4 flex flex-col items-center gap-1 text-slate-500">
+            <i data-lucide="users-2" class="w-6 h-6"></i>
+            <span class="text-[8px] font-black uppercase">Network</span>
         </button>
-        <button onclick="navigateTo('wallet-page', this)" class="nav-item flex flex-col items-center gap-1.5">
-            <i data-lucide="component" class="w-6 h-6"></i>
-            <span class="text-[8px] font-bold uppercase tracking-widest">Vault</span>
+        <button onclick="navigateTo('wallet-page', this)" class="nav-item px-4 flex flex-col items-center gap-1 text-slate-500">
+            <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+            <span class="text-[8px] font-black uppercase">Payout</span>
         </button>
-        <button onclick="navigateTo('profile-page', this)" class="nav-item flex flex-col items-center gap-1.5">
-            <i data-lucide="fingerprint" class="w-6 h-6"></i>
-            <span class="text-[8px] font-bold uppercase tracking-widest">ID</span>
+        <button onclick="navigateTo('profile-page', this)" class="nav-item px-4 flex flex-col items-center gap-1 text-slate-500">
+            <i data-lucide="settings" class="w-6 h-6"></i>
+            <span class="text-[8px] font-black uppercase">Account</span>
         </button>
     </nav>
 
-    <div id="timer-overlay" class="fixed inset-0 bg-slate-950/98 z-[200] hidden flex items-center justify-center p-10">
-        <div class="glass-premium p-12 w-full text-center space-y-8 border-emerald-500/20 shadow-[0_0_50px_rgba(16,185,129,0.1)]">
-            <div class="relative w-24 h-24 mx-auto">
-                <svg class="w-full h-full -rotate-90">
-                    <circle cx="48" cy="48" r="40" stroke="rgba(255,255,255,0.05)" stroke-width="8" fill="transparent" />
-                    <circle id="timer-progress" cx="48" cy="48" r="40" stroke="var(--primary)" stroke-width="8" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="0" stroke-linecap="round" />
+    <div id="timer-overlay" class="fixed inset-0 bg-slate-950/95 z-[200] hidden flex items-center justify-center p-10 backdrop-blur-md">
+        <div class="glass-card p-10 w-full text-center space-y-6 border-emerald-500/30">
+            <div class="relative w-32 h-32 mx-auto">
+                <svg class="w-full h-full transform -rotate-90">
+                    <circle cx="64" cy="64" r="60" stroke="currentColor" stroke-width="8" fill="transparent" class="text-slate-800" />
+                    <circle id="timer-circle" cx="64" cy="64" r="60" stroke="currentColor" stroke-width="8" fill="transparent" stroke-dasharray="377" stroke-dashoffset="0" class="text-emerald-500 transition-all duration-1000" />
                 </svg>
-                <div id="timer-text" class="absolute inset-0 flex items-center justify-center text-3xl font-black text-white italic tabular-nums">30</div>
+                <div id="timer-text" class="absolute inset-0 flex items-center justify-center text-4xl font-black text-white">30</div>
             </div>
-            <div>
-                <p class="text-xs font-black text-emerald-400 uppercase tracking-[4px] mb-2">Syncing Data</p>
-                <p class="text-[10px] text-slate-500 font-bold px-6">Do not close this window until verification is complete.</p>
-            </div>
+            <h3 class="text-lg font-black text-white">Verifying Activity...</h3>
+            <p class="text-xs text-slate-500 font-bold uppercase tracking-widest animate-pulse">Stay on page, Do not go back</p>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-        import { getFirestore, doc, updateDoc, setDoc, increment, addDoc, collection, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, updateDoc, setDoc, increment, addDoc, collection, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-        // Your Config
         const firebaseConfig = {
             apiKey: "AIzaSyDpH_zn1KQPcIsPojC02UzXLdc017e-Unw",
             authDomain: "bdincomezone-767b4.firebaseapp.com",
@@ -268,29 +310,38 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const tg = window.Telegram.WebApp;
-        let userData = null, config = {};
+        let userData = null;
+        let config = {};
+        
+        tg.expand();
+        tg.ready();
 
         async function init() {
             lucide.createIcons();
             const user = tg.initDataUnsafe?.user;
-            if(!user) return;
+            if(!user) { setupDemo(); return; }
             const uid = user.id.toString();
 
-            onSnapshot(doc(db, "config", "main"), (snap) => { 
-                config = snap.data() || {}; 
-                if(userData) renderTasks(); 
+            onSnapshot(doc(db, "config", "main"), (snap) => {
+                config = snap.data() || {};
+                if(userData) renderTasks();
             });
 
             onSnapshot(doc(db, "users", uid), async (snap) => {
-                if(snap.exists()) { 
-                    userData = snap.data(); 
+                if(snap.exists()) {
+                    userData = snap.data();
                 } else {
-                    userData = { uid, name: user.first_name, balance: 50, totalRefer: 0, task1LastDone: null, task2LastDone: null, task3LastDone: null };
+                    userData = { uid, name: user.first_name, balance: 50, totalRefer: 0, joinTaskDone: false };
                     await setDoc(doc(db, "users", uid), userData);
-                    const sp = tg.initDataUnsafe?.start_param;
-                    if(sp && sp !== uid) await updateDoc(doc(db, "users", sp), { balance: increment(100), totalRefer: increment(1) });
+                    // Handle referral from start_param...
+                    const startParam = tg.initDataUnsafe?.start_param;
+                    if(startParam && startParam !== uid) {
+                        const invRef = doc(db, "users", startParam);
+                        await updateDoc(invRef, { balance: increment(100), totalRefer: increment(1) });
+                    }
                 }
-                updateUI(); renderTasks();
+                updateUI();
+                renderTasks();
             });
         }
 
@@ -298,76 +349,69 @@
             document.getElementById('tk-balance').innerText = userData.balance.toFixed(2);
             document.getElementById('header-balance').innerText = "৳ " + userData.balance.toFixed(2);
             document.getElementById('user-name').innerText = userData.name;
+            document.getElementById('user-id').innerText = "ID: " + userData.uid;
             document.getElementById('total-ref').innerText = userData.totalRefer || 0;
+            document.getElementById('req-ref').innerText = userData.totalRefer || 0;
+            
+            const refCount = userData.totalRefer || 0;
+            const percentage = Math.min(100, (refCount / 15) * 100);
+            document.getElementById('ref-fill').style.width = percentage + '%';
+            
+            const statusEl = document.getElementById('ref-status');
+            if(refCount < 5) statusEl.innerText = "Level 1";
+            else if(refCount < 10) statusEl.innerText = "Level 2 (Active)";
+            else statusEl.innerText = "Premium Partner";
+
             document.getElementById('refer-link-text').innerText = `https://t.me/bdfreeincometkBot/app?startapp=${userData.uid}`;
         }
 
         function renderTasks() {
             const list = document.getElementById('task-list');
             list.innerHTML = '';
-            const now = Date.now();
-            const lockTime = 20 * 60 * 60 * 1000; 
-
             for(let i=1; i<=3; i++) {
-                const lastDone = userData[`task${i}LastDone`]?.toMillis() || 0;
-                const diff = now - lastDone;
-                const isLocked = lastDone > 0 && diff < lockTime;
-
-                if(isLocked) {
-                    const remaining = lockTime - diff;
-                    const h = Math.floor(remaining / 3600000);
-                    const m = Math.floor((remaining % 3600000) / 60000);
-                    list.innerHTML += `
-                    <div class="glass-premium p-5 flex justify-between items-center opacity-40 border-white/5 grayscale">
+                const url = config['linkWeb'+i];
+                list.innerHTML += `
+                    <div class="glass-card p-5 flex justify-between items-center earn-card">
                         <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-slate-800 rounded-2xl flex items-center justify-center"><i data-lucide="clock-rewind" class="text-slate-500 w-5 h-5"></i></div>
-                            <div>
-                                <p class="text-xs font-black text-slate-500 uppercase italic">Cooldown</p>
-                                <p class="text-[9px] text-emerald-500 font-bold tracking-widest mt-1">${h}h ${m}m Remaining</p>
-                            </div>
-                        </div>
-                        <div class="bg-white/5 px-4 py-2 rounded-xl text-[8px] font-black text-slate-600 tracking-widest uppercase">Locked</div>
-                    </div>`;
-                } else {
-                    list.innerHTML += `
-                    <div class="glass-premium p-5 flex justify-between items-center task-card group hover:translate-x-1 transition-transform border-white/5">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20 group-hover:bg-emerald-500 group-hover:text-slate-900 transition-colors">
-                                <i data-lucide="globe-2" class="w-6 h-6"></i>
+                            <div class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center border border-white/5">
+                                <i data-lucide="globe" class="w-6 h-6 text-emerald-500"></i>
                             </div>
                             <div>
-                                <p class="text-xs font-black text-white uppercase tracking-tighter italic">Enterprise Task 0${i}</p>
-                                <p class="text-[9px] text-emerald-400 font-bold tracking-[2px] mt-1">YIELD: ৳ 50.00</p>
+                                <p class="text-sm font-black text-white">Enterprise Task 0${i}</p>
+                                <p class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Reward: ৳ 50.00</p>
                             </div>
                         </div>
-                        <button onclick="startTask(${i}, '${config['linkWeb'+i]}')" class="btn-neon px-6 py-3 rounded-2xl text-[9px] font-black text-slate-900 uppercase tracking-widest">Execute</button>
-                    </div>`;
-                }
+                        <button onclick="startTask(${i}, '${url}')" class="px-6 py-3 bg-emerald-600 rounded-xl text-[10px] font-black text-white hover:bg-emerald-500 transition-all">START</button>
+                    </div>
+                `;
             }
             lucide.createIcons();
         }
 
         window.startTask = (id, url) => {
-            if(!url) return;
+            if(!url) return alert("Task not available.");
             tg.openLink(url);
+            
             const overlay = document.getElementById('timer-overlay');
-            const timerTxt = document.getElementById('timer-text');
-            const progress = document.getElementById('timer-progress');
+            const circle = document.getElementById('timer-circle');
+            const timerText = document.getElementById('timer-text');
             overlay.classList.remove('hidden');
+            
             let count = 30;
+            const fullDash = 377;
+            
             const itv = setInterval(async () => {
-                count--; 
-                timerTxt.innerText = count;
-                const offset = 251.2 - (count / 30 * 251.2);
-                progress.style.strokeDashoffset = offset;
+                count--;
+                timerText.innerText = count;
+                circle.style.strokeDashoffset = fullDash - (fullDash * count / 30);
                 
                 if(count <= 0) {
-                    clearInterval(itv); overlay.classList.add('hidden');
-                    if(confirm("Protocol Success. Secure Rewards?")) {
-                        const updateData = { balance: increment(50) };
-                        updateData[`task${id}LastDone`] = serverTimestamp();
-                        await updateDoc(doc(db, "users", userData.uid), updateData);
-                        tg.HapticFeedback.notificationOccurred('success');
+                    clearInterval(itv);
+                    overlay.classList.add('hidden');
+                    if(confirm("Task complete! Claim ৳50.00?")) {
+                        const upd = { balance: increment(50) };
+                        upd[`task${id}LastDone`] = serverTimestamp();
+                        await updateDoc(doc(db, "users", userData.uid), upd);
                     }
                 }
             }, 1000);
@@ -376,29 +420,25 @@
         window.navigateTo = (id, btn) => {
             document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.add('text-slate-500'));
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('nav-active'));
+            btn.classList.remove('text-slate-500');
             btn.classList.add('nav-active');
-            tg.HapticFeedback.impactOccurred('medium');
+            tg.HapticFeedback.impactOccurred('light');
         };
 
         window.copyRefer = () => {
-            navigator.clipboard.writeText(document.getElementById('refer-link-text').innerText);
-            tg.showPopup({ message: "Network Link Encrypted & Copied!" });
+            const link = document.getElementById('refer-link-text').innerText;
+            navigator.clipboard.writeText(link);
+            alert("Partner link copied to clipboard!");
+            tg.HapticFeedback.notificationOccurred('success');
         };
 
-        window.contactAdmin = () => { if(config.linkAdmin) tg.openTelegramLink("https://t.me/" + config.linkAdmin); };
-
-        document.getElementById('withdraw-btn').onclick = async () => {
-            const amt = parseFloat(document.getElementById('withdraw-amount').value);
-            const num = document.getElementById('payment-number').value;
-            if(userData.totalRefer < 15) return alert("Insufficient Network Nodes (15 Refers Required)");
-            if(amt < 500 || amt > userData.balance) return alert("Invalid Liquidity Request (Min ৳500)");
-            await updateDoc(doc(db, "users", userData.uid), { balance: increment(-amt) });
-            await addDoc(collection(db, "withdrawals"), { 
-                uid: userData.uid, name: userData.name, amount: amt, method: document.getElementById('withdraw-method').value, number: num, status: "Pending", time: serverTimestamp() 
-            });
-            alert("Transfer Initialized. Pending Blockchain Verification.");
-        };
+        function setupDemo() {
+            userData = { uid: "DEMO_ID", name: "Guest User", balance: 1250.00, totalRefer: 8 };
+            updateUI();
+            renderTasks();
+        }
 
         init();
     </script>
