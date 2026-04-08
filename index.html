@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> TK INCOME BD</title>
+    <title>TK INCOME BD</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -15,7 +15,7 @@
             --primary: #10b981;
             --secondary: #3b82f6;
             --bg: #020617;
-            --glass: rgba(15, 23, 42, 0.8);
+            --glass: rgba(15, 23, 42, 0.7);
         }
 
         body { 
@@ -24,32 +24,40 @@
             color: #f8fafc;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 10% 10%, rgba(16, 185, 129, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 90% 90%, rgba(59, 130, 246, 0.12) 0%, transparent 40%);
+                radial-gradient(circle at 0% 0%, rgba(16, 185, 129, 0.15) 0%, transparent 35%),
+                radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.15) 0%, transparent 35%);
         }
 
         .glass-card {
             background: var(--glass);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
         }
 
-        .premium-gradient {
-            background: linear-gradient(135deg, #10b981, #3b82f6);
+        .premium-gradient { background: linear-gradient(135deg, #059669, #2563eb); }
+
+        .method-card {
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .method-card.selected {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
         }
 
         .nav-active { 
             color: var(--primary); 
-            background: rgba(16, 185, 129, 0.1);
-            border-radius: 20px;
+            background: rgba(16, 185, 129, 0.15);
+            border-radius: 18px;
         }
 
         .sub-page { display: none; }
-        .sub-page.active { display: block; animation: pageIn 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
+        .sub-page.active { display: block; animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
         
-        @keyframes pageIn { 
-            from { opacity: 0; transform: translateY(40px); } 
+        @keyframes slideUp { 
+            from { opacity: 0; transform: translateY(30px); } 
             to { opacity: 1; transform: translateY(0); } 
         }
 
@@ -59,105 +67,136 @@
 <body class="max-w-md mx-auto min-h-screen pb-32">
 
     <header class="p-6 flex justify-between items-center sticky top-0 z-[100] backdrop-blur-xl border-b border-white/5">
-        <div class="flex items-center gap-4">
-            <div class="w-12 h-12 premium-gradient rounded-2xl flex items-center justify-center">
-                <i data-lucide="badge-dollar-sign" class="text-white w-7 h-7"></i>
+        <div class="flex items-center gap-3">
+            <div class="w-11 h-11 premium-gradient rounded-xl flex items-center justify-center shadow-lg">
+                <i data-lucide="wallet-2" class="text-white w-6 h-6"></i>
             </div>
             <div>
-                <h1 class="font-black text-xl tracking-tighter leading-none">GLOBAL <span class="text-emerald-500">INCOME</span></h1>
-                <div class="flex items-center gap-1.5 mt-1">
-                    <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
-                    <p class="text-[9px] uppercase tracking-widest text-slate-500 font-bold">Secure Payment Network</p>
-                </div>
+                <h1 class="font-extrabold text-lg tracking-tight">TK INCOME <span class="text-emerald-500">BD</span></h1>
+                <p class="text-[8px] uppercase tracking-[0.15em] text-slate-400 font-bold italic">Fastest Payment</p>
             </div>
         </div>
-        <div class="flex flex-col items-end">
-            <span class="text-[10px] font-black text-slate-500 uppercase">My Balance</span>
-            <span id="header-balance" class="text-emerald-400 font-black text-lg tracking-tighter">৳ 0.00</span>
+        <div class="text-right">
+            <p class="text-[10px] font-bold text-slate-500 uppercase">Balance</p>
+            <p id="header-balance" class="text-emerald-400 font-black text-lg tracking-tighter">৳ 0.00</p>
         </div>
     </header>
 
     <main class="p-5">
         
         <div id="home-page" class="sub-page active space-y-6">
-            <div class="glass-card p-8 relative overflow-hidden group">
-                <div class="relative z-10 text-center">
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">Total Main Balance</p>
-                    <h2 class="text-6xl font-black tracking-tighter text-white my-3">৳ <span id="tk-balance">0.00</span></h2>
-                    <div class="flex gap-3 mt-8">
-                        <button onclick="navigateTo('wallet-page')" class="flex-1 py-4 premium-gradient rounded-2xl text-sm font-black uppercase tracking-widest text-white active:scale-95 transition-all">Withdraw</button>
-                        <button onclick="navigateTo('refer-page')" class="flex-1 py-4 bg-white/5 rounded-2xl text-sm font-black uppercase tracking-widest text-slate-400 active:scale-95 transition-all">Refer & Earn</button>
-                    </div>
+            <div class="glass-card p-8 relative overflow-hidden">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Main Wallet</p>
+                <h2 class="text-5xl font-black tracking-tighter text-white my-2">৳ <span id="tk-balance">0.00</span></h2>
+                <div class="flex gap-3 mt-6">
+                    <button onclick="navigateTo('wallet-page')" class="flex-1 py-3.5 premium-gradient rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-emerald-500/20">Withdraw</button>
+                    <button onclick="navigateTo('refer-page')" class="flex-1 py-3.5 bg-white/5 rounded-xl text-xs font-black uppercase tracking-widest border border-white/10">Refer</button>
                 </div>
             </div>
 
             <div class="space-y-4">
-                <h3 class="text-sm font-black text-slate-400 uppercase tracking-widest px-2">Main Daily Tasks (20H)</h3>
-                <div id="main-task-list" class="space-y-4"></div>
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2 px-2">
+                    <i data-lucide="layout-list" class="w-4 h-4 text-emerald-500"></i> Daily Tasks
+                </h3>
+                <div id="main-task-list" class="space-y-3"></div>
 
-                <h3 class="text-sm font-black text-blue-500 uppercase tracking-widest px-2 pt-4 border-t border-white/5">Bonus Ads Task (30M)</h3>
-                <div id="monetag-task-list" class="space-y-4"></div>
+                <h3 class="text-xs font-bold text-blue-400 uppercase tracking-widest flex items-center gap-2 px-2 pt-4">
+                    <i data-lucide="zap" class="w-4 h-4 text-blue-500"></i> Bonus Ad Tasks
+                </h3>
+                <div id="monetag-task-list" class="space-y-3"></div>
             </div>
         </div>
 
         <div id="refer-page" class="sub-page space-y-6">
-             <div class="glass-card p-10 text-center">
-                <h2 class="text-3xl font-black text-white leading-tight">Referral Program</h2>
-                <p class="text-slate-400 text-sm mt-4">Minimum 15 referrals required for payment withdrawal.</p>
+            <div class="glass-card p-8 text-center">
+                <div class="w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="users" class="w-8 h-8 text-emerald-500"></i>
+                </div>
+                <h2 class="text-2xl font-black text-white">Invite Friends</h2>
+                <p class="text-slate-400 text-xs mt-2">Get <span class="text-emerald-500 font-bold">৳ 70.00</span> for every new user!</p>
             </div>
             <div class="glass-card p-6">
-                <p class="text-xl font-black text-white text-center"><span id="req-ref">0</span> / 15 Active Referrals</p>
-                <div class="w-full bg-slate-800 h-3 rounded-full mt-4 overflow-hidden">
-                    <div id="ref-fill" class="h-full premium-gradient" style="width: 0%"></div>
+                <div class="flex justify-between items-end mb-4">
+                    <p class="text-xl font-black text-white"><span id="req-ref" class="text-emerald-400">0</span> <span class="text-slate-500 text-sm">/ 15 Referrals</span></p>
+                    <i data-lucide="award" class="w-6 h-6 text-yellow-500"></i>
+                </div>
+                <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden border border-white/5">
+                    <div id="ref-fill" class="h-full premium-gradient transition-all duration-1000" style="width: 0%"></div>
                 </div>
             </div>
-            <div class="glass-card p-6 space-y-4 text-center">
-                <div class="bg-black/40 p-5 rounded-2xl text-[11px] text-slate-400 break-all" id="refer-link-text">Loading Link...</div>
-                <button onclick="copyRefer()" class="w-full py-5 premium-gradient rounded-2xl font-black text-sm uppercase tracking-widest">Copy Referral Link</button>
+            <div class="glass-card p-6 space-y-4">
+                <div class="bg-black/30 border border-dashed border-white/10 p-4 rounded-xl text-center text-[11px] text-emerald-400 font-medium break-all" id="refer-link-text">Loading...</div>
+                <button onclick="copyRefer()" class="w-full py-4 premium-gradient rounded-xl font-black text-sm uppercase flex items-center justify-center gap-2">
+                    <i data-lucide="copy" class="w-4 h-4"></i> Copy Link
+                </button>
             </div>
         </div>
 
         <div id="wallet-page" class="sub-page space-y-6">
-             <div class="glass-card p-8">
-                <div class="space-y-5">
-                    <select id="withdraw-method" class="w-full p-5 rounded-2xl glass-card border-none text-white font-bold"><option value="Bkash">bKash</option><option value="Nagad">Nagad</option></select>
-                    <input id="withdraw-amount" type="number" placeholder="Enter Amount (৳ 500 Min)" class="w-full p-5 rounded-2xl glass-card border-none text-white font-black">
-                    <input id="payment-number" type="number" placeholder="Phone Number (01XXXXXXXXX)" class="w-full p-5 rounded-2xl glass-card border-none text-white font-black">
-                    <button id="withdraw-btn" class="w-full bg-blue-600 py-6 rounded-2xl font-black text-sm uppercase tracking-[0.2em]">Submit Withdrawal</button>
+             <div class="glass-card p-6">
+                <h3 class="text-sm font-black text-white mb-4 flex items-center gap-2">
+                    <i data-lucide="credit-card" class="text-emerald-500 w-4 h-4"></i> Select Method
+                </h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div onclick="selectMethod('Bkash')" id="method-Bkash" class="method-card glass-card p-4 flex flex-col items-center gap-2">
+                        <img src="https://itshamsur.com/wp-content/uploads/2024/05/bkash-logo-transparent.png" class="h-8 object-contain" alt="Bkash">
+                        <span class="text-xs font-bold text-white">bKash</span>
+                    </div>
+                    <div onclick="selectMethod('Nagad')" id="method-Nagad" class="method-card glass-card p-4 flex flex-col items-center gap-2">
+                        <img src="https://itshamsur.com/wp-content/uploads/2024/05/nagad-logo-transparent.png" class="h-8 object-contain" alt="Nagad">
+                        <span class="text-xs font-bold text-white">Nagad</span>
+                    </div>
+                </div>
+
+                <div class="mt-6 space-y-4">
+                    <input id="withdraw-amount" type="number" placeholder="৳ Amount (Min 500)" class="w-full p-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold outline-none focus:border-emerald-500">
+                    <input id="payment-number" type="number" placeholder="Phone Number (01XXXX...)" class="w-full p-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold outline-none focus:border-emerald-500">
+                    <button id="withdraw-btn" class="w-full premium-gradient py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-lg">Submit Payout</button>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <h3 class="text-xs font-black text-slate-500 uppercase tracking-widest px-2">Withdrawal History</h3>
+                <div id="history-list" class="space-y-2">
+                    <p class="text-center text-[10px] text-slate-600 py-4">No transactions found</p>
                 </div>
             </div>
         </div>
 
         <div id="profile-page" class="sub-page space-y-6">
-            <div class="glass-card p-12 text-center">
-                <h2 id="user-name" class="text-2xl font-black text-white italic">User Name</h2>
-                <p id="user-id" class="text-slate-500 mt-2">Account ID: 00000</p>
-                <div class="p-6 rounded-3xl bg-white/5 border border-white/5 mt-6">
-                    <p class="text-[10px] font-black text-slate-500 uppercase">Total Team Referrals</p>
-                    <p id="total-ref" class="text-3xl font-black text-white">0</p>
+            <div class="glass-card p-8 text-center">
+                <div class="w-20 h-20 premium-gradient rounded-3xl mx-auto flex items-center justify-center mb-4">
+                    <i data-lucide="user" class="text-white w-10 h-10"></i>
+                </div>
+                <h2 id="user-name" class="text-xl font-black text-white italic">User</h2>
+                <p id="user-id" class="text-slate-500 text-[10px] font-bold tracking-widest">ID: 000000</p>
+                
+                <div class="p-6 rounded-2xl bg-white/5 border border-white/5 mt-6">
+                    <p class="text-[9px] font-bold text-slate-500 uppercase">Total Refer Earn</p>
+                    <p class="text-2xl font-black text-white mt-1">৳ <span id="total-refer-money">0</span></p>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <nav class="fixed bottom-6 left-6 right-6 glass-card p-4 flex justify-between items-center z-[200]">
-        <button onclick="navigateTo('home-page', this)" class="nav-item nav-active p-4"><i data-lucide="home" class="w-6 h-6"></i></button>
-        <button onclick="navigateTo('refer-page', this)" class="nav-item p-4 text-slate-500"><i data-lucide="users-2" class="w-6 h-6"></i></button>
-        <button onclick="navigateTo('wallet-page', this)" class="nav-item p-4 text-slate-500"><i data-lucide="wallet" class="w-6 h-6"></i></button>
-        <button onclick="navigateTo('profile-page', this)" class="nav-item p-4 text-slate-500"><i data-lucide="user-check" class="w-6 h-6"></i></button>
+    <nav class="fixed bottom-6 left-6 right-6 glass-card p-3 flex justify-between items-center z-[200] border-white/10 shadow-2xl">
+        <button onclick="navigateTo('home-page', this)" class="nav-item nav-active p-3"><i data-lucide="home" class="w-5 h-5"></i></button>
+        <button onclick="navigateTo('refer-page', this)" class="nav-item p-3 text-slate-500"><i data-lucide="share-2" class="w-5 h-5"></i></button>
+        <button onclick="navigateTo('wallet-page', this)" class="nav-item p-3 text-slate-500"><i data-lucide="history" class="w-5 h-5"></i></button>
+        <button onclick="navigateTo('profile-page', this)" class="nav-item p-3 text-slate-500"><i data-lucide="user" class="w-5 h-5"></i></button>
     </nav>
 
     <div id="timer-overlay" class="fixed inset-0 bg-slate-950/98 z-[1000] hidden flex items-center justify-center p-12">
-        <div class="glass-card p-12 w-full text-center space-y-8">
-            <div id="timer-text" class="text-7xl font-black text-emerald-500">15</div>
-            <p class="text-xs text-slate-500 font-bold uppercase tracking-[0.3em]">Checking Task Status...</p>
+        <div class="glass-card p-10 w-full text-center space-y-4">
+            <div id="timer-text" class="text-5xl font-black text-emerald-500">15</div>
+            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Task in Progress...</p>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-        import { getFirestore, doc, updateDoc, setDoc, increment, addDoc, collection, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+        import { getFirestore, doc, updateDoc, setDoc, increment, addDoc, collection, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDpH_zn1KQPcIsPojC02UzXLdc017e-Unw",
@@ -169,40 +208,76 @@
         const tg = window.Telegram.WebApp;
         let userData = null;
         let config = {};
+        let selectedMethod = "Bkash";
 
         async function init() {
             lucide.createIcons();
+            tg.expand();
             const user = tg.initDataUnsafe?.user;
             if(!user) return;
             const uid = user.id.toString();
 
+            // Config Listener
             onSnapshot(doc(db, "config", "main"), (snap) => { config = snap.data() || {}; if(userData) renderTasks(); });
+
+            // User Listener
             onSnapshot(doc(db, "users", uid), async (snap) => {
                 if(snap.exists()) { userData = snap.data(); } 
                 else {
-                    userData = { uid, name: user.first_name, balance: 50, totalRefer: 0 };
+                    userData = { uid, name: user.first_name, balance: 25, totalRefer: 0 };
                     await setDoc(doc(db, "users", uid), userData);
                     const sp = tg.initDataUnsafe?.start_param;
                     if(sp && sp !== uid) {
-                        await updateDoc(doc(db, "users", sp), { balance: increment(100), totalRefer: increment(1) });
+                        await updateDoc(doc(db, "users", sp), { balance: increment(70), totalRefer: increment(1) });
                     }
                 }
                 updateUI();
                 renderTasks();
+                loadHistory(uid);
             });
         }
+
+        window.selectMethod = (m) => {
+            selectedMethod = m;
+            document.querySelectorAll('.method-card').forEach(c => c.classList.remove('selected'));
+            document.getElementById('method-'+m).classList.add('selected');
+        };
 
         function updateUI() {
             const bal = userData.balance || 0;
             document.getElementById('tk-balance').innerText = bal.toFixed(2);
             document.getElementById('header-balance').innerText = "৳ " + bal.toFixed(2);
             document.getElementById('user-name').innerText = userData.name;
-            document.getElementById('user-id').innerText = "Account ID: " + userData.uid;
+            document.getElementById('user-id').innerText = "ID: " + userData.uid;
             document.getElementById('total-ref').innerText = userData.totalRefer || 0;
             document.getElementById('req-ref').innerText = userData.totalRefer || 0;
+            document.getElementById('total-refer-money').innerText = (userData.totalRefer * 70).toFixed(0);
+            
             const percentage = Math.min(100, ((userData.totalRefer || 0) / 15) * 100);
             document.getElementById('ref-fill').style.width = percentage + '%';
             document.getElementById('refer-link-text').innerText = `https://t.me/bdfreeincometkBot/app?startapp=${userData.uid}`;
+            selectMethod('Bkash');
+        }
+
+        function loadHistory(uid) {
+            const qry = query(collection(db, "withdrawals"), where("uid", "==", uid), orderBy("time", "desc"));
+            onSnapshot(qry, (snap) => {
+                const list = document.getElementById('history-list');
+                if(snap.empty) return;
+                list.innerHTML = '';
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    const statusColor = data.status === "Paid" ? "text-emerald-500" : "text-yellow-500";
+                    list.innerHTML += `
+                        <div class="glass-card p-4 flex justify-between items-center border-white/5">
+                            <div>
+                                <p class="text-xs font-black text-white">${data.method} • ৳${data.amount}</p>
+                                <p class="text-[9px] text-slate-500 font-bold">${data.number}</p>
+                            </div>
+                            <span class="text-[9px] font-black uppercase ${statusColor}">${data.status}</span>
+                        </div>`;
+                });
+            });
         }
 
         function renderTasks() {
@@ -211,25 +286,37 @@
             mainList.innerHTML = monetagList.innerHTML = '';
             const now = Date.now();
 
-            // Main 3 Tasks - 20 Hours Lock (15s)
             for(let i=1; i<=3; i++) {
                 const last = userData[`task${i}LastDone`]?.toMillis() || 0;
-                const diff = now - last;
-                if(last > 0 && diff < (20 * 3600000)) {
-                    mainList.innerHTML += `<div class="glass-card p-6 opacity-40 text-center italic text-[10px]">Refresh Task in ${Math.floor((20*3600000-diff)/3600000)} hours</div>`;
+                if(last > 0 && (now - last) < (20 * 3600000)) {
+                    mainList.innerHTML += `<div class="glass-card p-4 opacity-40 text-center text-[10px] font-bold italic">Locked for 20H</div>`;
                 } else {
-                    mainList.innerHTML += `<div class="glass-card p-6 flex justify-between items-center"><div><p class="text-sm font-black text-white">Daily Income Task 0${i}</p><p class="text-[10px] text-emerald-400 font-bold italic">Reward: ৳ 50.00 | 15s</p></div><button onclick="startTask(${i}, '${config['linkWeb'+i]}', 15, false)" class="px-8 py-3 premium-gradient rounded-xl text-[10px] font-black text-white">Start Task</button></div>`;
+                    mainList.innerHTML += `
+                    <div class="glass-card p-4 flex justify-between items-center border-emerald-500/10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-500"><i data-lucide="globe" class="w-5 h-5"></i></div>
+                            <div><p class="text-xs font-bold text-white">Daily Mission 0${i}</p><p class="text-[10px] text-emerald-400 font-bold">৳ 25.00</p></div>
+                        </div>
+                        <button onclick="startTask(${i}, '${config['linkWeb'+i]}', 15, false)" class="bg-emerald-500/10 text-emerald-500 px-4 py-2 rounded-lg text-[10px] font-black">START</button>
+                    </div>`;
                 }
             }
 
-            // Monetag Tasks - 30 Mins Lock (20s)
             for(let i=4; i<=5; i++) {
                 const last = userData[`task${i}LastDone`]?.toMillis() || 0;
-                const diff = now - last;
-                if(last > 0 && diff < (30 * 60000)) {
-                    monetagList.innerHTML += `<div class="glass-card p-6 opacity-40 text-center italic text-[10px]">Ad Bonus Lock: ${Math.floor((30*60000-diff)/60000)} mins</div>`;
+                const count = userData[`task${i}Count`] || 0;
+                if(count >= 5 && (now - last) < (30 * 60000)) {
+                    monetagList.innerHTML += `<div class="glass-card p-4 opacity-40 text-center text-[10px] font-bold">Limit Reached (30m wait)</div>`;
                 } else {
-                    monetagList.innerHTML += `<div class="glass-card p-6 flex justify-between items-center border-blue-500/20"><div><p class="text-sm font-black text-blue-400">Bonus Ad Task 0${i-3}</p><p class="text-[10px] text-blue-300 font-bold italic">Reward: ৳ 50.00 | 20s</p></div><button onclick="startTask(${i}, '${config['linkWeb'+i]}', 20, true)" class="px-8 py-3 bg-blue-600 rounded-xl text-[10px] font-black text-white uppercase">Collect</button></div>`;
+                    const showCount = (now - last) >= (30 * 60000) ? 0 : count;
+                    monetagList.innerHTML += `
+                    <div class="glass-card p-4 flex justify-between items-center border-blue-500/10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500"><i data-lucide="play-circle" class="w-5 h-5"></i></div>
+                            <div><p class="text-xs font-bold text-blue-400">Video Ad 0${i-3}</p><p class="text-[10px] text-slate-400 font-bold">৳ 25.00 • ${showCount}/5</p></div>
+                        </div>
+                        <button onclick="startTask(${i}, '${config['linkWeb'+i]}', 20, true)" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-[10px] font-black">COLLECT</button>
+                    </div>`;
                 }
             }
             lucide.createIcons();
@@ -239,9 +326,7 @@
             if(!url) return;
             if(isAd && typeof show_10844896 === 'function') {
                 show_10844896().then(() => runTimer(id, url, sec)).catch(() => runTimer(id, url, sec));
-            } else {
-                runTimer(id, url, sec);
-            }
+            } else { runTimer(id, url, sec); }
         };
 
         function runTimer(id, url, sec) {
@@ -257,9 +342,15 @@
                 if(count <= 0) {
                     clearInterval(itv);
                     overlay.classList.add('hidden');
-                    if(confirm("Claim Your Reward?")) {
-                        const upd = { balance: increment(50) };
+                    if(confirm("Claim Reward ৳ 25.00?")) {
+                        const now = Date.now();
+                        const last = userData[`task${id}LastDone`]?.toMillis() || 0;
+                        let newCount = (userData[`task${id}Count`] || 0);
+                        if (id >= 4) newCount = (now - last) >= (30 * 60000) ? 1 : newCount + 1;
+
+                        const upd = { balance: increment(25) };
                         upd[`task${id}LastDone`] = serverTimestamp();
+                        if(id >= 4) upd[`task${id}Count`] = newCount;
                         await updateDoc(doc(db, "users", userData.uid), upd);
                         tg.HapticFeedback.notificationOccurred('success');
                     }
@@ -274,22 +365,25 @@
                 document.querySelectorAll('.nav-item').forEach(i => { i.classList.add('text-slate-500'); i.classList.remove('nav-active'); });
                 btn.classList.remove('text-slate-500'); btn.classList.add('nav-active');
             }
-            tg.HapticFeedback.impactOccurred('medium');
         };
 
         window.copyRefer = () => {
             navigator.clipboard.writeText(document.getElementById('refer-link-text').innerText);
-            alert("Referral link copied successfully!");
+            alert("Copied!");
         };
 
         document.getElementById('withdraw-btn').onclick = async () => {
             const amt = parseFloat(document.getElementById('withdraw-amount').value);
             const num = document.getElementById('payment-number').value;
-            if(userData.totalRefer < 15) return alert("Error: 15 active referrals required for payout.");
-            if(amt < 500 || amt > (userData.balance || 0)) return alert("Error: Minimum withdrawal amount is ৳ 500.");
+            if(userData.totalRefer < 15) return alert("❌ 15 Referrals Required!");
+            if(amt < 500 || amt > userData.balance) return alert("❌ Invalid Amount!");
+            
             await updateDoc(doc(db, "users", userData.uid), { balance: increment(-amt) });
-            await addDoc(collection(db, "withdrawals"), { uid: userData.uid, amount: amt, method: document.getElementById('withdraw-method').value, number: num, status: "Pending", time: serverTimestamp() });
-            alert("Withdrawal request submitted successfully!");
+            await addDoc(collection(db, "withdrawals"), { 
+                uid: userData.uid, amount: amt, method: selectedMethod, 
+                number: num, status: "Pending", time: serverTimestamp() 
+            });
+            alert("✅ Request Submitted!");
         };
 
         init();
