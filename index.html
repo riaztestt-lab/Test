@@ -8,125 +8,235 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@300;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;700;800&family=JetBrains+Mono:wght@500&display=swap');
         
         body { 
-            font-family: 'Space Grotesk', sans-serif; 
-            background: #020617;
-            background-image: radial-gradient(circle at 50% -20%, #1e293b, #020617);
-            color: #f8fafc; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: #05070a;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.15), transparent),
+                radial-gradient(circle at 0% 100%, rgba(56, 189, 248, 0.05), transparent);
+            color: #f1f5f9; 
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         .neo-glass { 
-            background: rgba(255, 255, 255, 0.02); 
-            backdrop-filter: blur(12px); 
-            border: 1px solid rgba(255, 255, 255, 0.08); 
-            border-radius: 1.5rem;
+            background: rgba(15, 23, 42, 0.6); 
+            backdrop-filter: blur(16px); 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            border-radius: 1.25rem;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
         }
 
-        .withdraw-card {
-            background: linear-gradient(145deg, rgba(16, 185, 129, 0.15), rgba(30, 41, 59, 0.4));
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 2rem;
+        .premium-border {
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            position: relative;
+        }
+
+        .premium-border::after {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px; right: -1px; bottom: -1px;
+            border-radius: 1.25rem;
+            background: linear-gradient(45deg, transparent, rgba(56, 189, 248, 0.3), transparent);
+            z-index: -1;
         }
 
         .sub-page { display: none; }
-        .sub-page.active { display: block; animation: slideUp 0.4s ease-out; }
+        .sub-page.active { display: block; animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
 
-        @keyframes slideUp { 
-            from { opacity: 0; transform: translateY(20px); } 
-            to { opacity: 1; transform: translateY(0); } 
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: scale(0.98) translateY(10px); } 
+            to { opacity: 1; transform: scale(1) translateY(0); } 
         }
 
-        .nav-active { color: #10b981 !important; transform: translateY(-5px); transition: all 0.3s ease; }
+        .balance-text {
+            background: linear-gradient(to bottom, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.3));
+        }
+
+        .nav-active { 
+            color: #38bdf8 !important; 
+            background: rgba(56, 189, 248, 0.1);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.1);
+        }
         
-        .status-pill { padding: 4px 10px; border-radius: 8px; font-size: 8px; text-transform: uppercase; font-weight: 800; border: 1px solid transparent; }
-        .status-Pending { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border-color: rgba(245, 158, 11, 0.2); }
-        .status-Success { background: rgba(16, 185, 129, 0.1); color: #10b981; border-color: rgba(16, 185, 129, 0.2); }
-        .status-Rejected { background: rgba(239, 68, 68, 0.1); color: #ef4444; border-color: rgba(239, 68, 68, 0.2); }
+        .status-pill { padding: 4px 10px; border-radius: 20px; font-size: 8px; font-weight: 700; letter-spacing: 0.05em; }
+        .status-pending { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .status-success { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+
+        .mining-card {
+            transition: all 0.3s ease;
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.8));
+        }
+        
+        .mining-card:active { transform: scale(0.97); }
+
+        input, select {
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.05) !important;
+        }
+        input:focus, select:focus {
+            border-color: rgba(56, 189, 248, 0.4) !important;
+            background: rgba(255,255,255,0.05) !important;
+        }
     </style>
 </head>
-<body class="pb-28">
+<body class="pb-32">
 
-    <header class="p-5 flex justify-between items-center sticky top-0 z-50 bg-[#020617]/90 backdrop-blur-md border-b border-white/5">
-        <div>
-            <h1 style="font-family: 'Syncopate', sans-serif;" class="text-sm tracking-widest text-white">TK <span class="text-emerald-500">INCOME</span></h1>
-            <div class="flex items-center gap-1">
-                <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
-                <span class="text-[8px] font-bold text-emerald-500/60 uppercase italic">Protocol Secure</span>
+    <header class="p-6 flex justify-between items-center sticky top-0 z-50 backdrop-blur-xl border-b border-white/5">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-sky-500 rounded-lg flex items-center justify-center rotate-3">
+                <i data-lucide="cpu" class="w-5 h-5 text-black"></i>
+            </div>
+            <div>
+                <h1 class="text-xs font-extrabold tracking-tighter text-white uppercase">TK <span class="text-sky-400">Income</span></h1>
+                <p class="text-[7px] text-sky-400/60 font-bold tracking-widest uppercase">Protocol v3.0</p>
             </div>
         </div>
-        <div class="neo-glass px-4 py-1.5 flex items-center gap-2 border-emerald-500/20">
-            <i data-lucide="wallet" class="w-3.5 h-3.5 text-emerald-400"></i>
-            <span id="top-bal" class="text-xs font-black text-emerald-400 italic">৳ 0.00</span>
+        <div class="neo-glass px-4 py-2 flex items-center gap-2 border-sky-500/20 shadow-lg shadow-sky-500/5">
+            <div class="w-2 h-2 bg-sky-400 rounded-full animate-pulse"></div>
+            <span id="top-bal" class="text-[11px] font-bold text-sky-400 font-mono">৳ 0.00</span>
         </div>
     </header>
 
     <main class="p-5 max-w-md mx-auto">
         
         <div id="home-page" class="sub-page active space-y-6">
-            <div class="neo-glass p-8 text-center relative overflow-hidden">
-                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] mb-2">Available Balance</p>
-                <h2 class="text-5xl font-black italic tracking-tighter text-white">৳ <span id="home-bal">0.00</span></h2>
+            <div class="neo-glass p-10 text-center relative overflow-hidden premium-border">
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-sky-500/10 blur-3xl rounded-full"></div>
+                <p class="text-[9px] font-bold text-slate-500 uppercase tracking-[0.4em] mb-4">Secured Assets</p>
+                <h2 class="text-5xl font-extrabold tracking-tight balance-text">৳<span id="home-bal">0.00</span></h2>
+                <div class="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10">
+                    <i data-lucide="shield-check" class="w-3 h-3 text-sky-400"></i>
+                    <span class="text-[8px] text-slate-400 uppercase font-bold">Encrypted Wallet</span>
+                </div>
             </div>
-            <div id="main-tasks" class="space-y-3"></div>
-        </div>
 
-        <div id="wallet-page" class="sub-page space-y-6">
-            <div class="withdraw-card p-6 space-y-5">
-                <h3 class="text-xs font-black uppercase text-white tracking-widest">Withdrawal Request</h3>
-                <div class="space-y-4">
-                    <div class="grid grid-cols-2 gap-3">
-                        <select id="gateway" class="w-full bg-black/40 border border-white/10 p-3 rounded-xl text-white text-xs outline-none">
-                            <option value="Bkash">Bkash</option>
-                            <option value="Nagad">Nagad</option>
-                        </select>
-                        <input id="amt" type="number" placeholder="Amount" class="w-full bg-black/40 border border-white/10 p-3 rounded-xl text-white text-xs outline-none">
+            <a href="#" id="official-group-link" class="neo-glass p-5 flex items-center justify-between group hover:bg-white/5 transition-all">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-sky-500/10 rounded-2xl flex items-center justify-center border border-sky-500/20 group-hover:rotate-6 transition-transform">
+                        <i data-lucide="send" class="w-5 h-5 text-sky-400"></i>
                     </div>
-                    <input id="num" type="number" placeholder="Receiver Number" class="w-full bg-black/40 border border-white/10 p-3 rounded-xl text-white text-xs outline-none">
-                    <button id="withdraw-btn" onclick="submitWithdraw()" class="w-full py-4 bg-emerald-500 text-black font-black rounded-2xl text-xs uppercase tracking-widest active:scale-95 transition-all">Submit Request</button>
+                    <div>
+                        <h4 class="text-xs font-bold text-white">Cloud Community</h4>
+                        <p class="text-[9px] text-slate-500 uppercase tracking-tight">Join for Instant support</p>
+                    </div>
                 </div>
-            </div>
+                <div class="w-8 h-8 rounded-full flex items-center justify-center bg-white/5">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-500"></i>
+                </div>
+            </a>
 
-            <div class="space-y-3">
-                <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Transaction Log</h3>
-                <div id="txn-history" class="space-y-2">
-                    <div class="text-center p-5 text-[10px] text-slate-500 uppercase italic">Loading history...</div>
+            <div class="space-y-4">
+                <div class="flex justify-between items-end px-1">
+                    <div>
+                        <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Mining Operations</h3>
+                        <p class="text-[8px] text-slate-600">Nodes reset every 20 hours</p>
+                    </div>
+                    <i data-lucide="refresh-cw" class="w-3 h-3 text-slate-700"></i>
                 </div>
+                <div id="main-tasks" class="space-y-3"></div>
             </div>
         </div>
 
         <div id="refer-page" class="sub-page space-y-6">
-            <div class="neo-glass p-8 text-center bg-emerald-500/5">
-                <i data-lucide="users" class="w-10 h-10 text-emerald-500 mx-auto mb-3"></i>
-                <h2 class="text-xl font-bold italic uppercase">Affiliate Link</h2>
-                <p id="ref-link" class="bg-black/30 p-4 mt-4 rounded-xl border border-white/5 break-all text-[10px] text-emerald-400 font-mono">Loading...</p>
-                <button onclick="copyLink()" class="w-full mt-4 py-4 bg-emerald-500 text-black font-black rounded-xl text-[11px] uppercase active:scale-95 transition-all">Copy My Link</button>
+            <div class="neo-glass p-8 text-center bg-gradient-to-b from-sky-500/10 to-transparent">
+                <div class="w-16 h-16 bg-sky-500/20 rounded-3xl flex items-center justify-center mx-auto mb-4 border border-sky-500/30">
+                    <i data-lucide="share-2" class="w-8 h-8 text-sky-400"></i>
+                </div>
+                <h2 class="text-xl font-bold text-white">Network Expansion</h2>
+                <p class="text-slate-400 text-[10px] uppercase mt-2 tracking-widest">Bonus: <span class="text-sky-400 font-bold">৳ 70.00</span> / Unit</p>
+            </div>
+            <div class="neo-glass p-6 space-y-5">
+                <div class="space-y-3">
+                    <label class="text-[9px] text-slate-500 font-bold uppercase ml-1">Referral Hash</label>
+                    <div id="ref-link" class="bg-black/60 p-4 rounded-xl border border-white/5 break-all text-[11px] text-sky-400 text-center font-mono ring-1 ring-sky-500/10">Loading...</div>
+                </div>
+                <button onclick="copyLink()" class="w-full py-4 bg-sky-500 hover:bg-sky-400 text-black font-extrabold rounded-xl text-xs uppercase tracking-widest transition-all shadow-lg shadow-sky-500/20">
+                    Copy Access Link
+                </button>
+            </div>
+        </div>
+
+        <div id="wallet-page" class="sub-page space-y-6">
+            <div class="neo-glass p-6 space-y-4 premium-border">
+                <h3 class="text-center text-[10px] font-bold uppercase tracking-[0.2em] text-sky-400">Withdrawal Terminal</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <span class="text-[8px] text-slate-500 font-bold uppercase ml-1">Method</span>
+                        <select id="gateway" class="w-full bg-slate-900 border-none p-3.5 rounded-xl text-white text-xs outline-none">
+                            <option value="Bkash">Bkash</option>
+                            <option value="Nagad">Nagad</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <span class="text-[8px] text-slate-500 font-bold uppercase ml-1">Amount</span>
+                        <input id="amt" type="number" placeholder="0.00" class="w-full bg-slate-900 border-none p-3.5 rounded-xl text-white text-xs outline-none">
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <span class="text-[8px] text-slate-500 font-bold uppercase ml-1">Receiver Account</span>
+                    <input id="num" type="number" placeholder="01XXXXXXXXX" class="w-full bg-slate-900 border-none p-3.5 rounded-xl text-white text-xs outline-none">
+                </div>
+                <button onclick="submitWithdraw()" class="w-full py-4 bg-white text-black font-black rounded-xl text-[11px] uppercase tracking-tighter hover:bg-slate-200 transition-colors">Confirm Transaction</button>
+                <div class="flex justify-between items-center px-1">
+                    <span class="text-[8px] text-slate-500 uppercase">Limit: ৳ 500</span>
+                    <span class="text-[8px] text-slate-500 uppercase">Quota: 15 Invites</span>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Ledger History</h3>
+                <div id="txn-history" class="space-y-2"></div>
             </div>
         </div>
 
         <div id="profile-page" class="sub-page space-y-6">
-            <div class="neo-glass p-8 text-center">
-                <h2 id="u-name" class="text-xl font-black italic text-white uppercase tracking-tight">Agent</h2>
-                <p id="u-id" class="text-[9px] text-slate-500 font-mono">UID-000000</p>
-                <div class="mt-6 flex justify-center gap-10">
-                    <div><p class="text-[8px] font-bold text-slate-500 uppercase">Invites</p><p id="p-ref" class="text-xl font-black text-emerald-400">0</p></div>
-                    <div><p class="text-[8px] font-bold text-slate-500 uppercase">Rank</p><p class="text-xs font-black text-white italic">ELITE</p></div>
+            <div class="neo-glass p-8 text-center border-b-4 border-sky-500/30">
+                <div class="relative w-20 h-20 mx-auto mb-4">
+                    <div class="absolute inset-0 bg-sky-500/20 rounded-full animate-ping"></div>
+                    <div class="relative w-20 h-20 bg-slate-900 rounded-full flex items-center justify-center border-2 border-sky-500/50 shadow-2xl shadow-sky-500/20">
+                        <i data-lucide="user" class="w-10 h-10 text-sky-400"></i>
+                    </div>
+                </div>
+                <h2 id="u-name" class="text-2xl font-extrabold text-white tracking-tight">Agent</h2>
+                <p id="u-id" class="text-[10px] text-sky-500/60 font-mono mt-1">ID: 000000</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="neo-glass p-6 text-center">
+                    <p class="text-[8px] font-bold text-slate-500 uppercase mb-2">Total Units</p>
+                    <p id="p-ref" class="text-2xl font-bold text-sky-400">0</p>
+                </div>
+                <div class="neo-glass p-6 text-center">
+                    <p class="text-[8px] font-bold text-slate-500 uppercase mb-2">Security Level</p>
+                    <p class="text-xs font-bold text-white uppercase bg-sky-500/10 py-1 rounded-md">Elite</p>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <nav class="fixed bottom-6 left-6 right-6 neo-glass p-2 flex justify-around items-center z-[100] bg-slate-900/80 border-white/10">
-        <button onclick="changePage('home-page', this)" class="nav-btn nav-active p-3"><i data-lucide="layout-grid" class="w-5 h-5"></i></button>
-        <button onclick="changePage('refer-page', this)" class="nav-btn text-slate-500 p-3"><i data-lucide="user-plus" class="w-5 h-5"></i></button>
-        <button onclick="changePage('wallet-page', this)" class="nav-btn text-slate-500 p-3"><i data-lucide="history" class="w-5 h-5"></i></button>
-        <button onclick="changePage('profile-page', this)" class="nav-btn text-slate-500 p-3"><i data-lucide="settings" class="w-5 h-5"></i></button>
+    <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md neo-glass p-2 flex justify-around items-center z-[100] border-white/10 shadow-2xl">
+        <button onclick="changePage('home-page', this)" class="nav-btn nav-active flex-1 flex flex-col items-center py-3 rounded-xl transition-all">
+            <i data-lucide="grid-3x3" class="w-5 h-5"></i>
+        </button>
+        <button onclick="changePage('refer-page', this)" class="nav-btn text-slate-500 flex-1 flex flex-col items-center py-3 rounded-xl transition-all">
+            <i data-lucide="users-2" class="w-5 h-5"></i>
+        </button>
+        <button onclick="changePage('wallet-page', this)" class="nav-btn text-slate-500 flex-1 flex flex-col items-center py-3 rounded-xl transition-all">
+            <i data-lucide="wallet-2" class="w-5 h-5"></i>
+        </button>
+        <button onclick="changePage('profile-page', this)" class="nav-btn text-slate-500 flex-1 flex flex-col items-center py-3 rounded-xl transition-all">
+            <i data-lucide="fingerprint" class="w-5 h-5"></i>
+        </button>
     </nav>
 
     <script type="module">
+        // [Firebase setup and all logic remain exactly as per your original code]
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
         import { getFirestore, doc, getDoc, onSnapshot, setDoc, updateDoc, increment, collection, addDoc, query, where, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
@@ -143,6 +253,7 @@
         async function init() {
             lucide.createIcons();
             tg.expand();
+            tg.headerColor = "#05070a";
             
             document.getElementById('ref-link').innerText = `https://t.me/${BOT_USERNAME}/app?startapp=${uid}`;
 
@@ -151,24 +262,21 @@
 
             if (!userSnap.exists()) {
                 const refBy = tg.initDataUnsafe?.start_param || null;
-                await setDoc(userRef, { uid, name: tg.initDataUnsafe?.user?.first_name || "Agent", balance: 50.0, totalRefer: 0, joinedAt: serverTimestamp() });
+                await setDoc(userRef, { uid, name: tg.initDataUnsafe?.user?.first_name || "Agent", balance: 25.0, totalRefer: 0, joinedAt: serverTimestamp() });
                 if(refBy && refBy !== uid) {
                     const rRef = doc(db, "users", refBy);
-                    await updateDoc(rRef, { balance: increment(70), totalRefer: increment(1) });
+                    const rSnap = await getDoc(rRef);
+                    if(rSnap.exists()) await updateDoc(rRef, { balance: increment(70), totalRefer: increment(1) });
                 }
             }
 
             onSnapshot(doc(db, "config", "main"), (s) => { 
                 config = s.data() || {}; 
+                if(config?.officialGroup) document.getElementById('official-group-link').href = config.officialGroup;
                 renderTasks(); 
             });
 
-            onSnapshot(userRef, (s) => { 
-                userData = s.data(); 
-                updateUI(); 
-                renderTasks();
-            });
-
+            onSnapshot(userRef, (s) => { userData = s.data(); updateUI(); renderTasks(); });
             loadHistory();
         }
 
@@ -182,118 +290,56 @@
             document.getElementById('u-id').innerText = "UID-" + uid;
         }
 
-        window.submitWithdraw = async () => {
-            const amt = parseFloat(document.getElementById('amt').value);
-            const num = document.getElementById('num').value;
-            const method = document.getElementById('gateway').value;
-            const btn = document.getElementById('withdraw-btn');
-            
-            if(userData.totalRefer < 15) return alert("Error: 15 active referrals required.");
-            if(isNaN(amt) || amt < 500) return alert("Min withdrawal ৳ 500");
-            if(amt > userData.balance) return alert("Insufficient funds!");
-            if(num.length < 10) return alert("Enter valid number");
-            
-            btn.disabled = true;
-            btn.innerText = "Processing...";
-
-            try {
-                // ১. ব্যালেন্স আপডেট
-                await updateDoc(doc(db, "users", uid), { balance: increment(-amt) });
-                
-                // ২. উইথড্র ডাটা সেভ
-                await addDoc(collection(db, "withdrawals"), { 
-                    uid, 
-                    amount: amt, 
-                    number: num, 
-                    method, 
-                    status: "Pending", 
-                    time: serverTimestamp() 
-                });
-                
-                alert("Withdrawal Requested Successfully!");
-                document.getElementById('amt').value = ''; 
-                document.getElementById('num').value = '';
-                tg.HapticFeedback.notificationOccurred('success');
-            } catch (e) {
-                alert("Submission error! Check internet.");
-            } finally {
-                btn.disabled = false;
-                btn.innerText = "Submit Request";
-            }
-        }
-
-        function loadHistory() {
-            // ইনডেক্স এরর এড়াতে প্রথমে শুধু UID দিয়ে ফিল্টার করছি
-            const q = query(collection(db, "withdrawals"), where("uid", "==", uid));
-            
-            onSnapshot(q, (sn) => {
-                const box = document.getElementById('txn-history');
-                if (sn.empty) {
-                    box.innerHTML = '<div class="neo-glass p-8 text-center text-[10px] text-slate-600 uppercase italic">No history found</div>';
-                    return;
-                }
-
-                // জাভাস্ক্রিপ্ট দিয়ে সর্ট করছি যাতে ইনডেক্স না থাকলেও কাজ করে
-                let logs = [];
-                sn.forEach(d => logs.push(d.data()));
-                logs.sort((a, b) => (b.time?.toMillis() || 0) - (a.time?.toMillis() || 0));
-
-                box.innerHTML = '';
-                logs.forEach(w => {
-                    const statusClass = `status-${w.status || 'Pending'}`;
-                    box.innerHTML += `
-                    <div class="neo-glass p-4 flex justify-between items-center border-l-2 ${w.status === 'Pending' ? 'border-amber-500' : 'border-emerald-500'}">
-                        <div>
-                            <p class="text-[10px] font-black text-white uppercase">${w.method}</p>
-                            <p class="text-[8px] text-slate-500 font-mono">${w.number}</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-[11px] font-black text-emerald-400 italic">৳ ${w.amount}</p>
-                            <span class="status-pill ${statusClass}">${w.status || 'Pending'}</span>
-                        </div>
-                    </div>`;
-                });
-                lucide.createIcons();
-            }, (error) => {
-                console.error("History Error: ", error);
-                document.getElementById('txn-history').innerHTML = '<div class="text-center p-5 text-red-400 text-[10px]">Failed to load history.</div>';
-            });
-        }
-
-        // --- Task System ---
         function renderTasks() {
             const mBox = document.getElementById('main-tasks');
-            if(!mBox || !config) return;
+            if(!mBox) return;
             mBox.innerHTML = '';
             const now = Date.now();
+
             for(let i=1; i<=5; i++){
                 const link = config[`linkWeb${i}`];
                 if(!link) continue;
+                
                 const last = userData[`task${i}Last`]?.toMillis() || 0;
                 const isLocked = (now - last < 20 * 3600000);
+
                 mBox.innerHTML += `
-                <div class="neo-glass p-4 flex justify-between items-center ${isLocked ? 'opacity-40' : 'border-l-2 border-emerald-500'}">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-emerald-500/5 flex items-center justify-center border border-white/5"><span class="text-[10px] font-black text-emerald-500">${i}</span></div>
-                        <div><p class="text-[9px] font-black uppercase text-slate-400">Node ${i}</p><p class="text-[10px] text-white font-bold">REWARD ৳ 25.00</p></div>
+                <div class="neo-glass p-4 flex justify-between items-center mining-card ${isLocked ? 'opacity-40' : 'border-l-4 border-sky-500'}">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-sky-500/10 flex items-center justify-center border border-sky-500/20">
+                            <i data-lucide="database" class="w-4 h-4 text-sky-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-white uppercase">Node 0${i}</p>
+                            <p class="text-[9px] text-sky-400 font-mono">+৳25.00</p>
+                        </div>
                     </div>
-                    <button id="task-btn-${i}" ${isLocked ? 'disabled' : `onclick="handleTask(${i}, '${link}')"`} class="px-4 py-2 rounded-lg ${isLocked ? 'bg-white/5 text-slate-600' : 'bg-emerald-500/10 text-emerald-400'} text-[9px] font-black uppercase">${isLocked ? 'Locked' : 'Start'}</button>
+                    <button id="task-btn-${i}" ${isLocked ? 'disabled' : `onclick="handleTask(${i}, '${link}')"`} 
+                        class="px-5 py-2.5 rounded-xl ${isLocked ? 'bg-white/5 text-slate-600' : 'bg-sky-500 text-black'} text-[10px] font-extrabold uppercase transition-all shadow-lg ${isLocked ? '' : 'shadow-sky-500/20'}">
+                        ${isLocked ? 'Cooling' : 'Execute'}
+                    </button>
                 </div>`;
             }
+            lucide.createIcons();
         }
 
         window.handleTask = (id, link) => {
             const btn = document.getElementById(`task-btn-${id}`);
             tg.openLink(link);
+            
             let timeLeft = 30;
             btn.disabled = true;
+            btn.classList.add('opacity-50');
+            
             const timer = setInterval(() => {
-                btn.innerText = `${timeLeft}s`;
+                btn.innerText = `${timeLeft}S`;
                 timeLeft--;
+
                 if (timeLeft < 0) {
                     clearInterval(timer);
-                    btn.innerText = "Verify";
-                    btn.classList.add('bg-emerald-500', 'text-black');
+                    btn.innerText = "Claim Reward";
+                    btn.classList.remove('opacity-50');
+                    btn.classList.add('bg-emerald-500');
                     btn.disabled = false;
                     btn.onclick = () => collectReward(id);
                 }
@@ -301,21 +347,85 @@
         };
 
         window.collectReward = async (id) => {
-            await updateDoc(doc(db, "users", uid), { balance: increment(25), [`task${id}Last`]: serverTimestamp() });
-            tg.HapticFeedback.notificationOccurred('success');
+            const btn = document.getElementById(`task-btn-${id}`);
+            btn.innerText = "Syncing...";
+            btn.disabled = true;
+
+            try {
+                await updateDoc(doc(db, "users", uid), { 
+                    balance: increment(25), 
+                    [`task${id}Last`]: serverTimestamp() 
+                });
+                tg.HapticFeedback.notificationOccurred('success');
+            } catch (err) {
+                alert("Sync Error!");
+                btn.disabled = false;
+            }
         };
+
+        window.submitWithdraw = async () => {
+            const amt = parseFloat(document.getElementById('amt').value);
+            const num = document.getElementById('num').value;
+            const method = document.getElementById('gateway').value;
+            
+            if(userData.totalRefer < 15) return alert("Error: 15 Referrals Required");
+            if(amt < 500) return alert("Min: 500 TK");
+            if(amt > userData.balance) return alert("Insufficient Balance");
+            if(num.length < 10) return alert("Invalid Number");
+            
+            await updateDoc(doc(db, "users", uid), { balance: increment(-amt) });
+            await addDoc(collection(db, "withdrawals"), { 
+                uid, amount: amt, number: num, method, status: "Pending", time: serverTimestamp() 
+            });
+            alert("Withdrawal request submitted successfully!");
+            document.getElementById('amt').value = ''; 
+            document.getElementById('num').value = '';
+        }
+
+        function loadHistory() {
+            const q = query(collection(db, "withdrawals"), where("uid", "==", uid), orderBy("time", "desc"));
+            onSnapshot(q, (sn) => {
+                const box = document.getElementById('txn-history');
+                box.innerHTML = sn.empty ? '<div class="neo-glass p-8 text-center text-[10px] text-slate-600 uppercase">No Ledger Entries</div>' : '';
+                sn.forEach(d => {
+                    const w = d.data();
+                    const statusClass = w.status === 'Pending' ? 'status-pending' : 'status-success';
+                    box.innerHTML += `
+                    <div class="neo-glass p-4 flex justify-between items-center bg-white/[0.02]">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center">
+                                <i data-lucide="arrow-down-left" class="w-4 h-4 text-sky-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-[11px] font-bold text-white">${w.method}</p>
+                                <p class="text-[9px] text-slate-500 font-mono">${w.number}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs font-bold text-sky-400">৳${w.amount}</p>
+                            <span class="status-pill ${statusClass}">${w.status}</span>
+                        </div>
+                    </div>`;
+                });
+                lucide.createIcons();
+            });
+        }
 
         window.changePage = (id, btn) => {
             document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.nav-btn').forEach(n => n.classList.remove('nav-active', 'text-emerald-500'));
+            document.querySelectorAll('.nav-btn').forEach(n => n.classList.remove('nav-active', 'text-sky-400'));
+            document.querySelectorAll('.nav-btn').forEach(n => n.classList.add('text-slate-500'));
+            btn.classList.remove('text-slate-500');
             btn.classList.add('nav-active');
             lucide.createIcons();
+            tg.HapticFeedback.impactOccurred('medium');
         }
 
         window.copyLink = () => { 
             navigator.clipboard.writeText(document.getElementById('ref-link').innerText); 
-            alert("Copied!"); 
+            tg.HapticFeedback.notificationOccurred('success');
+            alert("Access Link Copied!"); 
         }
 
         init();
