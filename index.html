@@ -236,7 +236,6 @@
     </nav>
 
     <script type="module">
-        // [Firebase setup and all logic remain exactly as per your original code]
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
         import { getFirestore, doc, getDoc, onSnapshot, setDoc, updateDoc, increment, collection, addDoc, query, where, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
@@ -255,18 +254,23 @@
             tg.expand();
             tg.headerColor = "#05070a";
             
-            document.getElementById('ref-link').innerText = `https://t.me/${BOT_USERNAME}/app?startapp=${uid}`;
+            // লিংকে সরাসরি app ওপেন না করে বটে যাওয়ার জন্য ?start= ব্যবহার করা হয়েছে
+            document.getElementById('ref-link').innerText = `https://t.me/${BOT_USERNAME}?start=${uid}`;
 
             const userRef = doc(db, "users", uid);
             const userSnap = await getDoc(userRef);
 
             if (!userSnap.exists()) {
+                // বটের Launch বাটন থেকে আসা start_param ধরবে
                 const refBy = tg.initDataUnsafe?.start_param || null;
                 await setDoc(userRef, { uid, name: tg.initDataUnsafe?.user?.first_name || "Agent", balance: 25.0, totalRefer: 0, joinedAt: serverTimestamp() });
+                
                 if(refBy && refBy !== uid) {
                     const rRef = doc(db, "users", refBy);
                     const rSnap = await getDoc(rRef);
-                    if(rSnap.exists()) await updateDoc(rRef, { balance: increment(70), totalRefer: increment(1) });
+                    if(rSnap.exists()) {
+                        await updateDoc(rRef, { balance: increment(70), totalRefer: increment(1) });
+                    }
                 }
             }
 
