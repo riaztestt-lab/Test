@@ -138,19 +138,21 @@
                     <i data-lucide="play-circle" class="w-8 h-8 mx-auto mb-3 text-indigo-400"></i>
                     <p class="text-[10px] font-black uppercase tracking-widest text-white">অ্যাড স্লট ১</p>
                     <p class="text-[9px] text-indigo-400 font-bold mt-1">+৳৩০.০০</p>
-                    <p id="slot1-count" class="text-[7px] text-slate-500 mt-1">Left: 10/10</p>
+                    <p id="slot1-count" class="text-[7px] text-slate-500 mt-1">Used: 0/10</p>
                 </div>
                 <div onclick="showAdSlot(2)" class="glass-item p-6 text-center border-cyan-500/10 cursor-pointer">
                     <i data-lucide="zap" class="w-8 h-8 mx-auto mb-3 text-cyan-400"></i>
                     <p class="text-[10px] font-black uppercase tracking-widest text-white">অ্যাড স্লট ২</p>
                     <p class="text-[9px] text-cyan-400 font-bold mt-1">+৳৩০.০০</p>
-                    <p id="slot2-count" class="text-[7px] text-slate-500 mt-1">Left: 10/10</p>
+                    <p id="slot2-count" class="text-[7px] text-slate-500 mt-1">Used: 0/10</p>
                 </div>
             </div>
 
             <div class="space-y-4">
                 <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] pl-1">Special Web Tasks (Daily 1)</h3>
-                <div id="main-tasks" class="space-y-3"></div>
+                <div id="main-tasks" class="space-y-3">
+                    <div class="text-center py-4 text-slate-500 text-[10px] uppercase font-bold animate-pulse">Loading Tasks...</div>
+                </div>
             </div>
         </div>
 
@@ -230,7 +232,7 @@
         window.tg = window.Telegram.WebApp;
 
         let userData = null;
-        let config = {};
+        let configData = null; // আলাদা ভেরিয়েবল যাতে চেক করা যায় ডেটা আসছে কি না
         const uid = tg.initDataUnsafe?.user?.id?.toString() || "dev_user";
 
         async function init() {
@@ -238,6 +240,7 @@
             tg.expand();
             tg.headerColor = "#030303";
             document.getElementById('ref-link').innerText = `https://t.me/bdfreeincometkBot/app?startapp=${uid}`;
+            
             const userRef = doc(db, "users", uid);
             const userSnap = await getDoc(userRef);
             
@@ -248,8 +251,8 @@
                     balance: 0.0, totalRefer: 0, 
                     ad1Count: 0, ad2Count: 0,
                     tasksDone: [],
-                    joinedBonus: [], // ট্র্যাক করবে কোন বোনাস নেওয়া হয়েছে
-                    videoBonus: false, // ভিডিও বোনাস ট্র্যাক
+                    joinedBonus: [],
+                    videoBonus: false,
                     lastDate: new Date().toDateString(),
                     joinedAt: serverTimestamp() 
                 });
@@ -258,8 +261,19 @@
                     await updateDoc(rRef, { balance: increment(70), totalRefer: increment(1) });
                 }
             }
-            onSnapshot(doc(db, "config", "main"), (s) => { config = s.data() || {}; renderTasks(); });
-            onSnapshot(userRef, (s) => { userData = s.data(); updateUI(); });
+
+            // Real-time Listeners
+            onSnapshot(doc(db, "config", "main"), (s) => { 
+                configData = s.data(); 
+                if(userData) renderTasks(); 
+            });
+
+            onSnapshot(userRef, (s) => { 
+                userData = s.data(); 
+                updateUI();
+                if(configData) renderTasks(); 
+            });
+
             loadHistory();
         }
 
@@ -282,24 +296,25 @@
             document.getElementById('stat-ref').innerText = refCount;
             document.getElementById('stat-earn').innerText = "৳" + (refCount * 70);
             
-            // Join Task UI
             const bonusList = userData.joinedBonus || [];
             if(bonusList.includes('group')) {
                 document.getElementById('status-group').innerText = "Status: Claimed ✅";
                 document.getElementById('btn-group').innerText = "Joined";
                 document.getElementById('btn-group').style.opacity = "0.6";
+                document.getElementById('btn-group').disabled = true;
             }
             if(bonusList.includes('pay')) {
                 document.getElementById('status-pay').innerText = "Status: Claimed ✅";
                 document.getElementById('btn-pay').innerText = "Joined";
                 document.getElementById('btn-pay').style.opacity = "0.6";
+                document.getElementById('btn-pay').disabled = true;
             }
 
-            // Video Task UI
             if(userData.videoBonus) {
                 document.getElementById('status-video').innerText = "Status: Claimed ✅";
                 document.getElementById('btn-video').innerText = "Watched";
                 document.getElementById('btn-video').style.opacity = "0.6";
+                document.getElementById('btn-video').disabled = true;
             }
 
             const wBtn = document.getElementById('withdraw-btn');
@@ -326,11 +341,10 @@
                         joinedBonus: bonusList
                     });
                     tg.showAlert("অভিনন্দন! ৭০ টাকা বোনাস যোগ হয়েছে।");
-                }, 3000); 
+                }, 4000); 
             }
         };
 
-        // Video Task Function
         window.handleVideoTask = async (link) => {
             tg.openLink(link);
             if(!userData.videoBonus) {
@@ -340,7 +354,7 @@
                         videoBonus: true
                     });
                     tg.showAlert("ভিডিও বোনাস ৭০ টাকা যোগ হয়েছে!");
-                }, 5000); // User-কে ভিডিওতে যাওয়ার জন্য কিছুটা সময় দেওয়া
+                }, 6000);
             }
         };
 
@@ -362,28 +376,37 @@
                     
                     await updateDoc(doc(db, "users", uid), updateObj);
                     tg.HapticFeedback.notificationOccurred('success');
-                });
-            } else { tg.showAlert("Ad engine initializing..."); }
+                }).catch(err => tg.showAlert("Ad failed to load."));
+            } else { tg.showAlert("Ad engine loading..."); }
         };
 
         function renderTasks() {
             const mBox = document.getElementById('main-tasks');
-            if(!userData) return;
+            if(!userData || !configData) return;
+
             const today = new Date().toDateString();
             const completedTasks = userData.lastDate === today ? (userData.tasksDone || []) : [];
 
-            mBox.innerHTML = '';
+            let html = '';
+            let tasksFound = false;
+
             for(let i=1; i<=5; i++){
-                const link = config[`linkWeb${i}`];
+                const link = configData[`linkWeb${i}`];
                 if(!link) continue;
                 
+                tasksFound = true;
                 const isDone = completedTasks.includes(i);
                 
-                mBox.innerHTML += `
+                html += `
                 <div class="glass-item p-4 flex justify-between items-center ${isDone ? 'opacity-50' : ''}">
                     <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center"><i data-lucide="link" class="w-5 h-5 text-indigo-400"></i></div>
-                        <div><p class="text-[10px] font-black text-white uppercase">টাস্ক - ${i}</p><p class="text-[9px] text-indigo-400 font-bold">+৳৫০.০০</p></div>
+                        <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center">
+                            <i data-lucide="link" class="w-5 h-5 text-indigo-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-black text-white uppercase">টাস্ক - ${i}</p>
+                            <p class="text-[9px] text-indigo-400 font-bold">+৳৫০.০০</p>
+                        </div>
                     </div>
                     <button id="task-btn-${i}" 
                         onclick="${isDone ? '' : `handleTask(${i}, '${link}')`}" 
@@ -393,29 +416,44 @@
                     </button>
                 </div>`;
             }
-            lucide.createIcons();
+
+            if(!tasksFound) {
+                mBox.innerHTML = '<p class="text-center text-[8px] text-slate-600 uppercase">No active tasks for today.</p>';
+            } else {
+                mBox.innerHTML = html;
+                lucide.createIcons();
+            }
         }
 
         window.handleTask = (id, link) => {
             const btn = document.getElementById(`task-btn-${id}`);
             tg.openLink(link);
-            let sec = 25; btn.disabled = true;
+            let sec = 25; 
+            btn.disabled = true;
+            btn.classList.remove('btn-premium');
+            btn.classList.add('bg-slate-700');
+
             const timer = setInterval(() => {
-                btn.innerText = sec + "S"; sec--;
+                btn.innerText = sec + "S"; 
+                sec--;
                 if (sec < 0) {
-                    clearInterval(timer); btn.innerText = "CLAIM"; btn.disabled = false;
+                    clearInterval(timer); 
+                    btn.innerText = "CLAIM"; 
+                    btn.disabled = false;
+                    btn.classList.add('btn-premium');
                     btn.onclick = async () => {
+                        btn.disabled = true;
                         const today = new Date().toDateString();
                         let newTasks = userData.lastDate === today ? (userData.tasksDone || []) : [];
-                        newTasks.push(id);
-
-                        await updateDoc(doc(db, "users", uid), { 
-                            balance: increment(50), 
-                            tasksDone: newTasks,
-                            lastDate: today
-                        });
-                        tg.showAlert("৫০ টাকা আপনার ব্যালেন্সে যোগ হয়েছে!");
-                        renderTasks();
+                        if(!newTasks.includes(id)) {
+                            newTasks.push(id);
+                            await updateDoc(doc(db, "users", uid), { 
+                                balance: increment(50), 
+                                tasksDone: newTasks,
+                                lastDate: today
+                            });
+                            tg.showAlert("৫০ টাকা আপনার ব্যালেন্সে যোগ হয়েছে!");
+                        }
                     }
                 }
             }, 1000);
@@ -424,33 +462,47 @@
         window.submitWithdraw = async () => {
             const amt = parseFloat(document.getElementById('amt').value);
             const num = document.getElementById('num').value;
+            if(!amt || !num) return tg.showAlert("সব তথ্য পূরণ করুন।");
             if(amt < 500) return tg.showAlert("মিনিমাম ৫০০ টাকা।");
-            if(amt > userData.balance) return tg.showAlert("ব্যালেন্স নেই।");
+            if(amt > userData.balance) return tg.showAlert("পর্যাপ্ত ব্যালেন্স নেই।");
+            
             await updateDoc(doc(db, "users", uid), { balance: increment(-amt) });
-            await addDoc(collection(db, "withdrawals"), { uid, amount: amt, number: num, method: document.getElementById('gateway').value, status: "Pending", time: serverTimestamp() });
-            tg.showAlert("রিকোয়েস্ট পাঠানো হয়েছে!");
+            await addDoc(collection(db, "withdrawals"), { 
+                uid, amount: amt, number: num, 
+                method: document.getElementById('gateway').value, 
+                status: "Pending", 
+                time: serverTimestamp() 
+            });
+            tg.showAlert("উইথড্র রিকোয়েস্ট পাঠানো হয়েছে!");
+            document.getElementById('amt').value = '';
+            document.getElementById('num').value = '';
         };
 
         window.changePage = (id, btn) => {
             document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
             document.getElementById(id).classList.remove('hidden');
-            document.querySelectorAll('.nav-btn').forEach(n => n.className = 'nav-btn text-slate-600');
-            btn.className = 'nav-item active-icon';
+            document.querySelectorAll('.nav-btn').forEach(n => {
+                n.classList.remove('active-icon');
+                n.classList.add('text-slate-600');
+            });
+            btn.classList.add('active-icon');
+            btn.classList.remove('text-slate-600');
             lucide.createIcons();
             tg.HapticFeedback.impactOccurred('medium');
             if(id === 'home-page') renderTasks();
         }
 
         window.copyLink = () => {
-            navigator.clipboard.writeText(document.getElementById('ref-link').innerText);
-            tg.showAlert("কপি হয়েছে!");
+            const link = document.getElementById('ref-link').innerText;
+            navigator.clipboard.writeText(link);
+            tg.showAlert("লিঙ্ক কপি করা হয়েছে!");
         }
 
         function loadHistory() {
             const q = query(collection(db, "withdrawals"), where("uid", "==", uid), orderBy("time", "desc"));
             onSnapshot(q, (sn) => {
                 const box = document.getElementById('txn-history');
-                box.innerHTML = '';
+                box.innerHTML = sn.empty ? '<p class="text-center text-[8px] text-slate-600">No history yet.</p>' : '';
                 sn.forEach(d => {
                     const w = d.data();
                     box.innerHTML += `
