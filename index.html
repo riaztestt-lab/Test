@@ -96,6 +96,24 @@
                 </div>
             </div>
 
+            <div class="space-y-4">
+                <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] pl-1">Learning Center</h3>
+                <div class="glass-item p-4 border-dashed border-indigo-500/30">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
+                                <i data-lucide="youtube" class="w-5 h-5 text-red-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-black text-white uppercase tracking-tight">কাজ বুঝতে ভিডিও দেখুন</p>
+                                <p class="text-[8px] text-slate-400 uppercase">Unlimited (No Reward)</p>
+                            </div>
+                        </div>
+                        <button onclick="openTutorialVideo()" class="px-4 py-2 bg-red-500/20 text-red-400 border border-red-500/30 rounded-lg text-[9px] font-bold uppercase">Watch Now</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="grid grid-cols-2 gap-4">
                 <button onclick="tg.openTelegramLink('https://t.me/your_official_group')" class="glass-item p-4 flex items-center justify-center gap-2 border-blue-500/20">
                     <i data-lucide="message-circle" class="w-4 h-4 text-blue-400"></i>
@@ -137,7 +155,6 @@
                 </div>
                 <p id="prog-text" class="text-right text-[8px] font-bold text-slate-500 mt-2 uppercase tracking-widest">0 / 15</p>
             </div>
-
             <div class="glass-item p-8 space-y-6">
                 <h3 class="text-center text-xs font-black uppercase tracking-widest">Payout Details</h3>
                 <div class="space-y-4">
@@ -182,23 +199,6 @@
                 <h2 id="u-name" class="text-xl font-black uppercase">AGENT</h2>
                 <p id="u-id" class="text-[9px] text-slate-500 font-mono mt-1 tracking-widest"></p>
             </div>
-            
-            <div class="space-y-3">
-                <button onclick="tg.openTelegramLink('https://t.me/your_official_group')" class="w-full glass-item p-5 flex justify-between items-center group">
-                    <div class="flex items-center gap-4">
-                        <i data-lucide="message-square" class="w-5 h-5 text-blue-400"></i>
-                        <span class="text-xs font-bold uppercase tracking-widest">Official Support</span>
-                    </div>
-                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600"></i>
-                </button>
-                <button onclick="tg.openTelegramLink('https://t.me/your_payment_proof')" class="w-full glass-item p-5 flex justify-between items-center group">
-                    <div class="flex items-center gap-4">
-                        <i data-lucide="receipt" class="w-5 h-5 text-green-400"></i>
-                        <span class="text-xs font-bold uppercase tracking-widest">Payment Channel</span>
-                    </div>
-                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600"></i>
-                </button>
-            </div>
         </div>
 
     </main>
@@ -238,9 +238,21 @@
                     await updateDoc(rRef, { balance: increment(70), totalRefer: increment(1) });
                 }
             }
-            onSnapshot(doc(db, "config", "main"), (s) => { config = s.data() || {}; renderTasks(); });
+            onSnapshot(doc(db, "config", "main"), (s) => { 
+                config = s.data() || {}; 
+                renderTasks(); 
+            });
             onSnapshot(userRef, (s) => { userData = s.data(); updateUI(); });
             loadHistory();
+        }
+
+        // New function for tutorial video (No Reward)
+        window.openTutorialVideo = () => {
+            if(config.howToWork) {
+                tg.openLink(config.howToWork);
+            } else {
+                tg.showAlert("ভিডিও লিংক পাওয়া যায়নি।");
+            }
         }
 
         function updateUI() {
@@ -253,10 +265,12 @@
             document.getElementById('u-id').innerText = "NODE-ID: " + uid;
             document.getElementById('stat-ref').innerText = refCount;
             document.getElementById('stat-earn').innerText = "৳" + (refCount * 70);
+            
             const wBtn = document.getElementById('withdraw-btn');
             const lockPanel = document.getElementById('withdraw-lock');
             const pFill = document.getElementById('prog-fill');
             const pText = document.getElementById('prog-text');
+            
             if(refCount < 15) {
                 wBtn.disabled = true; wBtn.style.opacity = "0.5";
                 lockPanel.classList.remove('hidden');
@@ -285,7 +299,7 @@
                 <div class="glass-item p-4 flex justify-between items-center">
                     <div class="flex items-center gap-4">
                         <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center"><i data-lucide="link" class="w-5 h-5 text-indigo-400"></i></div>
-                        <div><p class="text-[10px] font-black text-white uppercase">টাস্ক - ${i}</p><p.text-[9px] text-indigo-400 font-bold">+৳১০.০০</p></div>
+                        <div><p class="text-[10px] font-black text-white uppercase">টাস্ক - ${i}</p><p class="text-[9px] text-indigo-400 font-bold">+৳১০.০০</p></div>
                     </div>
                     <button id="task-btn-${i}" onclick="handleTask(${i}, '${link}')" class="px-5 py-2.5 btn-premium rounded-xl text-[9px] font-black uppercase text-white italic">বিজ্ঞাপন দেখুন</button>
                 </div>`;
@@ -352,4 +366,4 @@
         init();
     </script>
 </body>
-</html>
+                            </html>
