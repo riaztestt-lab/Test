@@ -232,7 +232,7 @@
         window.tg = window.Telegram.WebApp;
 
         let userData = null;
-        let configData = null; // আলাদা ভেরিয়েবল যাতে চেক করা যায় ডেটা আসছে কি না
+        let configData = null;
         const uid = tg.initDataUnsafe?.user?.id?.toString() || "dev_user";
 
         async function init() {
@@ -262,7 +262,6 @@
                 }
             }
 
-            // Real-time Listeners
             onSnapshot(doc(db, "config", "main"), (s) => { 
                 configData = s.data(); 
                 if(userData) renderTasks(); 
@@ -296,25 +295,22 @@
             document.getElementById('stat-ref').innerText = refCount;
             document.getElementById('stat-earn').innerText = "৳" + (refCount * 70);
             
+            // Special Rewards (Disabled সরানো হয়েছে যাতে ভিজিট করা যায়)
             const bonusList = userData.joinedBonus || [];
             if(bonusList.includes('group')) {
                 document.getElementById('status-group').innerText = "Status: Claimed ✅";
-                document.getElementById('btn-group').innerText = "Joined";
-                document.getElementById('btn-group').style.opacity = "0.6";
-                document.getElementById('btn-group').disabled = true;
+                document.getElementById('btn-group').innerText = "Visit Group";
+                document.getElementById('btn-group').style.opacity = "1";
             }
             if(bonusList.includes('pay')) {
                 document.getElementById('status-pay').innerText = "Status: Claimed ✅";
-                document.getElementById('btn-pay').innerText = "Joined";
-                document.getElementById('btn-pay').style.opacity = "0.6";
-                document.getElementById('btn-pay').disabled = true;
+                document.getElementById('btn-pay').innerText = "Visit Proof";
+                document.getElementById('btn-pay').style.opacity = "1";
             }
-
             if(userData.videoBonus) {
                 document.getElementById('status-video').innerText = "Status: Claimed ✅";
-                document.getElementById('btn-video').innerText = "Watched";
-                document.getElementById('btn-video').style.opacity = "0.6";
-                document.getElementById('btn-video').disabled = true;
+                document.getElementById('btn-video').innerText = "Watch Again";
+                document.getElementById('btn-video').style.opacity = "1";
             }
 
             const wBtn = document.getElementById('withdraw-btn');
@@ -330,6 +326,7 @@
             }
         }
 
+        // Special Rewards Handlers (ভিজিট সবসময় কাজ করবে, বোনাস একবার)
         window.handleJoinTask = async (type, link) => {
             tg.openTelegramLink(link);
             const bonusList = userData.joinedBonus || [];
@@ -358,13 +355,14 @@
             }
         };
 
+        // Ad Slots (Limit শেষ হলে আর কাজ করবে না)
         window.showAdSlot = async (slotId) => {
             const today = new Date().toDateString();
             const isNewDay = userData.lastDate !== today;
             const currentCount = isNewDay ? 0 : (userData[`ad${slotId}Count`] || 0);
 
             if (currentCount >= 10) {
-                tg.showAlert(`স্লট ${slotId} এর আজকের লিমিট শেষ!`);
+                tg.showAlert(`স্লট ${slotId} এর আজকের লিমিট শেষ! এটি আর ভিজিট করা যাবে না।`);
                 return;
             }
 
