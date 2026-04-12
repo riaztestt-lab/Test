@@ -96,51 +96,60 @@
             </div>
 
             <div class="space-y-4">
-                <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] pl-1">Learning Center</h3>
-                <div class="glass-item p-4 border-dashed border-indigo-500/30">
-                    <div class="flex items-center justify-between">
+                <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] pl-1">Join & Earn (Special Rewards)</h3>
+                <div class="grid grid-cols-1 gap-3">
+                    <div class="glass-item p-4 flex justify-between items-center border-blue-500/10">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
-                                <i data-lucide="youtube" class="w-5 h-5 text-red-500"></i>
-                            </div>
+                            <i data-lucide="message-circle" class="w-5 h-5 text-blue-400"></i>
                             <div>
-                                <p class="text-[10px] font-black text-white uppercase tracking-tight">কাজ বুঝতে ভিডিও দেখুন</p>
-                                <p class="text-[8px] text-slate-400 uppercase">JOIN NOW</p>
+                                <p class="text-[10px] font-black uppercase">Official Group</p>
+                                <p id="status-group" class="text-[8px] text-blue-400 font-bold">Reward: ৳70.00</p>
                             </div>
                         </div>
-                        <button onclick="openTutorialVideo()" class="px-4 py-2 bg-red-500/20 text-red-400 border border-red-500/30 rounded-lg text-[9px] font-bold uppercase">Watch Now</button>
+                        <button id="btn-group" onclick="handleJoinTask('group', 'https://t.me/tkincome_bott')" class="btn-premium px-4 py-2 text-[9px] uppercase text-white">Join Now</button>
+                    </div>
+
+                    <div class="glass-item p-4 flex justify-between items-center border-green-500/10">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
+                            <div>
+                                <p class="text-[10px] font-black uppercase">Payment Proof</p>
+                                <p id="status-pay" class="text-[8px] text-green-400 font-bold">Reward: ৳70.00</p>
+                            </div>
+                        </div>
+                        <button id="btn-pay" onclick="handleJoinTask('pay', 'https://t.me/bdfreeincometk')" class="btn-premium px-4 py-2 text-[9px] uppercase text-white">Join Now</button>
+                    </div>
+
+                    <div class="glass-item p-4 flex justify-between items-center border-red-500/10">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="play-circle" class="w-5 h-5 text-red-400"></i>
+                            <div>
+                                <p class="text-[10px] font-black uppercase">কাজ বুঝতে ভিডিও দেখুন</p>
+                                <p id="status-video" class="text-[8px] text-red-400 font-bold">Reward: ৳70.00</p>
+                            </div>
+                        </div>
+                        <button id="btn-video" onclick="handleVideoTask('https://youtu.be/CTqsdnVlDdc?si=h9h7_BKXl7NjfNwl')" class="btn-premium px-4 py-2 text-[9px] uppercase text-white">Watch Now</button>
                     </div>
                 </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <button onclick="tg.openTelegramLink('https://t.me/tkincome_bott')" class="glass-item p-4 flex items-center justify-center gap-2 border-blue-500/20">
-                    <i data-lucide="message-circle" class="w-4 h-4 text-blue-400"></i>
-                    <span class="text-[9px] font-black uppercase">Official Group</span>
-                </button>
-                <button onclick="tg.openTelegramLink('https://t.me/bdfreeincometk')" class="glass-item p-4 flex items-center justify-center gap-2 border-green-500/20">
-                    <i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i>
-                    <span class="text-[9px] font-black uppercase">Payment Proof</span>
-                </button>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
                 <div onclick="showAdSlot(1)" class="glass-item p-6 text-center border-indigo-500/10 cursor-pointer">
                     <i data-lucide="play-circle" class="w-8 h-8 mx-auto mb-3 text-indigo-400"></i>
                     <p class="text-[10px] font-black uppercase tracking-widest text-white">অ্যাড স্লট ১</p>
-                    <p class="text-[9px] text-indigo-400 font-bold mt-1">+৳৫.০০</p>
+                    <p class="text-[9px] text-indigo-400 font-bold mt-1">+৳৩০.০০</p>
                     <p id="slot1-count" class="text-[7px] text-slate-500 mt-1">Left: 10/10</p>
                 </div>
                 <div onclick="showAdSlot(2)" class="glass-item p-6 text-center border-cyan-500/10 cursor-pointer">
                     <i data-lucide="zap" class="w-8 h-8 mx-auto mb-3 text-cyan-400"></i>
                     <p class="text-[10px] font-black uppercase tracking-widest text-white">অ্যাড স্লট ২</p>
-                    <p class="text-[9px] text-cyan-400 font-bold mt-1">+৳৫.০০</p>
+                    <p class="text-[9px] text-cyan-400 font-bold mt-1">+৳৩০.০০</p>
                     <p id="slot2-count" class="text-[7px] text-slate-500 mt-1">Left: 10/10</p>
                 </div>
             </div>
 
             <div class="space-y-4">
-                <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] pl-1">Special Web Tasks</h3>
+                <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] pl-1">Special Web Tasks (Daily 1)</h3>
                 <div id="main-tasks" class="space-y-3"></div>
             </div>
         </div>
@@ -231,12 +240,17 @@
             document.getElementById('ref-link').innerText = `https://t.me/bdfreeincometkBot/app?startapp=${uid}`;
             const userRef = doc(db, "users", uid);
             const userSnap = await getDoc(userRef);
+            
             if (!userSnap.exists()) {
                 const refBy = tg.initDataUnsafe?.start_param || null;
                 await setDoc(userRef, { 
                     uid, name: tg.initDataUnsafe?.user?.first_name || "Agent", 
                     balance: 0.0, totalRefer: 0, 
-                    ad1Count: 0, ad2Count: 0, lastDate: new Date().toDateString(),
+                    ad1Count: 0, ad2Count: 0,
+                    tasksDone: [],
+                    joinedBonus: [], // ট্র্যাক করবে কোন বোনাস নেওয়া হয়েছে
+                    videoBonus: false, // ভিডিও বোনাস ট্র্যাক
+                    lastDate: new Date().toDateString(),
                     joinedAt: serverTimestamp() 
                 });
                 if(refBy && refBy !== uid) {
@@ -255,12 +269,12 @@
             const refCount = userData.totalRefer || 0;
             const today = new Date().toDateString();
 
-            // লিমিট ডিসপ্লে আপডেট
-            const count1 = (userData.lastDate === today) ? (userData.ad1Count || 0) : 0;
-            const count2 = (userData.lastDate === today) ? (userData.ad2Count || 0) : 0;
+            const isNewDay = userData.lastDate !== today;
+            const count1 = isNewDay ? 0 : (userData.ad1Count || 0);
+            const count2 = isNewDay ? 0 : (userData.ad2Count || 0);
+
             document.getElementById('slot1-count').innerText = `Used: ${count1}/10`;
             document.getElementById('slot2-count').innerText = `Used: ${count2}/10`;
-
             document.getElementById('home-bal').innerText = bal;
             document.getElementById('top-bal').innerText = bal;
             document.getElementById('u-name').innerText = userData.name;
@@ -268,23 +282,72 @@
             document.getElementById('stat-ref').innerText = refCount;
             document.getElementById('stat-earn').innerText = "৳" + (refCount * 70);
             
+            // Join Task UI
+            const bonusList = userData.joinedBonus || [];
+            if(bonusList.includes('group')) {
+                document.getElementById('status-group').innerText = "Status: Claimed ✅";
+                document.getElementById('btn-group').innerText = "Joined";
+                document.getElementById('btn-group').style.opacity = "0.6";
+            }
+            if(bonusList.includes('pay')) {
+                document.getElementById('status-pay').innerText = "Status: Claimed ✅";
+                document.getElementById('btn-pay').innerText = "Joined";
+                document.getElementById('btn-pay').style.opacity = "0.6";
+            }
+
+            // Video Task UI
+            if(userData.videoBonus) {
+                document.getElementById('status-video').innerText = "Status: Claimed ✅";
+                document.getElementById('btn-video').innerText = "Watched";
+                document.getElementById('btn-video').style.opacity = "0.6";
+            }
+
             const wBtn = document.getElementById('withdraw-btn');
             const lockPanel = document.getElementById('withdraw-lock');
-            const pFill = document.getElementById('prog-fill');
-            const pText = document.getElementById('prog-text');
             
             if(refCount < 15) {
                 wBtn.disabled = true; wBtn.style.opacity = "0.5";
                 lockPanel.classList.remove('hidden');
-                const percent = (refCount / 15) * 100;
-                pFill.style.width = percent + "%";
-                pText.innerText = `${refCount} / 15`;
-            } else { wBtn.disabled = false; wBtn.style.opacity = "1"; lockPanel.classList.add('hidden'); }
+                document.getElementById('prog-fill').style.width = (refCount / 15 * 100) + "%";
+                document.getElementById('prog-text').innerText = `${refCount} / 15`;
+            } else { 
+                wBtn.disabled = false; wBtn.style.opacity = "1"; lockPanel.classList.add('hidden'); 
+            }
         }
+
+        window.handleJoinTask = async (type, link) => {
+            tg.openTelegramLink(link);
+            const bonusList = userData.joinedBonus || [];
+            if(!bonusList.includes(type)) {
+                setTimeout(async () => {
+                    bonusList.push(type);
+                    await updateDoc(doc(db, "users", uid), {
+                        balance: increment(70),
+                        joinedBonus: bonusList
+                    });
+                    tg.showAlert("অভিনন্দন! ৭০ টাকা বোনাস যোগ হয়েছে।");
+                }, 3000); 
+            }
+        };
+
+        // Video Task Function
+        window.handleVideoTask = async (link) => {
+            tg.openLink(link);
+            if(!userData.videoBonus) {
+                setTimeout(async () => {
+                    await updateDoc(doc(db, "users", uid), {
+                        balance: increment(70),
+                        videoBonus: true
+                    });
+                    tg.showAlert("ভিডিও বোনাস ৭০ টাকা যোগ হয়েছে!");
+                }, 5000); // User-কে ভিডিওতে যাওয়ার জন্য কিছুটা সময় দেওয়া
+            }
+        };
 
         window.showAdSlot = async (slotId) => {
             const today = new Date().toDateString();
-            const currentCount = (userData.lastDate === today) ? (userData[`ad${slotId}Count`] || 0) : 0;
+            const isNewDay = userData.lastDate !== today;
+            const currentCount = isNewDay ? 0 : (userData[`ad${slotId}Count`] || 0);
 
             if (currentCount >= 10) {
                 tg.showAlert(`স্লট ${slotId} এর আজকের লিমিট শেষ!`);
@@ -293,11 +356,9 @@
 
             if (typeof show_10844896 === 'function') {
                 show_10844896().then(async () => {
-                    const updateObj = { 
-                        balance: increment(5),
-                        lastDate: today 
-                    };
-                    updateObj[`ad${slotId}Count`] = (userData.lastDate === today) ? increment(1) : 1;
+                    const updateObj = { balance: increment(30), lastDate: today };
+                    updateObj[`ad${slotId}Count`] = isNewDay ? 1 : increment(1);
+                    if(isNewDay) updateObj.tasksDone = []; 
                     
                     await updateDoc(doc(db, "users", uid), updateObj);
                     tg.HapticFeedback.notificationOccurred('success');
@@ -305,24 +366,31 @@
             } else { tg.showAlert("Ad engine initializing..."); }
         };
 
-        window.openTutorialVideo = () => {
-            if(config.howToWork) tg.openLink(config.howToWork);
-            else tg.showAlert("ভিডিও লিংক পাওয়া যায়নি।");
-        }
-
         function renderTasks() {
             const mBox = document.getElementById('main-tasks');
+            if(!userData) return;
+            const today = new Date().toDateString();
+            const completedTasks = userData.lastDate === today ? (userData.tasksDone || []) : [];
+
             mBox.innerHTML = '';
             for(let i=1; i<=5; i++){
                 const link = config[`linkWeb${i}`];
                 if(!link) continue;
+                
+                const isDone = completedTasks.includes(i);
+                
                 mBox.innerHTML += `
-                <div class="glass-item p-4 flex justify-between items-center">
+                <div class="glass-item p-4 flex justify-between items-center ${isDone ? 'opacity-50' : ''}">
                     <div class="flex items-center gap-4">
                         <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center"><i data-lucide="link" class="w-5 h-5 text-indigo-400"></i></div>
-                        <div><p class="text-[10px] font-black text-white uppercase">টাস্ক - ${i}</p><p class="text-[9px] text-indigo-400 font-bold">+৳১০.০০</p></div>
+                        <div><p class="text-[10px] font-black text-white uppercase">টাস্ক - ${i}</p><p class="text-[9px] text-indigo-400 font-bold">+৳৫০.০০</p></div>
                     </div>
-                    <button id="task-btn-${i}" onclick="handleTask(${i}, '${link}')" class="px-5 py-2.5 btn-premium rounded-xl text-[9px] font-black uppercase text-white italic">বিজ্ঞাপন দেখুন</button>
+                    <button id="task-btn-${i}" 
+                        onclick="${isDone ? '' : `handleTask(${i}, '${link}')`}" 
+                        class="px-5 py-2.5 ${isDone ? 'bg-gray-600' : 'btn-premium'} rounded-xl text-[9px] font-black uppercase text-white italic"
+                        ${isDone ? 'disabled' : ''}>
+                        ${isDone ? 'সম্পন্ন' : 'বিজ্ঞাপন দেখুন'}
+                    </button>
                 </div>`;
             }
             lucide.createIcons();
@@ -337,8 +405,17 @@
                 if (sec < 0) {
                     clearInterval(timer); btn.innerText = "CLAIM"; btn.disabled = false;
                     btn.onclick = async () => {
-                        await updateDoc(doc(db, "users", uid), { balance: increment(10) });
-                        tg.showAlert("রিওয়ার্ড ক্রেডিট হয়েছে!"); renderTasks();
+                        const today = new Date().toDateString();
+                        let newTasks = userData.lastDate === today ? (userData.tasksDone || []) : [];
+                        newTasks.push(id);
+
+                        await updateDoc(doc(db, "users", uid), { 
+                            balance: increment(50), 
+                            tasksDone: newTasks,
+                            lastDate: today
+                        });
+                        tg.showAlert("৫০ টাকা আপনার ব্যালেন্সে যোগ হয়েছে!");
+                        renderTasks();
                     }
                 }
             }, 1000);
@@ -361,6 +438,7 @@
             btn.className = 'nav-item active-icon';
             lucide.createIcons();
             tg.HapticFeedback.impactOccurred('medium');
+            if(id === 'home-page') renderTasks();
         }
 
         window.copyLink = () => {
@@ -381,7 +459,6 @@
                         <p class="text-xs font-black italic">৳${w.amount}</p>
                     </div>`;
                 });
-                lucide.createIcons();
             });
         }
         init();
