@@ -211,6 +211,42 @@
                 <h2 id="u-name" class="text-xl font-black uppercase">AGENT</h2>
                 <p id="u-id" class="text-[9px] text-slate-500 font-mono mt-1 tracking-widest"></p>
             </div>
+
+            <div class="space-y-3">
+                <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] pl-1">Dashboard</h3>
+                
+                <div class="glass-item p-4 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="users" class="w-5 h-5 text-indigo-400"></i>
+                        <p class="text-[10px] font-black uppercase">Total Referrals</p>
+                    </div>
+                    <p id="profile-ref-count" class="text-xs font-black text-white">0</p>
+                </div>
+
+                <div onclick="tg.openTelegramLink('https://t.me/tkincome_bott')" class="glass-item p-4 flex justify-between items-center cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="message-square" class="w-5 h-5 text-blue-400"></i>
+                        <p class="text-[10px] font-black uppercase">Official Group</p>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600"></i>
+                </div>
+
+                <div onclick="tg.openTelegramLink('https://t.me/bdfreeincometk')" class="glass-item p-4 flex justify-between items-center cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
+                        <p class="text-[10px] font-black uppercase">Payment Group</p>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600"></i>
+                </div>
+
+                <div onclick="tg.openLink('https://youtu.be/CTqsdnVlDdc?si=h9h7_BKXl7NjfNwl')" class="glass-item p-4 flex justify-between items-center cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="play" class="w-5 h-5 text-red-500"></i>
+                        <p class="text-[10px] font-black uppercase">Tutorial Video</p>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600"></i>
+                </div>
+            </div>
         </div>
 
     </main>
@@ -293,9 +329,9 @@
             document.getElementById('u-name').innerText = userData.name;
             document.getElementById('u-id').innerText = "NODE-ID: " + uid;
             document.getElementById('stat-ref').innerText = refCount;
+            document.getElementById('profile-ref-count').innerText = refCount; // Extra added
             document.getElementById('stat-earn').innerText = "৳" + (refCount * 70);
             
-            // Special Rewards (Disabled সরানো হয়েছে যাতে ভিজিট করা যায়)
             const bonusList = userData.joinedBonus || [];
             if(bonusList.includes('group')) {
                 document.getElementById('status-group').innerText = "Status: Claimed ✅";
@@ -326,7 +362,6 @@
             }
         }
 
-        // Special Rewards Handlers (ভিজিট সবসময় কাজ করবে, বোনাস একবার)
         window.handleJoinTask = async (type, link) => {
             tg.openTelegramLink(link);
             const bonusList = userData.joinedBonus || [];
@@ -355,7 +390,6 @@
             }
         };
 
-        // Ad Slots (Limit শেষ হলে আর কাজ করবে না)
         window.showAdSlot = async (slotId) => {
             const today = new Date().toDateString();
             const isNewDay = userData.lastDate !== today;
