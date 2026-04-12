@@ -26,7 +26,6 @@
                 radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 40%);
         }
 
-        /* Still Premium Balance Card */
         .balance-card-static {
             background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(6, 182, 212, 0.1));
             backdrop-filter: blur(30px);
@@ -39,17 +38,6 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        .balance-card-static::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
-        }
-
-        /* Glass Cards */
         .glass-item {
             background: var(--surface);
             backdrop-filter: blur(15px);
@@ -58,42 +46,25 @@
             transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .glass-item:active {
-            transform: scale(0.97);
-            background: rgba(255, 255, 255, 0.08);
-        }
+        .glass-item:active { transform: scale(0.97); background: rgba(255, 255, 255, 0.08); }
 
-        /* Premium Buttons */
         .btn-premium {
             background: linear-gradient(90deg, #6366f1, #8b5cf6);
             border-radius: 1rem;
             font-weight: 800;
-            letter-spacing: 0.5px;
             box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
         }
 
-        /* Floating Nav */
         .nav-glass {
-            background: rgba(10, 10, 10, 0.8);
+            background: rgba(10, 10, 10, 0.85);
             backdrop-filter: blur(25px);
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .active-icon {
-            color: var(--primary);
-            filter: drop-shadow(0 0 10px var(--primary));
-        }
+        .active-icon { color: var(--primary); filter: drop-shadow(0 0 10px var(--primary)); }
 
-        .progress-bar {
-            height: 8px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .progress-value {
-            background: linear-gradient(90deg, #8b5cf6, #06b6d4);
-            transition: width 0.8s ease;
-        }
+        .progress-bar { height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
+        .progress-value { background: linear-gradient(90deg, #8b5cf6, #06b6d4); transition: width 0.8s ease; }
     </style>
 </head>
 <body class="pb-36">
@@ -115,7 +86,7 @@
 
     <main class="px-6 max-w-md mx-auto space-y-8">
         
-        <div id="home-page" class="page-content space-y-8 animate-in fade-in duration-500">
+        <div id="home-page" class="page-content space-y-8">
             <div class="balance-card-static">
                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.4em] mb-2">Total Balance</p>
                 <h2 class="text-5xl font-black text-white tracking-tighter italic">৳<span id="home-bal">0.00</span></h2>
@@ -123,6 +94,17 @@
                     <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
                     <span class="text-[9px] font-black text-green-500 uppercase">Live Earnings</span>
                 </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <button onclick="tg.openTelegramLink('https://t.me/your_official_group')" class="glass-item p-4 flex items-center justify-center gap-2 border-blue-500/20">
+                    <i data-lucide="message-circle" class="w-4 h-4 text-blue-400"></i>
+                    <span class="text-[9px] font-black uppercase">Official Group</span>
+                </button>
+                <button onclick="tg.openTelegramLink('https://t.me/your_payment_proof')" class="glass-item p-4 flex items-center justify-center gap-2 border-green-500/20">
+                    <i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i>
+                    <span class="text-[9px] font-black uppercase">Payment Proof</span>
+                </button>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
@@ -175,7 +157,6 @@
             <div class="balance-card-static py-10">
                 <i data-lucide="users" class="w-12 h-12 mx-auto mb-4 text-purple-400"></i>
                 <h2 class="text-xl font-black uppercase tracking-widest mb-2">Referral System</h2>
-                <p class="text-[10px] text-slate-400 uppercase tracking-widest">প্রতি রেফারে পান <span class="text-white">৳৭০.০০</span></p>
                 <div class="flex justify-center gap-10 mt-8">
                     <div class="text-center">
                         <p id="stat-ref" class="text-2xl font-black text-white">0</p>
@@ -195,21 +176,28 @@
 
         <div id="profile-page" class="page-content hidden space-y-6">
             <div class="glass-item p-10 text-center border-indigo-500/20">
-                <div class="w-20 h-20 bg-indigo-500/10 rounded-full mx-auto flex items-center justify-center border border-indigo-500/20 mb-4">
-                    <i data-lucide="shield-check" class="w-10 h-10 text-indigo-400"></i>
+                <div class="w-20 h-20 bg-indigo-500/10 rounded-full mx-auto flex items-center justify-center mb-4">
+                    <i data-lucide="user" class="w-10 h-10 text-indigo-400"></i>
                 </div>
                 <h2 id="u-name" class="text-xl font-black uppercase">AGENT</h2>
                 <p id="u-id" class="text-[9px] text-slate-500 font-mono mt-1 tracking-widest"></p>
             </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="glass-item p-6 text-center">
-                    <p class="text-[8px] text-slate-500 uppercase mb-1">Status</p>
-                    <p class="text-xs font-bold text-green-500 italic">Verified</p>
-                </div>
-                <div class="glass-item p-6 text-center">
-                    <p class="text-[8px] text-slate-500 uppercase mb-1">Node Security</p>
-                    <p class="text-xs font-bold text-indigo-400 italic">Maximum</p>
-                </div>
+            
+            <div class="space-y-3">
+                <button onclick="tg.openTelegramLink('https://t.me/your_official_group')" class="w-full glass-item p-5 flex justify-between items-center group">
+                    <div class="flex items-center gap-4">
+                        <i data-lucide="message-square" class="w-5 h-5 text-blue-400"></i>
+                        <span class="text-xs font-bold uppercase tracking-widest">Official Support</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600"></i>
+                </button>
+                <button onclick="tg.openTelegramLink('https://t.me/your_payment_proof')" class="w-full glass-item p-5 flex justify-between items-center group">
+                    <div class="flex items-center gap-4">
+                        <i data-lucide="receipt" class="w-5 h-5 text-green-400"></i>
+                        <span class="text-xs font-bold uppercase tracking-widest">Payment Channel</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600"></i>
+                </button>
             </div>
         </div>
 
@@ -229,7 +217,7 @@
         const firebaseConfig = { apiKey: "AIzaSyDpH_zn1KQPcIsPojC02UzXLdc017e-Unw", projectId: "bdincomezone-767b4" };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const tg = window.Telegram.WebApp;
+        window.tg = window.Telegram.WebApp;
 
         let userData = null;
         let config = {};
@@ -239,12 +227,9 @@
             lucide.createIcons();
             tg.expand();
             tg.headerColor = "#030303";
-
             document.getElementById('ref-link').innerText = `https://t.me/bdfreeincometkBot/app?startapp=${uid}`;
-
             const userRef = doc(db, "users", uid);
             const userSnap = await getDoc(userRef);
-
             if (!userSnap.exists()) {
                 const refBy = tg.initDataUnsafe?.start_param || null;
                 await setDoc(userRef, { uid, name: tg.initDataUnsafe?.user?.first_name || "Agent", balance: 0.0, totalRefer: 0, joinedAt: serverTimestamp() });
@@ -253,7 +238,6 @@
                     await updateDoc(rRef, { balance: increment(70), totalRefer: increment(1) });
                 }
             }
-
             onSnapshot(doc(db, "config", "main"), (s) => { config = s.data() || {}; renderTasks(); });
             onSnapshot(userRef, (s) => { userData = s.data(); updateUI(); });
             loadHistory();
@@ -263,32 +247,23 @@
             if(!userData) return;
             const bal = userData.balance.toFixed(2);
             const refCount = userData.totalRefer || 0;
-
             document.getElementById('home-bal').innerText = bal;
             document.getElementById('top-bal').innerText = bal;
             document.getElementById('u-name').innerText = userData.name;
             document.getElementById('u-id').innerText = "NODE-ID: " + uid;
             document.getElementById('stat-ref').innerText = refCount;
             document.getElementById('stat-earn').innerText = "৳" + (refCount * 70);
-
-            // Withdraw Lock Logic
             const wBtn = document.getElementById('withdraw-btn');
             const lockPanel = document.getElementById('withdraw-lock');
             const pFill = document.getElementById('prog-fill');
             const pText = document.getElementById('prog-text');
-
             if(refCount < 15) {
-                wBtn.disabled = true;
-                wBtn.style.opacity = "0.5";
+                wBtn.disabled = true; wBtn.style.opacity = "0.5";
                 lockPanel.classList.remove('hidden');
                 const percent = (refCount / 15) * 100;
                 pFill.style.width = percent + "%";
                 pText.innerText = `${refCount} / 15`;
-            } else {
-                wBtn.disabled = false;
-                wBtn.style.opacity = "1";
-                lockPanel.classList.add('hidden');
-            }
+            } else { wBtn.disabled = false; wBtn.style.opacity = "1"; lockPanel.classList.add('hidden'); }
         }
 
         window.showAdSlot = (id) => {
@@ -309,15 +284,10 @@
                 mBox.innerHTML += `
                 <div class="glass-item p-4 flex justify-between items-center">
                     <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center border border-indigo-500/10">
-                            <i data-lucide="link" class="w-5 h-5 text-indigo-400"></i>
-                        </div>
-                        <div>
-                            <p class="text-[10px] font-black text-white uppercase tracking-widest">টাস্ক - ${i}</p>
-                            <p class="text-[9px] text-indigo-400 font-bold">+৳১০.০০</p>
-                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center"><i data-lucide="link" class="w-5 h-5 text-indigo-400"></i></div>
+                        <div><p class="text-[10px] font-black text-white uppercase">টাস্ক - ${i}</p><p.text-[9px] text-indigo-400 font-bold">+৳১০.০০</p></div>
                     </div>
-                    <button id="task-btn-${i}" onclick="handleTask(${i}, '${link}')" class="px-5 py-2.5 btn-premium rounded-xl text-[9px] font-black uppercase text-white">বিজ্ঞাপন দেখুন</button>
+                    <button id="task-btn-${i}" onclick="handleTask(${i}, '${link}')" class="px-5 py-2.5 btn-premium rounded-xl text-[9px] font-black uppercase text-white italic">বিজ্ঞাপন দেখুন</button>
                 </div>`;
             }
             lucide.createIcons();
@@ -326,19 +296,14 @@
         window.handleTask = (id, link) => {
             const btn = document.getElementById(`task-btn-${id}`);
             tg.openLink(link);
-            let sec = 25;
-            btn.disabled = true;
+            let sec = 25; btn.disabled = true;
             const timer = setInterval(() => {
-                btn.innerText = sec + "S";
-                sec--;
+                btn.innerText = sec + "S"; sec--;
                 if (sec < 0) {
-                    clearInterval(timer);
-                    btn.innerText = "CLAIM";
-                    btn.disabled = false;
+                    clearInterval(timer); btn.innerText = "CLAIM"; btn.disabled = false;
                     btn.onclick = async () => {
                         await updateDoc(doc(db, "users", uid), { balance: increment(10) });
-                        tg.showAlert("রিওয়ার্ড ক্রেডিট হয়েছে!");
-                        renderTasks();
+                        tg.showAlert("রিওয়ার্ড ক্রেডিট হয়েছে!"); renderTasks();
                     }
                 }
             }, 1000);
@@ -349,7 +314,6 @@
             const num = document.getElementById('num').value;
             if(amt < 500) return tg.showAlert("মিনিমাম ৫০০ টাকা।");
             if(amt > userData.balance) return tg.showAlert("ব্যালেন্স নেই।");
-            
             await updateDoc(doc(db, "users", uid), { balance: increment(-amt) });
             await addDoc(collection(db, "withdrawals"), { uid, amount: amt, number: num, method: document.getElementById('gateway').value, status: "Pending", time: serverTimestamp() });
             tg.showAlert("রিকোয়েস্ট পাঠানো হয়েছে!");
@@ -377,20 +341,15 @@
                 sn.forEach(d => {
                     const w = d.data();
                     box.innerHTML += `
-                    <div class="glass-item p-4 flex justify-between items-center opacity-70">
-                        <div class="text-[9px]">
-                            <p class="font-black text-white uppercase">${w.method}</p>
-                            <p class="${w.status === 'Pending' ? 'text-amber-500' : 'text-green-500'} font-bold">${w.status}</p>
-                        </div>
+                    <div class="glass-item p-4 flex justify-between items-center opacity-70 mb-2">
+                        <div class="text-[9px]"><p class="font-black text-white uppercase">${w.method}</p><p class="${w.status === 'Pending' ? 'text-amber-500' : 'text-green-500'} font-bold">${w.status}</p></div>
                         <p class="text-xs font-black italic">৳${w.amount}</p>
                     </div>`;
                 });
                 lucide.createIcons();
             });
         }
-
         init();
     </script>
 </body>
 </html>
-
