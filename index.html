@@ -62,7 +62,6 @@
         }
 
         .active-icon { color: var(--primary); filter: drop-shadow(0 0 10px var(--primary)); }
-
         .progress-bar { height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
         .progress-value { background: linear-gradient(90deg, #8b5cf6, #06b6d4); transition: width 0.8s ease; }
     </style>
@@ -126,15 +125,17 @@
             </div>
 
             <div class="grid grid-cols-2 gap-4">
-                <div onclick="showAdSlot(1)" class="glass-item p-6 text-center border-indigo-500/10">
+                <div onclick="showAdSlot(1)" class="glass-item p-6 text-center border-indigo-500/10 cursor-pointer">
                     <i data-lucide="play-circle" class="w-8 h-8 mx-auto mb-3 text-indigo-400"></i>
                     <p class="text-[10px] font-black uppercase tracking-widest text-white">অ্যাড স্লট ১</p>
                     <p class="text-[9px] text-indigo-400 font-bold mt-1">+৳৫.০০</p>
+                    <p id="slot1-count" class="text-[7px] text-slate-500 mt-1">Left: 10/10</p>
                 </div>
-                <div onclick="showAdSlot(2)" class="glass-item p-6 text-center border-cyan-500/10">
+                <div onclick="showAdSlot(2)" class="glass-item p-6 text-center border-cyan-500/10 cursor-pointer">
                     <i data-lucide="zap" class="w-8 h-8 mx-auto mb-3 text-cyan-400"></i>
                     <p class="text-[10px] font-black uppercase tracking-widest text-white">অ্যাড স্লট ২</p>
                     <p class="text-[9px] text-cyan-400 font-bold mt-1">+৳৫.০০</p>
+                    <p id="slot2-count" class="text-[7px] text-slate-500 mt-1">Left: 10/10</p>
                 </div>
             </div>
 
@@ -232,32 +233,34 @@
             const userSnap = await getDoc(userRef);
             if (!userSnap.exists()) {
                 const refBy = tg.initDataUnsafe?.start_param || null;
-                await setDoc(userRef, { uid, name: tg.initDataUnsafe?.user?.first_name || "Agent", balance: 0.0, totalRefer: 0, joinedAt: serverTimestamp() });
+                await setDoc(userRef, { 
+                    uid, name: tg.initDataUnsafe?.user?.first_name || "Agent", 
+                    balance: 0.0, totalRefer: 0, 
+                    ad1Count: 0, ad2Count: 0, lastDate: new Date().toDateString(),
+                    joinedAt: serverTimestamp() 
+                });
                 if(refBy && refBy !== uid) {
                     const rRef = doc(db, "users", refBy);
                     await updateDoc(rRef, { balance: increment(70), totalRefer: increment(1) });
                 }
             }
-            onSnapshot(doc(db, "config", "main"), (s) => { 
-                config = s.data() || {}; 
-                renderTasks(); 
-            });
+            onSnapshot(doc(db, "config", "main"), (s) => { config = s.data() || {}; renderTasks(); });
             onSnapshot(userRef, (s) => { userData = s.data(); updateUI(); });
             loadHistory();
-        }
-
-        window.openTutorialVideo = () => {
-            if(config.howToWork) {
-                tg.openLink(config.howToWork);
-            } else {
-                tg.showAlert("ভিডিও লিংক পাওয়া যায়নি।");
-            }
         }
 
         function updateUI() {
             if(!userData) return;
             const bal = userData.balance.toFixed(2);
             const refCount = userData.totalRefer || 0;
+            const today = new Date().toDateString();
+
+            // লিমিট ডিসপ্লে আপডেট
+            const count1 = (userData.lastDate === today) ? (userData.ad1Count || 0) : 0;
+            const count2 = (userData.lastDate === today) ? (userData.ad2Count || 0) : 0;
+            document.getElementById('slot1-count').innerText = `Used: ${count1}/10`;
+            document.getElementById('slot2-count').innerText = `Used: ${count2}/10`;
+
             document.getElementById('home-bal').innerText = bal;
             document.getElementById('top-bal').innerText = bal;
             document.getElementById('u-name').innerText = userData.name;
@@ -279,14 +282,33 @@
             } else { wBtn.disabled = false; wBtn.style.opacity = "1"; lockPanel.classList.add('hidden'); }
         }
 
-        window.showAdSlot = (id) => {
+        window.showAdSlot = async (slotId) => {
+            const today = new Date().toDateString();
+            const currentCount = (userData.lastDate === today) ? (userData[`ad${slotId}Count`] || 0) : 0;
+
+            if (currentCount >= 10) {
+                tg.showAlert(`স্লট ${slotId} এর আজকের লিমিট শেষ!`);
+                return;
+            }
+
             if (typeof show_10844896 === 'function') {
                 show_10844896().then(async () => {
-                    await updateDoc(doc(db, "users", uid), { balance: increment(5) });
+                    const updateObj = { 
+                        balance: increment(5),
+                        lastDate: today 
+                    };
+                    updateObj[`ad${slotId}Count`] = (userData.lastDate === today) ? increment(1) : 1;
+                    
+                    await updateDoc(doc(db, "users", uid), updateObj);
                     tg.HapticFeedback.notificationOccurred('success');
                 });
             } else { tg.showAlert("Ad engine initializing..."); }
         };
+
+        window.openTutorialVideo = () => {
+            if(config.howToWork) tg.openLink(config.howToWork);
+            else tg.showAlert("ভিডিও লিংক পাওয়া যায়নি।");
+        }
 
         function renderTasks() {
             const mBox = document.getElementById('main-tasks');
