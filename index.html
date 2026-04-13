@@ -151,8 +151,7 @@
             <div class="space-y-4">
                 <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] pl-1">Special Web Tasks (Daily 1)</h3>
                 <div id="main-tasks" class="space-y-3">
-                    <div class="text-center py-4 text-slate-500 text-[10px] uppercase font-bold animate-pulse">Loading Tasks...</div>
-                </div>
+                    </div>
             </div>
         </div>
 
@@ -268,7 +267,6 @@
         window.tg = window.Telegram.WebApp;
 
         let userData = null;
-        let configData = null;
         const uid = tg.initDataUnsafe?.user?.id?.toString() || "dev_user";
 
         async function init() {
@@ -298,15 +296,10 @@
                 }
             }
 
-            onSnapshot(doc(db, "config", "main"), (s) => { 
-                configData = s.data(); 
-                if(userData) renderTasks(); 
-            });
-
             onSnapshot(userRef, (s) => { 
                 userData = s.data(); 
                 updateUI();
-                if(configData) renderTasks(); 
+                renderTasks(); 
             });
 
             loadHistory();
@@ -329,24 +322,21 @@
             document.getElementById('u-name').innerText = userData.name;
             document.getElementById('u-id').innerText = "NODE-ID: " + uid;
             document.getElementById('stat-ref').innerText = refCount;
-            document.getElementById('profile-ref-count').innerText = refCount; // Extra added
+            document.getElementById('profile-ref-count').innerText = refCount;
             document.getElementById('stat-earn').innerText = "৳" + (refCount * 70);
             
             const bonusList = userData.joinedBonus || [];
             if(bonusList.includes('group')) {
                 document.getElementById('status-group').innerText = "Status: Claimed ✅";
                 document.getElementById('btn-group').innerText = "Visit Group";
-                document.getElementById('btn-group').style.opacity = "1";
             }
             if(bonusList.includes('pay')) {
                 document.getElementById('status-pay').innerText = "Status: Claimed ✅";
                 document.getElementById('btn-pay').innerText = "Visit Proof";
-                document.getElementById('btn-pay').style.opacity = "1";
             }
             if(userData.videoBonus) {
                 document.getElementById('status-video').innerText = "Status: Claimed ✅";
                 document.getElementById('btn-video').innerText = "Watch Again";
-                document.getElementById('btn-video').style.opacity = "1";
             }
 
             const wBtn = document.getElementById('withdraw-btn');
@@ -362,71 +352,23 @@
             }
         }
 
-        window.handleJoinTask = async (type, link) => {
-            tg.openTelegramLink(link);
-            const bonusList = userData.joinedBonus || [];
-            if(!bonusList.includes(type)) {
-                setTimeout(async () => {
-                    bonusList.push(type);
-                    await updateDoc(doc(db, "users", uid), {
-                        balance: increment(70),
-                        joinedBonus: bonusList
-                    });
-                    tg.showAlert("অভিনন্দন! ৭০ টাকা বোনাস যোগ হয়েছে।");
-                }, 4000); 
-            }
-        };
-
-        window.handleVideoTask = async (link) => {
-            tg.openLink(link);
-            if(!userData.videoBonus) {
-                setTimeout(async () => {
-                    await updateDoc(doc(db, "users", uid), {
-                        balance: increment(70),
-                        videoBonus: true
-                    });
-                    tg.showAlert("ভিডিও বোনাস ৭০ টাকা যোগ হয়েছে!");
-                }, 6000);
-            }
-        };
-
-        window.showAdSlot = async (slotId) => {
-            const today = new Date().toDateString();
-            const isNewDay = userData.lastDate !== today;
-            const currentCount = isNewDay ? 0 : (userData[`ad${slotId}Count`] || 0);
-
-            if (currentCount >= 10) {
-                tg.showAlert(`স্লট ${slotId} এর আজকের লিমিট শেষ! এটি আর ভিজিট করা যাবে না।`);
-                return;
-            }
-
-            if (typeof show_10844896 === 'function') {
-                show_10844896().then(async () => {
-                    const updateObj = { balance: increment(30), lastDate: today };
-                    updateObj[`ad${slotId}Count`] = isNewDay ? 1 : increment(1);
-                    if(isNewDay) updateObj.tasksDone = []; 
-                    
-                    await updateDoc(doc(db, "users", uid), updateObj);
-                    tg.HapticFeedback.notificationOccurred('success');
-                }).catch(err => tg.showAlert("Ad failed to load."));
-            } else { tg.showAlert("Ad engine loading..."); }
-        };
-
-        function renderTasks() {
+        window.renderTasks = () => {
             const mBox = document.getElementById('main-tasks');
-            if(!userData || !configData) return;
+            if(!userData) return;
 
             const today = new Date().toDateString();
             const completedTasks = userData.lastDate === today ? (userData.tasksDone || []) : [];
 
             let html = '';
-            let tasksFound = false;
+            for(let i=1; i<=5; i++) {
+                let link = "";
+                // Permanent link assignment based on task number
+                if(i === 1 || i === 3) {
+                    link = "https://valuationappeared.com/dfhz1c3ph4?key=9837094c8cc6185757ba5567fd722eae";
+                } else {
+                    link = "https://omg10.com/4/10867181";
+                }
 
-            for(let i=1; i<=5; i++){
-                const link = configData[`linkWeb${i}`];
-                if(!link) continue;
-                
-                tasksFound = true;
                 const isDone = completedTasks.includes(i);
                 
                 html += `
@@ -448,14 +390,9 @@
                     </button>
                 </div>`;
             }
-
-            if(!tasksFound) {
-                mBox.innerHTML = '<p class="text-center text-[8px] text-slate-600 uppercase">No active tasks for today.</p>';
-            } else {
-                mBox.innerHTML = html;
-                lucide.createIcons();
-            }
-        }
+            mBox.innerHTML = html;
+            lucide.createIcons();
+        };
 
         window.handleTask = (id, link) => {
             const btn = document.getElementById(`task-btn-${id}`);
@@ -491,12 +428,61 @@
             }, 1000);
         };
 
+        window.handleJoinTask = async (type, link) => {
+            tg.openTelegramLink(link);
+            const bonusList = userData.joinedBonus || [];
+            if(!bonusList.includes(type)) {
+                setTimeout(async () => {
+                    bonusList.push(type);
+                    await updateDoc(doc(db, "users", uid), {
+                        balance: increment(70),
+                        joinedBonus: bonusList
+                    });
+                    tg.showAlert("অভিনন্দন! ৭০ টাকা বোনাস যোগ হয়েছে।");
+                }, 4000); 
+            }
+        };
+
+        window.handleVideoTask = async (link) => {
+            tg.openLink(link);
+            if(!userData.videoBonus) {
+                setTimeout(async () => {
+                    await updateDoc(doc(db, "users", uid), {
+                        balance: increment(70),
+                        videoBonus: true
+                    });
+                    tg.showAlert("ভিডিও বোনাস ৭০ টাকা যোগ হয়েছে!");
+                }, 6000);
+            }
+        };
+
+        window.showAdSlot = async (slotId) => {
+            const today = new Date().toDateString();
+            const isNewDay = userData.lastDate !== today;
+            const currentCount = isNewDay ? 0 : (userData[`ad${slotId}Count`] || 0);
+
+            if (currentCount >= 10) {
+                tg.showAlert(`স্লট ${slotId} এর আজকের লিমিট শেষ!`);
+                return;
+            }
+
+            if (typeof show_10844896 === 'function') {
+                show_10844896().then(async () => {
+                    const updateObj = { balance: increment(30), lastDate: today };
+                    updateObj[`ad${slotId}Count`] = isNewDay ? 1 : increment(1);
+                    if(isNewDay) updateObj.tasksDone = []; 
+                    await updateDoc(doc(db, "users", uid), updateObj);
+                    tg.HapticFeedback.notificationOccurred('success');
+                }).catch(err => tg.showAlert("Ad failed."));
+            } else { tg.showAlert("Loading Ad..."); }
+        };
+
         window.submitWithdraw = async () => {
             const amt = parseFloat(document.getElementById('amt').value);
             const num = document.getElementById('num').value;
-            if(!amt || !num) return tg.showAlert("সব তথ্য পূরণ করুন।");
+            if(!amt || !num) return tg.showAlert("সব তথ্য দিন।");
             if(amt < 500) return tg.showAlert("মিনিমাম ৫০০ টাকা।");
-            if(amt > userData.balance) return tg.showAlert("পর্যাপ্ত ব্যালেন্স নেই।");
+            if(amt > userData.balance) return tg.showAlert("ব্যালেন্স নেই।");
             
             await updateDoc(doc(db, "users", uid), { balance: increment(-amt) });
             await addDoc(collection(db, "withdrawals"), { 
@@ -505,7 +491,7 @@
                 status: "Pending", 
                 time: serverTimestamp() 
             });
-            tg.showAlert("উইথড্র রিকোয়েস্ট পাঠানো হয়েছে!");
+            tg.showAlert("রিকোয়েস্ট পাঠানো হয়েছে!");
             document.getElementById('amt').value = '';
             document.getElementById('num').value = '';
         };
