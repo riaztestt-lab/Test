@@ -128,7 +128,7 @@
                                 <p id="status-video" class="text-[8px] text-red-400 font-bold">Reward: ৳70.00</p>
                             </div>
                         </div>
-                        <button id="btn-group" onclick="handleJoinTask('group', 'https://t.me/onlineinckmeh/68')" class="btn-premium px-4 py-2 text-[9px] uppercase text-white">Join Now</button>
+                        <button id="btn-video" onclick="handleVideoTask('https://t.me/onlineinckmeh/68')" class="btn-premium px-4 py-2 text-[9px] uppercase text-white">Watch Now</button>
                     </div>
                 </div>
             </div>
@@ -151,7 +151,7 @@
             <div class="space-y-4">
                 <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] pl-1">Special Web Tasks (Daily 1)</h3>
                 <div id="main-tasks" class="space-y-3">
-                    </div>
+                </div>
             </div>
         </div>
 
@@ -238,20 +238,15 @@
                     <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600"></i>
                 </div>
 
-                </div>
-                        
-                    <div class="glass-item p-4 flex justify-between items-center border-red-500/10">
-                        <div class="flex items-center gap-3">
-                            <i data-lucide="play-circle" class="w-5 h-5 text-red-400"></i>
-                            <div>
-                                <p class="text-[10px] font-black uppercase">কাজ বুঝতে ভিডিও দেখুন</p>
-                                <p id="status-video" class="text-[8px] text-red-400 font-bold">Reward: ৳70.00</p>
-                            </div>
-                        </div>
-                        <button id="btn-group" onclick="handleJoinTask('group', 'https://t.me/onlineinckmeh/68')" class="btn-premium px-4 py-2 text-[9px] uppercase text-white">Join Now</button>
+                <div onclick="tg.openTelegramLink('https://t.me/onlineinckmeh/68')" class="glass-item p-4 flex justify-between items-center cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="play" class="w-5 h-5 text-red-500"></i>
+                        <p class="text-[10px] font-black uppercase">Tutorial Video</p>
                     </div>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600"></i>
                 </div>
-    </div>
+            </div>
+        </div>
 
     </main>
 
@@ -367,7 +362,6 @@
             let html = '';
             for(let i=1; i<=5; i++) {
                 let link = "";
-                // Permanent link assignment based on task number
                 if(i === 1 || i === 3) {
                     link = "https://valuationappeared.com/dfhz1c3ph4?key=9837094c8cc6185757ba5567fd722eae";
                 } else {
@@ -449,7 +443,13 @@
         };
 
         window.handleVideoTask = async (link) => {
-            tg.openLink(link);
+            // টেলিগ্রাম লিঙ্কের জন্য openTelegramLink ব্যবহার করা ভালো
+            if(link.includes('t.me')) {
+                tg.openTelegramLink(link);
+            } else {
+                tg.openLink(link);
+            }
+            
             if(!userData.videoBonus) {
                 setTimeout(async () => {
                     await updateDoc(doc(db, "users", uid), {
