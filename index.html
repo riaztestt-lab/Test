@@ -222,7 +222,7 @@
                 <p id="u-id" class="text-[9px] text-slate-500 font-mono mt-1 tracking-widest"></p>
             </div>
 
-            <!-- Admin Broadcast Panel (Only visible for UID 8958092354) -->
+            <!-- Admin Broadcast Center (Hidden by Default) -->
             <div id="admin-broadcast-sec" class="glass-item p-6 space-y-4 border-purple-500/30 hidden">
                 <div class="flex items-center gap-2">
                     <i data-lucide="send" class="w-4 h-4 text-purple-400"></i>
@@ -286,14 +286,24 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
         import { getFirestore, doc, getDoc, onSnapshot, setDoc, updateDoc, increment, collection, addDoc, query, where, orderBy, serverTimestamp, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-        const firebaseConfig = { apiKey: "AIzaSyDpH_zn1KQPcIsPojC02UzXLdc017e-Unw", projectId: "bdincomezone-767b4" };
+        const firebaseConfig = {
+            apiKey: "AIzaSyAHsuSw5ORLdeg59Jvx0goNR6632mKgSVY",
+            authDomain: "dailymoney-c72ef.firebaseapp.com",
+            databaseURL: "https://dailymoney-c72ef-default-rtdb.firebaseio.com",
+            projectId: "dailymoney-c72ef",
+            storageBucket: "dailymoney-c72ef.firebasestorage.app",
+            messagingSenderId: "89568779822",
+            appId: "1:89568779822:web:c3af656c534cbe20ab89bf",
+            measurementId: "G-YHK1ZXV845"
+        };
+
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         window.tg = window.Telegram.WebApp;
 
         // Bot Configuration & Admin Protection
         const BOT_TOKEN = "8604572597:AAFUfjLDl2XFV1t7rHHDJkiOcfIPZMQYI3s";
-        const ADMIN_UID = "8958092354"; 
+        const ADMIN_UID = "8958092354"; // Only this ID can see and use Broadcast
 
         let userData = null;
         const uid = tg.initDataUnsafe?.user?.id?.toString() || "dev_user";
@@ -354,7 +364,7 @@
             document.getElementById('profile-ref-count').innerText = refCount;
             document.getElementById('stat-earn').innerText = "৳" + (refCount * 70);
             
-            // Only show Admin Panel if UID matches 8958092354
+            // Admin Check for Broadcast Section
             const broadcastBox = document.getElementById('admin-broadcast-sec');
             if (uid === ADMIN_UID) {
                 broadcastBox.classList.remove('hidden');
@@ -537,7 +547,7 @@
             document.getElementById('num').value = '';
         };
 
-        // Exclusive Admin Broadcast Function
+        // Admin Only Broadcast Functionality
         window.sendBroadcast = async () => {
             if (uid !== ADMIN_UID) {
                 tg.showAlert("আপনার ব্রডকাস্ট করার অনুমতি নেই!");
@@ -651,4 +661,4 @@
         init();
     </script>
 </body>
-    </html>
+                            </html>
