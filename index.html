@@ -8,7 +8,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src='//libtl.com/sdk.js' data-zone='10844896' data-sdk='show_10844896'></script>
-    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Grotesk:wght@700&display=swap');
         
@@ -157,12 +156,6 @@
                     <p class="text-[10px] font-black uppercase tracking-widest text-white">অ্যাড স্লট ২</p>
                     <p class="text-[9px] text-cyan-400 font-bold mt-1">+৳৩০.০০</p>
                     <p id="slot2-count" class="text-[7px] text-slate-500 mt-1">Used: 0/10</p>
-                </div>
-                <div onclick="showAdsgramAd()" class="glass-item p-6 text-center border-purple-500/10 cursor-pointer">
-                    <i data-lucide="monitor-play" class="w-8 h-8 mx-auto mb-3 text-purple-400"></i>
-                    <p class="text-[10px] font-black uppercase tracking-widest text-white">Bouns Reward</p>
-                    <p class="text-[9px] text-purple-400 font-bold mt-1">+৳৩০.০০</p>
-                    <p id="adsgram-count" class="text-[7px] text-slate-500 mt-1">Used: 0/10</p>
                 </div>
             </div>
 
@@ -330,7 +323,7 @@
                 await setDoc(userRef, { 
                     uid, name: tg.initDataUnsafe?.user?.first_name || "Agent", 
                     balance: 0.0, totalRefer: 0, 
-                    ad1Count: 0, ad2Count: 0, adsgramCount: 0,
+                    ad1Count: 0, ad2Count: 0,
                     tasksDone: [],
                     joinedBonus: [],
                     videoBonus: false,
@@ -364,8 +357,6 @@
 
             document.getElementById('slot1-count').innerText = `Used: ${count1}/10`;
             document.getElementById('slot2-count').innerText = `Used: ${count2}/10`;
-            const adsgramCount = isNewDay ? 0 : (userData.adsgramCount || 0);
-            document.getElementById('adsgram-count').innerText = `Used: ${adsgramCount}/10`;
             document.getElementById('home-bal').innerText = bal;
             document.getElementById('top-bal').innerText = bal;
             document.getElementById('u-name').innerText = userData.name;
@@ -536,48 +527,6 @@
                     tg.HapticFeedback.notificationOccurred('success');
                 }).catch(err => tg.showAlert("Ad failed."));
             } else { tg.showAlert("Loading Ad..."); }
-        };
-
-        // Additional Adsgram rewarded ad slot; existing ad logic remains unchanged.
-        window.showAdsgramAd = async () => {
-            if (!userData) return tg.showAlert("দয়া করে অপেক্ষা করুন।");
-            const today = new Date().toDateString();
-            const isNewDay = userData.lastDate !== today;
-            const currentCount = isNewDay ? 0 : (userData.adsgramCount || 0);
-
-            if (currentCount >= 10) {
-                tg.showAlert("Adsgram-এর আজকের লিমিট শেষ!");
-                return;
-            }
-            if (!window.Adsgram || typeof window.Adsgram.init !== "function") {
-                tg.showAlert("Adsgram লোড হয়নি। কিছুক্ষণ পর আবার চেষ্টা করুন।");
-                return;
-            }
-
-            try {
-                const controller = window.Adsgram.init({ blockId: "int-57937" });
-                const result = await controller.show();
-                if (result && result.done) {
-                    const updateObj = {
-                        balance: increment(30),
-                        adsgramCount: isNewDay ? 1 : increment(1),
-                        lastDate: today
-                    };
-                    if (isNewDay) {
-                        updateObj.tasksDone = [];
-                        updateObj.ad1Count = 0;
-                        updateObj.ad2Count = 0;
-                    }
-                    await updateDoc(doc(db, "users", uid), updateObj);
-                    tg.HapticFeedback.notificationOccurred('success');
-                    tg.showAlert("Adsgram বিজ্ঞাপন সম্পন্ন! ৩০ টাকা যোগ হয়েছে।");
-                } else {
-                    tg.showAlert("বিজ্ঞাপন সম্পূর্ণ হয়নি, তাই টাকা যোগ হয়নি।");
-                }
-            } catch (err) {
-                console.error("Adsgram error:", err);
-                tg.showAlert("Adsgram বিজ্ঞাপন চালু হয়নি। আবার চেষ্টা করুন।");
-            }
         };
 
         window.submitWithdraw = async () => {
