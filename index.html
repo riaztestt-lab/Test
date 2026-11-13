@@ -2,284 +2,1565 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TK INCOME </title>
+    <title>টাকার ব্যাংক</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src='//libtl.com/sdk.js' data-zone='10844896' data-sdk='show_10844896'></script>
+    <script src='https://libtl.com/sdk.js' data-zone='12112314' data-sdk='show_12112314'></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Grotesk:wght@700&display=swap');
         
-        :root {
-            --primary: #8b5cf6;
-            --accent: #06b6d4;
-            --surface: rgba(255, 255, 255, 0.04);
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Grotesk:wght@700&display=swap');
+        body{font-family:'Plus Jakarta Sans',sans-serif;}
+
+        /* === Uparjon Premium UI v2 === */
+        :root{
+            --primary:#8b5cf6; --accent:#22d3ee; --bg:#070812;
+            --card:rgba(17,18,32,.72); --line:rgba(255,255,255,.08);
+        }
+        *{box-sizing:border-box}
+        body{
+            background:
+              radial-gradient(900px 500px at -10% -5%,rgba(124,58,237,.24),transparent 55%),
+              radial-gradient(700px 450px at 110% 35%,rgba(6,182,212,.15),transparent 55%),
+              linear-gradient(180deg,#070812,#05060c 55%,#080914);
+            color:#fff;
+        }
+        header{
+            padding:18px 20px 12px!important;
+            position:sticky;top:0;z-index:40;
+            background:rgba(7,8,18,.72);backdrop-filter:blur(24px);
+            border-bottom:1px solid rgba(255,255,255,.045);
+        }
+        header .glass-item{
+            border-radius:999px!important;padding:9px 15px!important;
+            background:linear-gradient(135deg,rgba(139,92,246,.18),rgba(34,211,238,.08))!important;
+            border:1px solid rgba(255,255,255,.09)!important;
+        }
+        main{padding-left:18px!important;padding-right:18px!important;max-width:520px!important}
+        .page-content{animation:pageIn .38s ease both}
+        @keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+        .glass-item{
+            background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.025))!important;
+            backdrop-filter:blur(20px);
+            border:1px solid var(--line)!important;
+            border-radius:22px!important;
+            box-shadow:0 12px 35px rgba(0,0,0,.16);
+        }
+        .glass-item:active{transform:scale(.985)!important}
+
+        .balance-card-static{
+            padding:25px 20px!important;border-radius:30px!important;
+            background:
+              radial-gradient(circle at 80% 10%,rgba(34,211,238,.22),transparent 30%),
+              radial-gradient(circle at 15% 100%,rgba(139,92,246,.28),transparent 38%),
+              linear-gradient(145deg,#17132c,#0c1827)!important;
+            border:1px solid rgba(255,255,255,.11)!important;
+            box-shadow:0 22px 60px rgba(0,0,0,.34)!important;
+        }
+        #home-page .balance-card-static h2{
+            font-size:43px!important;line-height:1.05;
+            text-shadow:0 0 30px rgba(139,92,246,.22);
+        }
+        #home-page>div:nth-child(2) h3,
+        #home-page>div:nth-child(4) h3{
+            color:#94a3b8!important;font-size:9px!important;
         }
 
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #030303;
-            color: #ffffff;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 40%);
+        /* Home task cards */
+        #home-page .glass-item{
+            transition:transform .25s,background .25s,border-color .25s;
+        }
+        #home-page .grid.grid-cols-1 .glass-item{
+            padding:14px!important;
+            border-radius:18px!important;
+        }
+        #home-page .grid.grid-cols-1 .glass-item>div:first-child>i,
+        #home-page .grid.grid-cols-1 .glass-item>div:first-child>div:first-child{
+            width:42px!important;height:42px!important;border-radius:14px!important;
+        }
+        .btn-premium{
+            background:linear-gradient(135deg,#7c3aed,#4f46e5 55%,#0891b2)!important;
+            border:1px solid rgba(255,255,255,.13)!important;
+            border-radius:13px!important;
+            box-shadow:0 8px 22px rgba(79,70,229,.28)!important;
+            letter-spacing:.04em;
+        }
+        #home-page .grid.grid-cols-2 .glass-item{
+            min-height:118px;padding:19px!important;
+            position:relative;overflow:hidden;
+            background:linear-gradient(145deg,rgba(124,58,237,.13),rgba(8,145,178,.05))!important;
+        }
+        #home-page .grid.grid-cols-2 .glass-item:after{
+            content:"";position:absolute;right:-28px;bottom:-35px;width:90px;height:90px;
+            border-radius:50%;background:rgba(139,92,246,.12);filter:blur(5px);
         }
 
-        .balance-card-static {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(6, 182, 212, 0.1));
-            backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 2.5rem;
-            padding: 2.5rem 1rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        /* Wallet */
+        #wallet-page .glass-item.p-8{
+            border-radius:28px!important;
+            background:linear-gradient(150deg,rgba(19,25,45,.9),rgba(12,14,25,.9))!important;
+        }
+        #wallet-page h3{font-size:14px!important;text-transform:none!important;letter-spacing:.02em!important}
+        #wallet-page select,#wallet-page input{
+            height:53px!important;border-radius:15px!important;
+            background:rgba(255,255,255,.045)!important;
+            border:1px solid rgba(255,255,255,.08)!important;
+        }
+        #withdraw-lock{
+            border-radius:20px!important;
+            background:linear-gradient(135deg,rgba(239,68,68,.10),rgba(245,158,11,.04))!important;
+        }
+        #withdraw-lock .progress-bar{height:9px!important;border-radius:99px!important}
+        #wallet-page #withdraw-btn{height:54px;border-radius:16px!important;font-size:11px!important}
+
+        /* Referral */
+        #refer-page .balance-card-static{
+            background:
+              radial-gradient(circle at 20% 10%,rgba(236,72,153,.20),transparent 32%),
+              radial-gradient(circle at 90% 90%,rgba(139,92,246,.28),transparent 38%),
+              linear-gradient(145deg,#20112d,#101329)!important;
+        }
+        #refer-page .balance-card-static h2{
+            font-size:23px!important;letter-spacing:.02em!important;
+        }
+        #refer-page .glass-item.p-6{
+            padding:18px!important;
+            background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(139,92,246,.05))!important;
+        }
+        #ref-link{
+            background:rgba(0,0,0,.28)!important;
+            border-radius:15px!important;
+            padding:15px!important;
+            color:#c4b5fd!important;
+        }
+        #refer-page button{border-radius:15px!important;height:52px}
+
+        /* Profile */
+        #profile-page .glass-item.p-10{
+            border-radius:30px!important;
+            background:linear-gradient(145deg,rgba(30,25,58,.88),rgba(12,17,31,.9))!important;
+        }
+        #profile-page .w-20{
+            width:78px!important;height:78px!important;
+            background:linear-gradient(135deg,rgba(139,92,246,.22),rgba(34,211,238,.13))!important;
+            border:1px solid rgba(255,255,255,.08);
+            box-shadow:0 12px 35px rgba(124,58,237,.18);
+        }
+        #profile-page #u-name{font-size:18px!important;text-transform:none!important}
+        #profile-page>div:last-child .glass-item{
+            padding:16px!important;border-radius:18px!important;
+        }
+        #profile-page .space-y-3>h3{
+            font-size:9px!important;letter-spacing:.25em!important;
         }
 
-        .glass-item {
-            background: var(--surface);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 1.5rem;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Bottom navigation redesigned */
+        .nav-glass{
+            left:12px!important;right:12px!important;bottom:12px!important;
+            border:1px solid rgba(255,255,255,.09)!important;
+            border-radius:24px!important;
+            padding:9px 13px!important;
+            background:rgba(9,10,20,.88)!important;
+            box-shadow:0 18px 50px rgba(0,0,0,.45)!important;
+            backdrop-filter:blur(25px)!important;
+        }
+        .nav-btn{
+            width:52px;height:48px;border-radius:17px;
+            display:flex;align-items:center;justify-content:center;
+            transition:.25s;
+        }
+        .nav-btn.active-icon{
+            color:#fff!important;
+            background:linear-gradient(135deg,rgba(124,58,237,.8),rgba(8,145,178,.55));
+            box-shadow:0 7px 20px rgba(124,58,237,.25);
+            filter:none!important;
         }
 
-        .glass-item:active { transform: scale(0.97); background: rgba(255, 255, 255, 0.08); }
+        /* Startup loader */
+        #startup-loader{background:
+            radial-gradient(circle at 15% 20%,rgba(139,92,246,.28),transparent 36%),
+            radial-gradient(circle at 85% 80%,rgba(34,211,238,.20),transparent 35%),#05060d!important}
+        .loader-logo{border-radius:27px!important;background:linear-gradient(135deg,#7c3aed,#0891b2)!important}
+        /* UPAJON SIGNATURE UI */
+        body{background:radial-gradient(circle at 0% 0%,rgba(124,58,237,.20),transparent 28%),radial-gradient(circle at 100% 35%,rgba(34,211,238,.12),transparent 30%),#070914!important}
+        header{padding:18px 20px 12px!important;position:sticky;top:0;z-index:40;background:rgba(7,9,20,.72);backdrop-filter:blur(22px)}
+        main{padding:18px 18px 120px!important;max-width:520px!important}.page-content{animation:uPage .35s ease}@keyframes uPage{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+        .glass-item{background:linear-gradient(145deg,rgba(24,30,55,.86),rgba(10,14,28,.82))!important;border:1px solid rgba(255,255,255,.075)!important;border-radius:23px!important;box-shadow:0 16px 45px rgba(0,0,0,.18)}
+        .balance-card-static{padding:28px 20px!important;border-radius:32px!important;background:radial-gradient(circle at 15% 10%,rgba(167,139,250,.28),transparent 34%),radial-gradient(circle at 90% 100%,rgba(34,211,238,.17),transparent 40%),linear-gradient(145deg,#1b1735,#0d1729)!important;border:1px solid rgba(167,139,250,.18)!important}
+        #home-page .balance-card-static h2{font-size:46px!important;font-style:normal!important;letter-spacing:-.06em!important}
+        #home-page .grid.grid-cols-1 .glass-item{padding:15px!important;border-radius:20px!important;border-left:3px solid rgba(139,92,246,.55)!important}
+        #home-page .grid.grid-cols-1 .btn-premium{border-radius:12px!important;padding:10px 13px!important}
+        .ad-center-card{position:relative;overflow:hidden;padding:22px!important;border-radius:28px!important;background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(8,145,178,.10)),rgba(12,17,33,.92)!important;border:1px solid rgba(129,140,248,.20)!important}
+        .ad-center-card:before{content:"";position:absolute;right:-45px;top:-45px;width:130px;height:130px;border-radius:50%;background:rgba(34,211,238,.10);filter:blur(3px)}
+        .ad-progress{height:9px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}.ad-progress #ad-progress-fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#8b5cf6,#22d3ee);transition:width .4s ease}
+        #ad-watch-btn{min-height:55px;border-radius:16px!important;background:linear-gradient(135deg,#7c3aed,#0891b2)!important;box-shadow:0 12px 30px rgba(124,58,237,.22)!important}
+        #wallet-page .glass-item.p-8{padding:21px!important;border-radius:28px!important;background:linear-gradient(145deg,rgba(16,25,40,.96),rgba(14,14,28,.92))!important}
+        #wallet-page select,#wallet-page input{height:55px!important;border-radius:16px!important;background:rgba(255,255,255,.045)!important;border:1px solid rgba(255,255,255,.08)!important}
+        #wallet-page #withdraw-btn{height:56px;border-radius:17px!important;background:linear-gradient(135deg,#10b981,#0ea5e9)!important}
+        #withdraw-lock{display:none!important;border-radius:22px!important;background:linear-gradient(135deg,rgba(245,158,11,.13),rgba(239,68,68,.06))!important}#withdraw-lock.show{display:block!important;animation:uPage .3s ease}#withdraw-lock .progress-bar{height:9px!important;border-radius:99px!important}
+        #refer-page .balance-card-static{background:radial-gradient(circle at 85% 15%,rgba(236,72,153,.18),transparent 30%),linear-gradient(145deg,#25152e,#11162c)!important}#refer-page .glass-item.p-6{padding:20px!important;border-radius:25px!important}#ref-link{background:#080b17!important;border:1px dashed rgba(167,139,250,.30)!important;border-radius:16px!important;padding:16px!important;color:#c4b5fd!important}#refer-page button{height:53px;border-radius:16px!important}
+        #profile-page .glass-item.p-10{padding:28px!important;border-radius:30px!important;background:linear-gradient(145deg,#121d35,#151127)!important}#profile-page .w-20{width:82px!important;height:82px!important;background:linear-gradient(135deg,#7c3aed,#0891b2)!important;box-shadow:0 16px 40px rgba(124,58,237,.24)}#profile-page .space-y-3 .glass-item{border-radius:18px!important;padding:16px!important}
+        .nav-glass{left:14px!important;right:14px!important;bottom:14px!important;border:1px solid rgba(255,255,255,.09)!important;border-radius:25px!important;padding:8px!important;background:rgba(8,11,23,.92)!important;box-shadow:0 20px 55px rgba(0,0,0,.5)!important}.nav-btn{width:58px;height:50px;border-radius:17px!important;display:flex;align-items:center;justify-content:center}.nav-btn.active-icon{color:#fff!important;filter:none!important;background:linear-gradient(135deg,#7c3aed,#0891b2)!important;box-shadow:0 8px 24px rgba(124,58,237,.25)}
 
-        .btn-premium {
-            background: linear-gradient(90deg, #6366f1, #8b5cf6);
-            border-radius: 1rem;
-            font-weight: 800;
-            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+        /* Final startup gate: app stays hidden until progress reaches 100% */
+        #startup-loader{
+            position:fixed!important;inset:0!important;z-index:999999!important;
+            opacity:1;visibility:visible;pointer-events:auto;
+            display:flex;align-items:center;justify-content:center;
+            background:
+              radial-gradient(circle at 15% 15%,rgba(124,58,237,.28),transparent 35%),
+              radial-gradient(circle at 85% 85%,rgba(6,182,212,.20),transparent 35%),
+              #05060d!important;
+        }
+        #startup-loader.hide{
+            opacity:0!important;visibility:hidden!important;pointer-events:none!important;
+        }
+        body.loader-active{overflow:hidden!important}
+        .loader-wrap{width:min(88vw,390px);text-align:center;position:relative;padding:30px 24px 27px;border:1px solid rgba(255,255,255,.10);border-radius:32px;background:linear-gradient(155deg,rgba(20,25,48,.92),rgba(8,11,24,.88));box-shadow:0 28px 90px rgba(0,0,0,.48),inset 0 1px rgba(255,255,255,.06);backdrop-filter:blur(18px);overflow:hidden}
+        .loader-wrap:before{content:"";position:absolute;width:190px;height:190px;border-radius:50%;background:rgba(124,58,237,.18);filter:blur(48px);top:-110px;left:calc(50% - 95px);pointer-events:none}
+        .loader-logo{position:relative;width:92px;height:92px;margin:0 auto 22px;border-radius:30px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,#8b5cf6 0%,#6d28d9 48%,#0891b2 100%);border:1px solid rgba(255,255,255,.25);box-shadow:0 0 0 8px rgba(139,92,246,.08),0 0 55px rgba(124,58,237,.42);animation:loaderFloat 2s ease-in-out infinite}
+        .loader-logo i{width:42px;height:42px;stroke-width:1.8}
+        @keyframes loaderFloat{0%,100%{transform:translateY(0);box-shadow:0 0 0 8px rgba(139,92,246,.08),0 0 40px rgba(124,58,237,.35)}50%{transform:translateY(-5px);box-shadow:0 0 0 12px rgba(139,92,246,.05),0 0 58px rgba(6,182,212,.30)}}
+        .loader-title{position:relative;font-family:'Hind Siliguri','Space Grotesk',sans-serif;font-size:34px;font-weight:900;letter-spacing:.2px;background:linear-gradient(90deg,#fff,#c4b5fd,#67e8f9);-webkit-background-clip:text;background-clip:text;color:transparent}
+        .loader-sub{position:relative;color:#a5b4fc;font-size:12px;margin:5px 0 29px}
+        .loader-track{height:12px;padding:2px;border:1px solid rgba(255,255,255,.10);border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,.25)}
+        #loader-fill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#8b5cf6,#6366f1,#06b6d4,#67e8f9);background-size:200% 100%;animation:loaderShimmer 1.5s linear infinite;box-shadow:0 0 18px rgba(34,211,238,.45);transition:width .06s linear}
+        @keyframes loaderShimmer{from{background-position:100% 0}to{background-position:-100% 0}}
+        #loader-percent{margin-top:17px;font-size:30px;line-height:1.2;font-weight:900;font-variant-numeric:tabular-nums;color:#fff;text-shadow:0 0 22px rgba(139,92,246,.45)}
+        .loader-status{margin-top:9px;color:#94a3b8;font-size:11px;letter-spacing:0;text-transform:none;min-height:18px}
+        .loader-dots{display:flex;justify-content:center;gap:6px;margin-top:19px}.loader-dots span{width:5px;height:5px;border-radius:50%;background:#8b5cf6;animation:loaderDot 1s ease-in-out infinite}.loader-dots span:nth-child(2){animation-delay:.15s;background:#818cf8}.loader-dots span:nth-child(3){animation-delay:.3s;background:#22d3ee}@keyframes loaderDot{0%,70%,100%{opacity:.3;transform:scale(.8)}35%{opacity:1;transform:scale(1.25)}}
+
+
+        /* === UNIQUE AURORA / HOLOGRAPHIC UI === */
+        body{
+            overflow-x:hidden;
+            background:
+              radial-gradient(650px 420px at 0% -5%,rgba(124,58,237,.30),transparent 62%),
+              radial-gradient(520px 380px at 105% 18%,rgba(6,182,212,.22),transparent 60%),
+              radial-gradient(500px 380px at 50% 110%,rgba(236,72,153,.13),transparent 65%),
+              #05060d!important;
+        }
+        body:before{
+            content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.20;
+            background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+                             linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+            background-size:34px 34px;
+            mask-image:linear-gradient(to bottom,black,transparent 85%);
+        }
+        header{
+            background:linear-gradient(180deg,rgba(5,7,18,.94),rgba(5,7,18,.62))!important;
+            border-bottom:1px solid rgba(167,139,250,.12)!important;
+        }
+        header .w-10{
+            position:relative;overflow:hidden;
+            box-shadow:0 0 0 1px rgba(255,255,255,.12),0 0 28px rgba(124,58,237,.38)!important;
+        }
+        header .w-10:after{
+            content:"";position:absolute;width:42px;height:42px;border-radius:50%;
+            background:rgba(255,255,255,.24);filter:blur(13px);right:-18px;top:-20px;
+        }
+        .glass-item{
+            position:relative;overflow:hidden;
+            background:linear-gradient(145deg,rgba(24,30,55,.78),rgba(8,12,26,.78))!important;
+            border:1px solid rgba(255,255,255,.075)!important;
+            box-shadow:0 18px 50px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.035);
+        }
+        .glass-item:before{
+            content:"";position:absolute;left:-35%;top:-70%;width:55%;height:180%;
+            background:linear-gradient(90deg,transparent,rgba(255,255,255,.055),transparent);
+            transform:rotate(18deg);pointer-events:none;
+        }
+        .balance-card-static{
+            position:relative;overflow:hidden;
+            background:
+              radial-gradient(circle at 85% 10%,rgba(34,211,238,.28),transparent 25%),
+              radial-gradient(circle at 5% 95%,rgba(139,92,246,.34),transparent 35%),
+              linear-gradient(135deg,#17122f 0%,#101b35 48%,#091824 100%)!important;
+            box-shadow:0 25px 70px rgba(0,0,0,.38),0 0 55px rgba(124,58,237,.08)!important;
+        }
+        .balance-card-static:after{
+            content:"";position:absolute;width:170px;height:170px;border-radius:50%;
+            right:-75px;top:-80px;border:1px solid rgba(255,255,255,.10);
+            box-shadow:0 0 0 22px rgba(255,255,255,.025),0 0 0 44px rgba(255,255,255,.018);
+        }
+        #home-page .balance-card-static h2{
+            font-family:'Space Grotesk',sans-serif!important;
+            text-shadow:0 0 35px rgba(167,139,250,.25)!important;
+        }
+        .btn-premium{
+            position:relative;overflow:hidden;
+            background:linear-gradient(110deg,#6d28d9,#7c3aed 42%,#0891b2 100%)!important;
+            box-shadow:0 10px 28px rgba(79,70,229,.28),inset 0 1px 0 rgba(255,255,255,.18)!important;
+        }
+        .btn-premium:after{
+            content:"";position:absolute;top:-80%;left:-35%;width:25%;height:260%;
+            background:rgba(255,255,255,.20);transform:rotate(25deg);
+            animation:buttonShine 3.8s ease-in-out infinite;
+        }
+        @keyframes buttonShine{0%,55%{left:-40%}75%,100%{left:125%}}
+        .ad-center-card{
+            border-radius:30px!important;
+            background:
+              radial-gradient(circle at 100% 0%,rgba(34,211,238,.20),transparent 32%),
+              radial-gradient(circle at 0% 100%,rgba(139,92,246,.22),transparent 36%),
+              linear-gradient(145deg,rgba(22,20,52,.96),rgba(8,18,31,.96))!important;
+            box-shadow:0 22px 65px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.05)!important;
+        }
+        .ad-center-card .w-11{
+            border:1px solid rgba(255,255,255,.08);
+            box-shadow:0 0 25px rgba(34,211,238,.10);
+        }
+        .ad-progress{
+            height:10px!important;background:rgba(255,255,255,.055)!important;
+            border:1px solid rgba(255,255,255,.055);
+        }
+        .ad-progress #ad-progress-fill{
+            background:linear-gradient(90deg,#8b5cf6,#22d3ee,#67e8f9)!important;
+            box-shadow:0 0 18px rgba(34,211,238,.38);
+        }
+        #refer-page .balance-card-static{
+            background:
+              radial-gradient(circle at 15% 15%,rgba(236,72,153,.25),transparent 28%),
+              radial-gradient(circle at 90% 85%,rgba(124,58,237,.32),transparent 38%),
+              linear-gradient(145deg,#24132f,#11152e)!important;
+        }
+        #refer-page .balance-card-static .w-16{
+            border:1px solid rgba(255,255,255,.10);
+            box-shadow:0 0 35px rgba(236,72,153,.18);
+        }
+        #ref-link{
+            box-shadow:inset 0 0 25px rgba(124,58,237,.07);
+        }
+        #wallet-page .glass-item.p-8{
+            box-shadow:0 22px 60px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.04)!important;
+        }
+        #wallet-page select:focus,#wallet-page input:focus{
+            border-color:rgba(34,211,238,.42)!important;
+            box-shadow:0 0 0 3px rgba(34,211,238,.08),0 0 24px rgba(34,211,238,.08);
+        }
+        #wallet-page #withdraw-btn{
+            background:linear-gradient(110deg,#059669,#0ea5e9,#06b6d4)!important;
+            box-shadow:0 12px 30px rgba(14,165,233,.20),inset 0 1px 0 rgba(255,255,255,.16)!important;
+        }
+        #profile-page .w-20{
+            position:relative;
+            border:1px solid rgba(255,255,255,.12)!important;
+            box-shadow:0 0 0 7px rgba(124,58,237,.05),0 20px 50px rgba(124,58,237,.22)!important;
+        }
+        .nav-glass{
+            background:rgba(5,8,18,.90)!important;
+            border:1px solid rgba(167,139,250,.14)!important;
+            box-shadow:0 22px 65px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.04)!important;
+        }
+        .nav-btn.active-icon{
+            background:linear-gradient(135deg,#7c3aed,#0891b2)!important;
+            box-shadow:0 8px 30px rgba(124,58,237,.34),inset 0 1px 0 rgba(255,255,255,.20)!important;
+        }
+        #startup-loader{
+            background:
+              radial-gradient(circle at 20% 20%,rgba(124,58,237,.34),transparent 32%),
+              radial-gradient(circle at 80% 80%,rgba(6,182,212,.25),transparent 32%),
+              radial-gradient(circle at 50% 50%,rgba(236,72,153,.08),transparent 42%),
+              #04050b!important;
+        }
+        .loader-logo{
+            position:relative;overflow:hidden;
+            box-shadow:0 0 65px rgba(124,58,237,.42),0 0 0 1px rgba(255,255,255,.14)!important;
+        }
+        .loader-logo:after{
+            content:"";position:absolute;inset:-35%;
+            background:linear-gradient(120deg,transparent 35%,rgba(255,255,255,.28),transparent 62%);
+            transform:rotate(18deg);animation:loaderShine 2s linear infinite;
+        }
+        @keyframes loaderShine{from{transform:translateX(-70%) rotate(18deg)}to{transform:translateX(70%) rotate(18deg)}}
+        .loader-track{
+            border:1px solid rgba(255,255,255,.08)!important;
+            box-shadow:0 0 25px rgba(124,58,237,.10);
+        }
+        #loader-fill{
+            background:linear-gradient(90deg,#7c3aed,#a78bfa,#22d3ee)!important;
+            box-shadow:0 0 22px rgba(34,211,238,.42);
+        }
+        .page-content{animation:uPage .38s cubic-bezier(.2,.8,.2,1)}
+        @media (max-width:380px){
+            main{padding-left:13px!important;padding-right:13px!important}
+            .nav-glass{left:8px!important;right:8px!important}
         }
 
-        .nav-glass {
-            background: rgba(10, 10, 10, 0.85);
-            backdrop-filter: blur(25px);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+
+        /* === PREMIUM REFERRAL / PAYMENT / PROFILE MENUS === */
+        .refer-hero{
+            position:relative;overflow:hidden;text-align:center;padding:31px 20px 22px;
+            border-radius:32px;
+            background:
+              radial-gradient(circle at 50% 0%,rgba(236,72,153,.22),transparent 32%),
+              radial-gradient(circle at 0% 100%,rgba(124,58,237,.26),transparent 38%),
+              linear-gradient(145deg,#21132f,#0d172d);
+            border:1px solid rgba(255,255,255,.09);
+            box-shadow:0 25px 65px rgba(0,0,0,.32);
+        }
+        .refer-icon{
+            width:70px;height:70px;margin:0 auto 15px;border-radius:24px;
+            display:flex;align-items:center;justify-content:center;
+            background:linear-gradient(135deg,#7c3aed,#ec4899);
+            box-shadow:0 0 40px rgba(236,72,153,.22),inset 0 1px 0 rgba(255,255,255,.25);
+        }
+        .refer-icon svg{width:31px;height:31px}
+        .refer-kicker{font-size:8px;letter-spacing:.28em;font-weight:900;color:#f0abfc}
+        .refer-hero h2{font-size:25px;font-weight:900;margin-top:7px}
+        .refer-hero>p:not(.refer-kicker){font-size:10px;line-height:1.8;color:#94a3b8;max-width:320px;margin:8px auto 0}
+        .refer-orbit{position:absolute;border:1px solid rgba(255,255,255,.07);border-radius:50%;pointer-events:none}
+        .orbit-one{width:170px;height:170px;left:-85px;top:-90px}
+        .orbit-two{width:230px;height:230px;right:-115px;bottom:-145px}
+        .refer-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
+        .refer-stats>div{
+            padding:13px;border-radius:19px;background:rgba(0,0,0,.20);
+            border:1px solid rgba(255,255,255,.06)
+        }
+        .refer-stats span{display:block;font-size:20px;font-weight:900}
+        .refer-stats small{font-size:7px;color:#64748b;letter-spacing:.14em;font-weight:900}
+        .refer-link-card,.refer-steps-card,.refer-warning,.payment-card,.payment-security{
+            border:1px solid rgba(255,255,255,.075);border-radius:25px;
+            background:linear-gradient(145deg,rgba(23,29,52,.88),rgba(8,12,25,.90));
+            box-shadow:0 17px 48px rgba(0,0,0,.20);
+        }
+        .refer-link-card{padding:19px}
+        .refer-link-head{display:flex;align-items:center;gap:12px}
+        .refer-link-symbol,.section-mini-icon{
+            width:43px;height:43px;border-radius:15px;display:flex;align-items:center;justify-content:center;
+            background:rgba(124,58,237,.13);color:#c4b5fd;border:1px solid rgba(167,139,250,.12)
+        }
+        .refer-link-head p{font-size:11px;font-weight:900}
+        .refer-link-head span{font-size:8px;color:#64748b}
+        .refer-link-box{
+            margin-top:15px;display:flex;align-items:center;gap:8px;padding:12px;
+            border-radius:17px;background:#070a14;border:1px dashed rgba(167,139,250,.25)
+        }
+        .refer-link-box span{flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:#c4b5fd;font:9px monospace}
+        .refer-link-box button{width:39px;height:39px;flex:none;border-radius:12px;background:rgba(124,58,237,.18);color:#ddd6fe;display:flex;align-items:center;justify-content:center}
+        .refer-link-box button svg{width:16px}
+        .refer-copy-btn{
+            width:100%;height:51px;margin-top:11px;border-radius:15px;color:#fff;font-size:9px;font-weight:900;
+            background:linear-gradient(110deg,#7c3aed,#db2777);box-shadow:0 10px 28px rgba(124,58,237,.20);
+            display:flex;align-items:center;justify-content:center;gap:7px
+        }
+        .refer-copy-btn svg{width:15px}
+        .refer-note{display:flex;align-items:center;justify-content:center;gap:5px;color:#64748b;font-size:7px;margin-top:10px}
+        .refer-note svg{width:12px;color:#34d399}
+        .refer-steps-card{padding:20px}
+        .section-mini-head{display:flex;align-items:center;gap:11px;margin-bottom:18px}
+        .section-mini-head h3{font-size:11px;font-weight:900}
+        .section-mini-head p{font-size:8px;color:#64748b;margin-top:3px}
+        .refer-step{display:flex;align-items:center;gap:11px}
+        .refer-step>b{font-size:8px;color:#a78bfa;width:22px}
+        .refer-step>div{width:38px;height:38px;border-radius:13px;background:rgba(34,211,238,.08);color:#67e8f9;display:flex;align-items:center;justify-content:center}
+        .refer-step svg{width:16px}
+        .refer-step span{display:flex;flex-direction:column}
+        .refer-step strong{font-size:9px}.refer-step small{font-size:8px;color:#64748b;margin-top:3px}
+        .refer-line{height:18px;border-left:1px dashed rgba(167,139,250,.25);margin-left:32px}
+        .refer-warning{display:flex;gap:11px;padding:16px;color:#fbbf24;background:linear-gradient(145deg,rgba(245,158,11,.08),rgba(8,12,25,.90))}
+        .refer-warning>svg{width:19px;flex:none;margin-top:1px}
+        .refer-warning strong{font-size:9px}.refer-warning p{font-size:8px;color:#94a3b8;line-height:1.7;margin-top:4px}
+        /* Payment */
+        .payment-hero{
+            position:relative;overflow:hidden;text-align:center;padding:21px 20px 24px;border-radius:30px;
+            background:radial-gradient(circle at 50% 0%,rgba(34,211,238,.20),transparent 35%),linear-gradient(145deg,#10243a,#0c1024);
+            border:1px solid rgba(34,211,238,.12);box-shadow:0 22px 60px rgba(0,0,0,.28)
+        }
+        .payment-chip{display:inline-flex;align-items:center;gap:5px;font-size:7px;font-weight:900;letter-spacing:.16em;color:#67e8f9;padding:6px 10px;border-radius:99px;background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.10)}
+        .payment-chip svg{width:11px}
+        .payment-icon{width:54px;height:54px;border-radius:19px;margin:15px auto 9px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0891b2,#2563eb);box-shadow:0 0 35px rgba(6,182,212,.20)}
+        .payment-icon svg{width:24px}
+        .payment-hero>p{font-size:8px;color:#64748b}.payment-hero h2{font-size:36px;font-weight:900;letter-spacing:-.05em;margin:3px 0 8px}
+        .payment-status{display:inline-flex;align-items:center;gap:6px;font-size:7px;color:#34d399}.payment-status span{width:6px;height:6px;border-radius:50%;background:#34d399;box-shadow:0 0 10px #34d399}
+        .payment-lock{padding:17px;border-radius:22px;border:1px solid rgba(245,158,11,.12);background:linear-gradient(145deg,rgba(245,158,11,.08),rgba(20,15,20,.72));display:none}
+        .payment-lock.show{display:block;animation:uPage .3s ease}
+        .lock-head{display:flex;gap:11px;align-items:center}.lock-icon{width:39px;height:39px;border-radius:13px;background:rgba(245,158,11,.10);color:#fbbf24;display:flex;align-items:center;justify-content:center}.lock-icon svg{width:17px}
+        .lock-head strong{font-size:10px}.lock-head p{font-size:7px;color:#64748b;margin-top:3px}
+        .payment-progress{height:8px;border-radius:99px;background:rgba(255,255,255,.05);margin-top:15px;overflow:hidden}.payment-progress>div{height:100%;width:0;background:linear-gradient(90deg,#f59e0b,#ef4444);border-radius:99px;box-shadow:0 0 14px rgba(245,158,11,.25)}
+        .lock-foot{display:flex;justify-content:space-between;margin-top:7px;font-size:7px;color:#64748b}.lock-foot b{color:#fbbf24}
+        .payment-card{padding:20px}
+        .payment-card-title{display:flex;gap:11px;align-items:center;margin-bottom:20px}.payment-title-icon{width:42px;height:42px;border-radius:14px;background:rgba(16,185,129,.10);color:#34d399;display:flex;align-items:center;justify-content:center}.payment-title-icon svg{width:18px}
+        .payment-card-title h3{font-size:12px;font-weight:900}.payment-card-title p{font-size:7px;color:#64748b;margin-top:3px}
+        .payment-field{margin-top:15px}.payment-field label{display:flex;align-items:center;gap:5px;font-size:8px;color:#94a3b8;font-weight:900;margin-bottom:7px}.payment-field label svg{width:12px;color:#67e8f9}
+        .payment-field input,.payment-field select{width:100%;height:53px;border-radius:15px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);outline:none;color:#fff;padding:0 14px;font-size:10px}
+        .payment-field select option{background:#111827;color:#fff}
+        .payment-input-wrap{display:flex;align-items:center;height:53px;border-radius:15px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:0 13px}.payment-input-wrap>span{color:#34d399;font-size:16px;font-weight:900}.payment-input-wrap input{height:100%;border:0;background:transparent;padding-left:8px}
+        .payment-field small{font-size:7px;color:#475569;margin-top:5px;display:block}
+        .payment-submit{width:100%;height:56px;margin-top:21px;border-radius:17px;background:linear-gradient(110deg,#059669,#0891b2,#2563eb);color:#fff;font-size:9px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 13px 32px rgba(8,145,178,.20);border:1px solid rgba(255,255,255,.10)}
+        .payment-submit svg{width:16px}
+        .payment-security{display:flex;align-items:center;gap:10px;padding:14px;color:#34d399}.payment-security>svg{width:19px}.payment-security div{flex:1}.payment-security strong{font-size:8px}.payment-security p{font-size:7px;color:#64748b;margin-top:3px}.payment-security>span{font-size:6px;font-weight:900;letter-spacing:.12em;color:#34d399}
+
+
+        /* Profile premium */
+        #profile-page .glass-item.p-10{
+            background:
+              radial-gradient(circle at 50% 0%,rgba(124,58,237,.20),transparent 35%),
+              linear-gradient(145deg,#14152e,#091321)!important;
+            border:1px solid rgba(167,139,250,.12)!important;
+        }
+        #profile-page .w-20{
+            background:linear-gradient(135deg,#7c3aed,#0891b2)!important;
+            border:2px solid rgba(255,255,255,.12)!important;
+            box-shadow:0 0 0 8px rgba(124,58,237,.06),0 20px 55px rgba(124,58,237,.25)!important;
+        }
+        #profile-page #u-name{font-size:20px!important;letter-spacing:.02em}
+        #profile-page #u-id{padding:7px 10px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.05);border-radius:10px;display:inline-block}
+        #profile-page>div:last-child .glass-item{background:linear-gradient(145deg,rgba(24,30,55,.78),rgba(8,12,25,.85))!important}
+
+    
+        .earning-rates-strip{
+            display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:-14px;
+        }
+        .earning-rates-strip>div{
+            text-align:center;padding:10px 4px;border-radius:15px;
+            background:linear-gradient(145deg,rgba(124,58,237,.10),rgba(8,145,178,.06));
+            border:1px solid rgba(255,255,255,.055);
+        }
+        .earning-rates-strip b{display:block;font-size:13px;font-weight:900;color:#67e8f9}
+        .earning-rates-strip span{display:block;margin-top:3px;font-size:6px;color:#64748b;font-weight:800;white-space:nowrap}
+        @media(max-width:370px){.earning-rates-strip{gap:4px}.earning-rates-strip span{font-size:5.5px}}
+
+    
+        .refer-live-note{
+            display:flex;align-items:center;gap:10px;padding:12px 14px;margin-top:-10px;
+            border-radius:18px;background:linear-gradient(110deg,rgba(16,185,129,.10),rgba(34,211,238,.06));
+            border:1px solid rgba(52,211,153,.12);box-shadow:0 12px 30px rgba(0,0,0,.12)
+        }
+        .refer-live-note>svg{width:18px;color:#34d399;filter:drop-shadow(0 0 8px rgba(52,211,153,.4))}
+        .refer-live-note div{flex:1;display:flex;flex-direction:column}
+        .refer-live-note b{font-size:8px;color:#d1fae5}.refer-live-note span{font-size:7px;color:#64748b;margin-top:3px}
+        .refer-live-note>strong{font-size:15px;color:#34d399}
+
+    
+        /* Refer menu: link is immediately visible on entry */
+        #refer-page{scroll-margin-top:12px}
+        #refer-page .refer-link-card{
+            margin-top:-2px;
+            position:relative;
+            z-index:3;
+            box-shadow:0 20px 55px rgba(124,58,237,.14),inset 0 1px 0 rgba(255,255,255,.05);
+        }
+        #refer-page .refer-link-box span{
+            color:#ddd6fe;
+            font-size:9px;
+        }
+        #refer-page .refer-copy-btn{
+            box-shadow:0 12px 32px rgba(124,58,237,.28);
         }
 
-        .active-icon { color: var(--primary); filter: drop-shadow(0 0 10px var(--primary)); }
-        .progress-bar { height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
-        .progress-value { background: linear-gradient(90deg, #8b5cf6, #06b6d4); transition: width 0.8s ease; }
-    </style>
+            @media(max-width:430px){
+            .nav-glass{padding-left:5px!important;padding-right:5px!important}
+            .nav-btn{min-width:0!important;width:16.2%!important;height:49px!important;font-size:8px!important;gap:4px!important}
+            .nav-btn i{width:18px!important;height:18px!important}
+        }
+</style>
+
+<style>
+html,body,button,input,select,textarea{font-family:"Hind Siliguri","Noto Sans Bengali",sans-serif!important;font-synthesis:none;text-rendering:optimizeLegibility}
+.nav-btn{min-width:58px;font-size:10px;font-weight:800;color:#94a3b8;transition:all .2s}
+.nav-btn.active-icon{color:#a78bfa}
+.nav-btn span{line-height:1.1}
+#refer-page,#wallet-page,#profile-page{padding-bottom:10px}
+#profile-page .profile-hero{background:radial-gradient(circle at 50% 0%,rgba(99,102,241,.18),transparent 48%),linear-gradient(145deg,rgba(22,27,50,.95),rgba(7,10,23,.96))}
+.payment-hero h2{font-size:30px;font-weight:900}
+.payment-field label{display:flex;align-items:center;gap:7px}
+.payment-field input,.payment-field select{width:100%;min-height:46px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);padding:12px;color:#f8fafc;outline:none}
+.payment-field select option{background:#111827;color:#fff}
+.refer-copy-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:14px;padding:14px;border-radius:16px;background:linear-gradient(100deg,#7c3aed,#0891b2);color:#fff;font-weight:900}
+.refer-link-box{display:flex;align-items:center;gap:8px;overflow-wrap:anywhere;margin-top:14px;padding:12px;border-radius:14px;background:rgba(0,0,0,.22)}
+.refer-link-box span{flex:1;min-width:0;overflow-wrap:anywhere}
+.refer-link-box button{padding:9px;border-radius:10px;background:rgba(124,58,237,.25);color:#ddd6fe}
+.refer-step{display:flex;align-items:center;gap:12px;padding:12px 0}
+.refer-step>span{display:flex;flex-direction:column;gap:4px}
+.refer-step small,.refer-warning p{line-height:1.7;color:#94a3b8}
+.refer-warning{display:flex;gap:12px;padding:16px}
+.refer-warning>i{flex-shrink:0;color:#fbbf24}
+@media(max-width:360px){.nav-glass{padding-left:8px!important;padding-right:8px!important}.nav-btn{min-width:52px;font-size:9px}}
+</style>
+
+
+
+<style>
+/* Distinct visual identity: Official missions */
+#official-task-page,#daily-task-page{padding-top:3px}
+.task-page-topline{display:flex;align-items:center;gap:13px;padding:2px 1px 5px}
+.task-back-btn{width:43px;height:43px;flex:none;border-radius:15px;display:grid;place-items:center;color:#e0e7ff;background:linear-gradient(145deg,rgba(139,92,246,.22),rgba(34,211,238,.08));border:1px solid rgba(167,139,250,.20);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.task-back-btn svg{width:19px;height:19px}
+.task-eyebrow{font:800 7px 'Plus Jakarta Sans',sans-serif;letter-spacing:.24em;color:#a5b4fc}
+.task-page-topline h2{font-size:21px;font-weight:900;line-height:1.35;color:#fff}
+.official-hero{position:relative;overflow:hidden;min-height:218px;padding:22px 20px 17px;border-radius:28px;background:radial-gradient(circle at 88% 12%,rgba(56,189,248,.24),transparent 31%),radial-gradient(circle at 0% 100%,rgba(99,102,241,.34),transparent 42%),linear-gradient(130deg,#101b37,#11102b 55%,#071c2c);border:1px solid rgba(125,211,252,.18);box-shadow:0 24px 55px rgba(0,0,0,.28)}
+.official-orbit{position:absolute;border:1px solid rgba(125,211,252,.13);border-radius:50%;pointer-events:none}
+.orbit-a{width:210px;height:210px;right:-78px;top:-112px;box-shadow:0 0 0 18px rgba(125,211,252,.025),0 0 0 38px rgba(125,211,252,.02)}
+.orbit-b{width:135px;height:135px;right:-40px;bottom:-88px}
+.official-hero-content{position:relative;z-index:1}
+.official-emblem{width:52px;height:52px;border-radius:18px;display:grid;place-items:center;position:relative;color:#a5f3fc;background:linear-gradient(145deg,rgba(34,211,238,.22),rgba(99,102,241,.20));border:1px solid rgba(165,243,252,.28);box-shadow:0 0 30px rgba(34,211,238,.13)}
+.official-emblem svg{width:27px;height:27px}
+.official-emblem span{position:absolute;width:7px;height:7px;border-radius:50%;background:#4ade80;right:7px;top:7px;box-shadow:0 0 10px #4ade80}
+.official-label{font:900 7px 'Plus Jakarta Sans',sans-serif;letter-spacing:.23em;color:#67e8f9;margin-top:15px}
+.official-hero h3{font-size:19px;font-weight:900;margin-top:5px;color:#f8fafc}
+.official-hero-content>p{font-size:9px;color:#a5b4c8;line-height:1.8;margin-top:5px;max-width:280px}
+.official-hero-foot{display:flex;justify-content:space-between;align-items:center;margin-top:15px;padding-top:12px;border-top:1px solid rgba(255,255,255,.09);font-size:8px;font-weight:800;color:#bae6fd}
+.official-hero-foot span{display:flex;align-items:center;gap:6px}.official-hero-foot svg{width:13px;height:13px;color:#67e8f9}
+.task-section-heading,.daily-list-heading{display:flex;align-items:center;justify-content:space-between;padding:2px 2px}
+.task-section-heading span,.daily-list-heading>div:first-child>span{font:900 7px 'Plus Jakarta Sans',sans-serif;letter-spacing:.22em;color:#818cf8}
+.task-section-heading h3,.daily-list-heading h3{font-size:14px;font-weight:900;color:#f8fafc;margin-top:4px}
+.section-count{font:900 13px 'Space Grotesk',sans-serif;color:#a5b4fc;background:rgba(99,102,241,.12);border:1px solid rgba(129,140,248,.17);padding:8px 11px;border-radius:12px}
+.official-mission-list{display:grid;gap:11px}
+.official-task-card{position:relative;display:flex;align-items:center;gap:11px;padding:13px 11px;border-radius:21px;background:linear-gradient(115deg,rgba(22,31,56,.96),rgba(10,15,30,.96));border:1px solid rgba(255,255,255,.075);box-shadow:0 12px 30px rgba(0,0,0,.20);overflow:hidden}
+.official-task-card:after{content:"";position:absolute;left:0;top:13px;bottom:13px;width:3px;border-radius:0 8px 8px 0;background:var(--mission-color)}
+.official-blue{--mission-color:#38bdf8}.official-green{--mission-color:#34d399}.official-violet{--mission-color:#a78bfa}.official-orange{--mission-color:#fb923c}
+.mission-symbol{position:relative;width:47px;height:49px;flex:none;border-radius:15px;display:grid;place-items:center;color:var(--mission-color);background:color-mix(in srgb,var(--mission-color) 13%,transparent);border:1px solid color-mix(in srgb,var(--mission-color) 24%,transparent)}
+.mission-symbol svg{width:21px;height:21px}
+.mission-symbol b{position:absolute;right:4px;bottom:3px;font:800 6px 'Plus Jakarta Sans',sans-serif;opacity:.55}
+.mission-info{flex:1;min-width:0}
+.mission-tag{font:900 6px 'Plus Jakarta Sans',sans-serif;letter-spacing:.15em;color:var(--mission-color);opacity:.9}
+.mission-info h4{font-size:11px;font-weight:900;color:#f8fafc;margin-top:3px}
+.mission-info p{font-size:8px;font-weight:800;color:var(--mission-color);margin-top:4px}
+.mission-action{height:37px;min-width:67px;padding:0 9px;display:flex;align-items:center;justify-content:center;gap:4px;border-radius:12px;background:linear-gradient(135deg,color-mix(in srgb,var(--mission-color) 28%,#172033),rgba(15,23,42,.95));border:1px solid color-mix(in srgb,var(--mission-color) 35%,transparent);color:#fff;font:900 8px 'Plus Jakarta Sans',sans-serif;white-space:nowrap}
+.mission-action svg{width:12px;height:12px}
+.official-footnote{display:flex;gap:9px;align-items:flex-start;padding:13px 14px;border-radius:16px;background:rgba(56,189,248,.055);border:1px solid rgba(56,189,248,.10);color:#94a3b8;font-size:8px;line-height:1.7}
+.official-footnote svg{width:15px;height:15px;flex:none;color:#67e8f9}
+
+/* Daily tasks: bright emerald / electric-lime challenge theme */
+.daily-topline .task-back-btn{background:linear-gradient(145deg,rgba(16,185,129,.20),rgba(163,230,53,.08));border-color:rgba(52,211,153,.20);color:#a7f3d0}
+.daily-topline .task-eyebrow{color:#6ee7b7}
+.daily-hero{position:relative;overflow:hidden;padding:18px 18px 14px;border-radius:29px;background:radial-gradient(circle at 82% 18%,rgba(163,230,53,.20),transparent 29%),radial-gradient(circle at 0% 100%,rgba(16,185,129,.24),transparent 42%),linear-gradient(140deg,#082c2a,#0b2428 52%,#111d31);border:1px solid rgba(52,211,153,.18);box-shadow:0 24px 55px rgba(0,0,0,.28)}
+.daily-hero-art{height:105px;position:relative;display:flex;align-items:center;justify-content:center}
+.daily-ring{position:absolute;border:1px solid rgba(110,231,183,.19);border-radius:50%;transform:rotate(-24deg)}
+.ring-one{width:90px;height:90px;box-shadow:0 0 0 12px rgba(16,185,129,.035),0 0 0 25px rgba(16,185,129,.025)}
+.ring-two{width:132px;height:66px;border-color:rgba(190,242,100,.20);transform:rotate(35deg)}
+.daily-hero-icon{width:66px;height:66px;display:grid;place-items:center;border-radius:23px;color:#d9f99d;background:linear-gradient(145deg,rgba(16,185,129,.34),rgba(163,230,53,.13));border:1px solid rgba(190,242,100,.32);box-shadow:0 0 40px rgba(52,211,153,.18),inset 0 1px rgba(255,255,255,.12);z-index:1}
+.daily-hero-icon svg{width:31px;height:31px}
+.daily-spark{position:absolute;color:#bef264;font-size:20px}.spark-one{right:22%;top:8px}.spark-two{left:23%;bottom:9px;color:#6ee7b7}
+.daily-hero-copy{text-align:center;position:relative;z-index:1}
+.daily-hero-copy>span{font:900 7px 'Plus Jakarta Sans',sans-serif;letter-spacing:.24em;color:#6ee7b7}
+.daily-hero-copy h3{font-size:20px;font-weight:900;color:#f0fdf4;margin-top:5px}
+.daily-hero-copy p{font-size:9px;color:#9cb8b0;margin-top:5px}
+.daily-hero-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:17px;padding-top:12px;border-top:1px solid rgba(255,255,255,.09);font-size:8px;color:#a7f3d0;font-weight:800}
+.daily-hero-bottom span{display:flex;align-items:center;gap:6px}.daily-hero-bottom svg{width:13px;height:13px}
+.daily-hero-bottom b{color:#d9f99d;background:rgba(163,230,53,.10);border:1px solid rgba(190,242,100,.13);padding:6px 10px;border-radius:99px}
+.daily-date-mark{display:flex;align-items:center;gap:5px;font:900 7px 'Plus Jakarta Sans',sans-serif;letter-spacing:.1em;color:#86efac;background:rgba(16,185,129,.10);border:1px solid rgba(52,211,153,.13);padding:8px 10px;border-radius:99px}
+.daily-date-mark svg{width:12px;height:12px}
+.daily-task-list{display:grid;gap:10px}
+.daily-task-card{display:flex;align-items:center;gap:10px;min-height:78px;padding:11px;border-radius:20px;background:linear-gradient(110deg,rgba(13,42,42,.96),rgba(12,22,35,.96));border:1px solid rgba(52,211,153,.11);box-shadow:0 12px 28px rgba(0,0,0,.18);position:relative;overflow:hidden}
+.daily-task-card:before{content:"";position:absolute;right:-28px;top:-42px;width:95px;height:95px;border-radius:50%;background:rgba(16,185,129,.055)}
+.daily-task-number{width:39px;flex:none;display:flex;flex-direction:column;align-items:center;gap:2px}
+.daily-task-number span{font:900 5px 'Plus Jakarta Sans',sans-serif;letter-spacing:.1em;color:#6ee7b7}
+.daily-task-number b{font:900 18px 'Space Grotesk',sans-serif;color:#d1fae5}
+.daily-task-icon{width:39px;height:39px;flex:none;border-radius:13px;display:grid;place-items:center;color:#a3e635;background:linear-gradient(145deg,rgba(16,185,129,.19),rgba(163,230,53,.08));border:1px solid rgba(163,230,53,.14)}
+.daily-task-icon svg{width:19px;height:19px}
+.daily-task-details{flex:1;min-width:0;position:relative;z-index:1}
+.daily-task-title{font-size:10px;font-weight:900;color:#f0fdf4}
+.daily-task-reward{display:flex;align-items:center;gap:4px;font-size:9px;font-weight:900;color:#a3e635;margin-top:6px}
+.daily-task-reward svg{width:12px;height:12px}
+.daily-task-card>button{position:relative;z-index:1;min-width:76px;padding:10px 9px;border-radius:12px;font-size:8px;font-weight:900}
+.daily-task-card>button:not(:disabled){background:linear-gradient(120deg,#059669,#65a30d)!important;color:#fff;box-shadow:0 7px 18px rgba(16,185,129,.18)}
+.daily-task-card>button:disabled{background:rgba(100,116,139,.25)!important;color:#cbd5e1}
+.daily-task-card.task-is-done{opacity:.62;border-color:rgba(52,211,153,.20)}
+.daily-tip{display:flex;align-items:flex-start;gap:10px;padding:14px;border-radius:17px;background:linear-gradient(110deg,rgba(163,230,53,.07),rgba(16,185,129,.05));border:1px solid rgba(163,230,53,.10)}
+.daily-tip>svg{width:17px;height:17px;flex:none;color:#bef264}
+.daily-tip b{font-size:9px;color:#d9f99d}.daily-tip p{font-size:8px;line-height:1.7;color:#94a3b8;margin-top:3px}
+@media(max-width:380px){.official-task-card{gap:8px;padding:11px 9px}.mission-symbol{width:41px;height:45px}.mission-action{min-width:59px;padding:0 6px}.daily-task-card{gap:7px;padding:9px}.daily-task-card>button{min-width:67px}}
+</style>
+\n
+
+<style>
+/* Individual task action buttons: custom shapes, gradients and states */
+.official-task-card .mission-action{
+    position:relative;isolation:isolate;overflow:hidden;
+    min-width:78px;height:40px;padding:0 11px;
+    border-radius:13px 13px 13px 5px;
+    font-size:8px;font-weight:900;letter-spacing:.04em;
+    transition:transform .2s ease,filter .2s ease,box-shadow .2s ease;
+}
+.official-task-card .mission-action:before{
+    content:"";position:absolute;inset:0;z-index:-1;opacity:.95;
+    background:linear-gradient(135deg,color-mix(in srgb,var(--mission-color) 72%,#172554),color-mix(in srgb,var(--mission-color) 30%,#071426));
+}
+.official-task-card .mission-action:after{
+    content:"";position:absolute;top:-80%;left:-55%;width:35%;height:260%;
+    transform:rotate(25deg);background:rgba(255,255,255,.24);
+    transition:left .45s ease;pointer-events:none;
+}
+.official-task-card .mission-action:hover:after{left:130%}
+.official-task-card .mission-action:active{transform:scale(.94);filter:brightness(1.18)}
+.official-task-card .mission-action svg{width:13px;height:13px;stroke-width:2.7}
+.official-blue .mission-action{box-shadow:0 7px 20px rgba(56,189,248,.18)}
+.official-green .mission-action{box-shadow:0 7px 20px rgba(52,211,153,.16)}
+.official-violet .mission-action{box-shadow:0 7px 20px rgba(167,139,250,.16)}
+.official-orange .mission-action{box-shadow:0 7px 20px rgba(251,146,60,.16)}
+
+.daily-task-card .daily-start-btn{
+    position:relative;isolation:isolate;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+    min-width:91px;height:41px;padding:0 10px;
+    border-radius:13px 7px 13px 13px;
+    border:1px solid rgba(190,242,100,.30);
+    background:linear-gradient(125deg,#047857 0%,#059669 48%,#65a30d 100%)!important;
+    color:#f0fdf4!important;
+    font:900 8px 'Hind Siliguri',sans-serif;
+    letter-spacing:.02em;
+    box-shadow:0 8px 22px rgba(16,185,129,.23),inset 0 1px 0 rgba(255,255,255,.22);
+    transition:transform .2s ease,filter .2s ease,box-shadow .2s ease;
+}
+.daily-task-card .daily-start-btn:before{
+    content:"";width:7px;height:7px;flex:none;border-radius:2px;
+    background:#d9f99d;box-shadow:0 0 10px rgba(217,249,157,.7);
+    transform:rotate(45deg);
+}
+.daily-task-card .daily-start-btn:after{
+    content:"";position:absolute;top:-80%;left:-55%;width:28%;height:260%;
+    background:rgba(255,255,255,.23);transform:rotate(24deg);
+    transition:left .45s ease;pointer-events:none;
+}
+.daily-task-card .daily-start-btn:hover:after{left:130%}
+.daily-task-card .daily-start-btn:active{transform:translateY(1px) scale(.94);filter:brightness(1.16)}
+.daily-task-card .daily-start-btn.daily-claimed-btn,
+.daily-task-card .daily-start-btn:disabled{
+    min-width:91px;border-color:rgba(110,231,183,.13);
+    background:linear-gradient(125deg,#263b3b,#334155)!important;
+    color:#a7f3d0!important;box-shadow:none;opacity:1;
+}
+.daily-task-card .daily-start-btn.daily-claimed-btn:before,
+.daily-task-card .daily-start-btn:disabled:before{
+    width:13px;height:13px;border-radius:50%;transform:none;
+    background:#34d399;content:"✓";display:grid;place-items:center;
+    color:#052e24;font:900 9px sans-serif;box-shadow:none;
+}
+.daily-task-card .daily-start-btn.daily-claimed-btn:after,
+.daily-task-card .daily-start-btn:disabled:after{display:none}
+@media(max-width:380px){
+    .official-task-card .mission-action{min-width:65px;height:38px;padding:0 7px}
+    .daily-task-card .daily-start-btn,.daily-task-card .daily-start-btn.daily-claimed-btn{min-width:78px;height:39px;padding:0 7px}
+}
+</style>
+\n
+<style id="takar-bank-identity">
+:root{
+  --tb-ink:#172b27;--tb-muted:#71827b;--tb-green:#087f5b;
+  --tb-mint:#dff7ed;--tb-paper:#f4f8f5;--tb-line:#dce9e1;
+}
+html,body{background:var(--tb-paper)!important;color:var(--tb-ink)!important}
+body{
+  background:
+    radial-gradient(ellipse at 8% 0%,rgba(20,184,125,.13),transparent 34%),
+    radial-gradient(ellipse at 100% 22%,rgba(234,179,8,.10),transparent 28%),
+    #f4f8f5!important;
+  color:var(--tb-ink)!important;
+}
+body:before{display:none!important}
+header{
+  background:rgba(248,252,249,.94)!important;
+  border-bottom:1px solid var(--tb-line)!important;
+  box-shadow:0 5px 22px rgba(26,67,48,.05)!important;
+  backdrop-filter:blur(18px)!important;
+}
+header h1{color:#075b43!important;font-size:19px!important;font-weight:900!important}
+header .w-10{
+  background:linear-gradient(145deg,#0b8c61,#075b43)!important;
+  border-radius:14px!important;box-shadow:0 8px 18px rgba(8,127,91,.22)!important;
+}
+header .glass-item{
+  background:#e7f5ed!important;border:1px solid #cde7d8!important;
+  color:#075b43!important;box-shadow:none!important;border-radius:13px!important;
+}
+main{padding-top:20px!important}
+.glass-item{
+  color:var(--tb-ink)!important;background:#fff!important;
+  border:1px solid var(--tb-line)!important;border-radius:19px!important;
+  box-shadow:0 8px 24px rgba(30,75,53,.055)!important;
+  backdrop-filter:none!important;
+}
+.glass-item:before,.glass-item:after{display:none!important}
+.balance-card-static{
+  background:linear-gradient(135deg,#075b43 0%,#07845d 58%,#22a477 100%)!important;
+  border:0!important;border-radius:25px!important;
+  box-shadow:0 17px 34px rgba(7,111,77,.20)!important;
+  color:#fff!important;
+}
+.balance-card-static p{color:#d2f4e4!important}
+#home-page .balance-card-static h2{
+  color:#fff!important;font-size:43px!important;letter-spacing:-.04em!important;
+  text-shadow:none!important;font-family:"Hind Siliguri",sans-serif!important;
+}
+#home-page .balance-card-static .bg-green-500\/10{
+  background:rgba(255,255,255,.15)!important;border-color:rgba(255,255,255,.22)!important;
+}
+#home-page .balance-card-static .text-green-500{color:#e1ffef!important}
+.earning-rates-strip{gap:7px!important;margin-top:0!important}
+.earning-rates-strip>div{
+  background:#fff!important;border:1px solid var(--tb-line)!important;
+  border-radius:15px!important;box-shadow:0 5px 14px rgba(30,75,53,.04)!important;
+}
+.earning-rates-strip b{color:#087f5b!important}
+.earning-rates-strip span{color:#71827b!important}
+.ad-center-card{
+  background:linear-gradient(135deg,#fff,#eaf7f0)!important;
+  border:1px solid #cfe8d9!important;border-radius:22px!important;
+  box-shadow:0 10px 28px rgba(25,90,58,.08)!important;
+}
+.ad-center-card h3{color:#174b39!important}
+.ad-center-card p{color:#71827b!important}
+.ad-center-card .text-cyan-300,.ad-center-card .text-cyan-300 *{color:#087f5b!important}
+.ad-center-card .bg-white\/5{background:#dff2e7!important}
+.ad-progress{background:#dcebe2!important;border:0!important}
+.ad-progress #ad-progress-fill{background:linear-gradient(90deg,#07845d,#7bc99e)!important;box-shadow:none!important}
+#ad-watch-btn,.btn-premium{
+  background:linear-gradient(110deg,#087f5b,#16a36f)!important;
+  color:#fff!important;border:0!important;border-radius:13px!important;
+  box-shadow:0 8px 17px rgba(8,127,91,.17)!important;
+}
+#home-page .space-y-3 h3{color:#174b39!important}
+#home-page .space-y-3 p{color:#71827b!important}
+#home-page button.glass-item{
+  background:#fff!important;border:1px solid var(--tb-line)!important;
+  border-radius:18px!important;box-shadow:0 7px 20px rgba(30,75,53,.055)!important;
+}
+#home-page button.glass-item h3{color:#174b39!important}
+#home-page button.glass-item p{color:#71827b!important}
+#home-page button.glass-item .text-white{color:#174b39!important}
+#home-page button.glass-item .text-slate-400{color:#71827b!important}
+#official-task-page,#daily-task-page,#refer-page,#wallet-page,#profile-page,#withdraw-history-page{color:var(--tb-ink)!important}
+.task-page-topline h2{color:#174b39!important}
+.task-eyebrow{color:#087f5b!important}
+.task-back-btn{
+  background:#e3f3e9!important;border:1px solid #c9e4d4!important;
+  color:#087f5b!important;box-shadow:none!important;border-radius:14px!important;
+}
+.official-hero{
+  background:linear-gradient(135deg,#075b43,#0c8a62)!important;
+  border:0!important;border-radius:22px!important;box-shadow:0 14px 28px rgba(7,91,67,.16)!important;
+}
+.official-hero h3,.official-hero-content>p{color:#fff!important}
+.official-label{color:#baf2d3!important}
+.official-emblem{background:rgba(255,255,255,.14)!important;color:#fff!important}
+.official-hero-foot{color:#e1ffef!important}
+.task-section-heading h3,.daily-list-heading h3{color:#174b39!important}
+.task-section-heading span,.daily-list-heading>div:first-child>span{color:#087f5b!important}
+.section-count{background:#e4f4ea!important;border-color:#cce7d6!important;color:#087f5b!important}
+.official-task-card{
+  background:#fff!important;border:1px solid var(--tb-line)!important;
+  border-radius:17px!important;box-shadow:0 7px 18px rgba(30,75,53,.05)!important;
+}
+.mission-info h4{color:#174b39!important}
+.mission-info p{color:#087f5b!important}
+.mission-action{background:#e4f4ea!important;border:1px solid #cce7d6!important;color:#087f5b!important}
+.official-footnote{background:#eaf5ee!important;border-color:#d6e9dc!important;color:#64766d!important}
+.daily-hero{
+  background:linear-gradient(140deg,#075b43,#11845f)!important;
+  border:0!important;border-radius:22px!important;box-shadow:0 14px 28px rgba(7,91,67,.15)!important;
+}
+.daily-hero-copy h3,.daily-hero-copy p,.daily-hero-bottom{color:#fff!important}
+.daily-hero-copy>span{color:#c7f5da!important}
+.daily-hero-icon{background:rgba(255,255,255,.15)!important;color:#fff!important}
+.daily-ring{border-color:rgba(255,255,255,.2)!important}
+.daily-task-card{
+  background:#fff!important;border:1px solid var(--tb-line)!important;
+  border-radius:17px!important;box-shadow:0 7px 18px rgba(30,75,53,.05)!important;
+}
+.daily-task-title{color:#174b39!important}
+.daily-task-number b{color:#087f5b!important}
+.daily-task-details,.daily-task-reward{color:#087f5b!important}
+.daily-task-card>button:not(:disabled){background:#087f5b!important;box-shadow:none!important}
+.daily-tip{background:#e8f5ed!important;color:#416b55!important;border:1px solid #d2e9da!important}
+.payment-hero{
+  background:linear-gradient(135deg,#075b43,#11845f)!important;
+  border:0!important;border-radius:23px!important;box-shadow:0 14px 28px rgba(7,91,67,.16)!important;
+}
+.payment-hero p,.payment-hero h2,.payment-status{color:#fff!important}
+.payment-chip{background:rgba(255,255,255,.15)!important;color:#e2ffed!important;border-color:rgba(255,255,255,.2)!important}
+.payment-icon{background:rgba(255,255,255,.15)!important;box-shadow:none!important}
+.payment-card,.refer-link-card,.refer-steps-card,.payment-security{
+  background:#fff!important;border:1px solid var(--tb-line)!important;
+  border-radius:19px!important;box-shadow:0 7px 20px rgba(30,75,53,.05)!important;
+  color:#174b39!important;
+}
+.payment-card-title h3,.section-mini-head h3{color:#174b39!important}
+.payment-card-title p,.section-mini-head p{color:#71827b!important}
+.payment-field label{color:#526b5d!important}
+.payment-field input,.payment-field select,.payment-input-wrap{
+  background:#f7faf8!important;border:1px solid #dce9e1!important;color:#174b39!important;
+}
+.payment-field select option{background:#fff!important;color:#174b39!important}
+.payment-submit{background:linear-gradient(110deg,#087f5b,#16a36f)!important;box-shadow:none!important}
+.payment-lock{background:#fff8e7!important;border-color:#f4dfaa!important;color:#76551a!important}
+.payment-lock p,.lock-head p{color:#8b7955!important}
+.refer-hero{
+  background:linear-gradient(135deg,#075b43,#15956b)!important;
+  border:0!important;border-radius:23px!important;box-shadow:0 14px 28px rgba(7,91,67,.15)!important;
+}
+.refer-hero h2,.refer-hero>p:not(.refer-kicker){color:#fff!important}
+.refer-kicker{color:#c9f5dc!important}
+.refer-icon{background:rgba(255,255,255,.16)!important;box-shadow:none!important}
+.refer-stats>div{background:rgba(255,255,255,.13)!important;border-color:rgba(255,255,255,.15)!important}
+.refer-stats small{color:#d3f1df!important}
+.refer-link-head p,.refer-step strong{color:#174b39!important}
+.refer-link-head span,.refer-step small{color:#71827b!important}
+.refer-link-box{background:#f4faf6!important;border:1px dashed #b8d9c5!important}
+.refer-link-box span{color:#087f5b!important}
+.refer-copy-btn{background:linear-gradient(110deg,#087f5b,#16a36f)!important;box-shadow:none!important}
+.refer-warning{background:#fff8e7!important;border-color:#f2dfb3!important;color:#9a6a0a!important}
+.refer-warning p{color:#81714e!important}
+#profile-page .glass-item.p-10{
+  background:linear-gradient(145deg,#075b43,#11845f)!important;
+  border:0!important;border-radius:23px!important;color:#fff!important;
+}
+#profile-page .glass-item.p-10 *{color:#fff!important}
+#profile-page .w-20{background:rgba(255,255,255,.16)!important;box-shadow:none!important;border:1px solid rgba(255,255,255,.2)!important}
+#profile-page .glass-item{background:#fff!important;color:#174b39!important}
+#profile-page .glass-item h3,#profile-page .glass-item span,#profile-page .glass-item strong{color:#174b39!important}
+#profile-page .text-slate-400,#profile-page .text-slate-500{color:#71827b!important}
+.nav-glass{
+  background:rgba(255,255,255,.96)!important;border:1px solid #dce9e1!important;
+  box-shadow:0 8px 28px rgba(26,67,48,.12)!important;border-radius:19px!important;
+  backdrop-filter:blur(18px)!important;
+}
+.nav-btn{color:#71827b!important}
+.nav-btn.active-icon{
+  background:#087f5b!important;color:#fff!important;
+  box-shadow:0 6px 14px rgba(8,127,91,.20)!important;
+}
+#startup-loader{
+  background:linear-gradient(145deg,#075b43,#11845f)!important;
+}
+.loader-wrap{
+  background:rgba(255,255,255,.10)!important;border:1px solid rgba(255,255,255,.2)!important;
+  box-shadow:0 20px 60px rgba(0,0,0,.18)!important;backdrop-filter:blur(15px)!important;
+}
+.loader-logo{background:#fff!important;color:#087f5b!important;box-shadow:none!important}
+.loader-title{background:none!important;color:#fff!important;-webkit-text-fill-color:#fff!important}
+.loader-sub,.loader-status{color:#d5f5e2!important}
+.loader-track{background:rgba(255,255,255,.18)!important}
+#loader-fill{background:linear-gradient(90deg,#b8f0ce,#fff)!important;box-shadow:none!important}
+#loader-percent{color:#fff!important;text-shadow:none!important}
+@media(max-width:430px){
+  main{padding-left:15px!important;padding-right:15px!important}
+  .nav-glass{left:10px!important;right:10px!important;bottom:10px!important}
+}
+</style>
+
+
+<style id="takar-bank-premium-refresh">
+:root{
+  --tb-ink:#153b2e;--tb-muted:#72877d;--tb-line:#e1eee6;
+  --tb-green:#087f5b;--tb-deep:#064e3b;--tb-mint:#dff7e9;
+}
+body{background:linear-gradient(180deg,#f5fbf7 0%,#edf6f0 48%,#f8fbf9 100%)!important;color:var(--tb-ink)!important}
+header{background:rgba(250,255,251,.94)!important;border-bottom:1px solid #e1eee6!important}
+header h1{font-size:20px!important;letter-spacing:-.4px!important}
+header .glass-item{background:#e7f5ed!important;color:#087f5b!important;border:1px solid #d3eadd!important}
+header .glass-item span{color:#087f5b!important}
+main{padding-bottom:110px!important}
+#home-page{gap:19px!important}
+.tb-wallet-panel{
+ position:relative;overflow:hidden;padding:22px 21px 18px;border-radius:27px;
+ color:#fff;background:radial-gradient(circle at 92% 8%,rgba(173,255,218,.28),transparent 29%),
+ linear-gradient(135deg,#063e30 0%,#087653 53%,#16a477 100%);
+ box-shadow:0 19px 38px rgba(6,92,62,.20);border:1px solid rgba(255,255,255,.13);
+}
+.tb-wallet-panel:before,.tb-wallet-panel:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.10);border-radius:50%;pointer-events:none}
+.tb-wallet-panel:before{width:210px;height:210px;right:-75px;bottom:-135px}
+.tb-wallet-panel:after{width:145px;height:145px;right:-42px;bottom:-103px}
+.tb-wallet-head,.tb-wallet-brand,.tb-wallet-bottom{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
+.tb-wallet-brand{justify-content:flex-start;gap:11px}
+.tb-wallet-symbol{width:43px;height:43px;border-radius:15px;display:grid;place-items:center;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);font-size:20px}
+.tb-wallet-kicker{font-size:8px;letter-spacing:2px;font-weight:900;color:#b8f2d5}
+.tb-wallet-brand p{margin-top:2px;font-size:13px;font-weight:900;color:#fff}
+.tb-wallet-live{display:flex;align-items:center;gap:6px;padding:7px 10px;border-radius:30px;background:rgba(255,255,255,.13);font-size:9px;font-weight:800;color:#e8fff2}
+.tb-wallet-live i{width:6px;height:6px;border-radius:50%;background:#a7f3c5;box-shadow:0 0 0 4px rgba(167,243,197,.13)}
+.tb-wallet-label{position:relative;z-index:1;margin-top:27px;color:#c5f3dc;font-size:11px;font-weight:700}
+.tb-wallet-amount{position:relative;z-index:1;display:flex;align-items:baseline;gap:7px;margin-top:5px;color:#fff;font-size:42px;line-height:1.15;font-weight:950;letter-spacing:-1.7px;font-variant-numeric:tabular-nums}
+.tb-wallet-amount:first-letter{font-size:25px}
+.tb-wallet-bottom{margin-top:22px;padding-top:13px;border-top:1px solid rgba(255,255,255,.17)}
+.tb-wallet-bottom>div:first-child{display:flex;flex-direction:column;gap:4px}
+.tb-wallet-bottom span{font-size:8px;color:#b9e8d1}
+.tb-wallet-bottom b{display:flex;align-items:center;gap:5px;font-size:10px;color:#f0fff6}
+.tb-wallet-bottom b svg{width:13px;height:13px}
+.tb-wallet-card-art{width:38px;height:27px;border-radius:8px;display:grid;place-items:center;background:rgba(255,255,255,.14);color:#d6ffea}
+.tb-wallet-card-art svg{width:19px}
+.tb-wallet-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:-4px}
+.tb-wallet-action{min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px;padding:13px 5px 11px;border-radius:18px;background:#fff;border:1px solid #e1eee6;box-shadow:0 7px 18px rgba(31,83,54,.055);color:#174a36}
+.tb-wallet-action>span{width:37px;height:37px;display:grid;place-items:center;border-radius:13px;background:#e7f7ed;color:#087f5b}
+.tb-wallet-action svg{width:18px;height:18px}
+.tb-wallet-action b{font-size:10px;font-weight:900}
+.tb-wallet-action small{font-size:8px;color:#83978b}
+.tb-withdraw-action>span{background:#e4f2ff;color:#2871b9}
+.tb-refer-action>span{background:#fff2dc;color:#c47b19}
+.tb-profile-action>span{background:#f0eaff;color:#7654ba}
+.tb-ad-reward{display:inline-flex;margin-top:8px;padding:6px 10px;border-radius:20px;background:#e1f5e9;color:#087f5b;font-size:10px;font-weight:900}
+.ad-center-card{border-radius:22px!important;padding:19px!important}
+.ad-center-card h3{color:#164c37!important}
+.ad-center-card p{color:#74887d!important}
+.ad-center-card .text-cyan-300{color:#087f5b!important}
+.ad-center-card .bg-white\/5{background:#e3f3e9!important}
+.ad-progress{background:#e0eee5!important}
+.ad-progress #ad-progress-fill{background:linear-gradient(90deg,#087f5b,#64c995)!important}
+#ad-watch-btn,.btn-premium{background:linear-gradient(110deg,#087f5b,#16a477)!important;border-radius:14px!important}
+#home-page .space-y-3 h3{color:#174b39!important}
+#home-page .space-y-3 p{color:#72877d!important}
+#home-page button.glass-item{padding:16px!important;border-radius:19px!important}
+#home-page button.glass-item h3{font-size:14px!important;color:#174b39!important}
+#home-page button.glass-item p{font-size:10px!important}
+.official-task-card,.daily-task-card{background:#fff!important;border:1px solid #e3eee7!important;border-radius:20px!important;box-shadow:0 8px 22px rgba(25,76,48,.055)!important}
+.official-task-card{padding:14px!important;gap:12px!important}
+.mission-info h4{color:#173f30!important;font-size:13px!important;font-weight:900!important}
+.mission-tag{color:#789184!important}
+.tb-task-amount{margin-top:5px!important;color:#71877b!important;font-size:9px!important}
+.tb-task-amount b{display:inline-flex;padding:4px 8px;margin-left:3px;border-radius:20px;background:#e1f6e9;color:#087f5b;font-size:11px;font-weight:950}
+.tb-task-status{margin-top:4px!important;color:#9aa99f!important;font-size:8px!important}
+.mission-action{border-radius:12px!important;background:#087f5b!important;color:#fff!important}
+.daily-task-card{padding:13px!important}
+.daily-task-title{color:#174b39!important;font-weight:900!important}
+.daily-task-reward{display:flex!important;align-items:center;gap:4px;color:#71877b!important;font-size:9px!important}
+.daily-task-reward b{color:#087f5b!important;font-size:12px!important}
+.daily-start-btn{border-radius:12px!important}
+.payment-hero,.refer-hero,.official-hero,.daily-hero{border-radius:25px!important;box-shadow:0 13px 30px rgba(20,80,49,.10)!important}
+.payment-card,.payment-lock,.payment-security,.refer-link-card,.refer-steps-card,.refer-warning{border-radius:20px!important}
+#profile-page .glass-item{border-radius:21px!important}
+.nav-glass{background:rgba(250,255,251,.96)!important;border-top:1px solid #dfebe3!important;box-shadow:0 -8px 24px rgba(25,70,45,.07)!important;backdrop-filter:blur(18px)!important}
+.nav-btn{color:#82968a!important}
+.nav-btn.active-icon{color:#087f5b!important}
+@media(max-width:370px){.tb-wallet-amount{font-size:36px}.tb-wallet-action{padding-left:2px;padding-right:2px}}
+</style>
+
+
+<style id="takar-bank-wallet-history-refresh">
+.tb-wallet-panel.tb-wallet-amount-only{
+    width:100%;min-height:94px;height:94px;padding:0 22px;
+    display:flex;align-items:center;justify-content:flex-start;
+    border-radius:22px;position:relative;isolation:isolate;
+    background:linear-gradient(105deg,#064b38 0%,#087f5b 56%,#20a879 100%);
+    box-shadow:0 12px 27px rgba(6,92,62,.17);
+}
+.tb-wallet-panel.tb-wallet-amount-only:before{
+    width:145px;height:145px;right:-35px;bottom:-100px;
+    border-color:rgba(255,255,255,.12);
+}
+.tb-wallet-panel.tb-wallet-amount-only:after{
+    width:95px;height:95px;right:0;bottom:-65px;
+    border-color:rgba(255,255,255,.10);
+}
+.tb-wallet-amount-only .tb-wallet-amount{
+    margin:0;z-index:2;font-size:35px;line-height:1;
+    letter-spacing:-1.1px;font-weight:950;
+}
+.tb-wallet-amount-only .tb-wallet-amount span{font-variant-numeric:tabular-nums}
+.tb-howto-link{
+    display:flex;align-items:center;gap:12px;width:100%;padding:14px 15px;
+    border:1px solid #dcece2;border-radius:18px;background:#fff;
+    color:#174b39;text-decoration:none;box-shadow:0 7px 18px rgba(31,83,54,.05);
+}
+.tb-howto-icon{width:39px;height:39px;border-radius:13px;display:grid;place-items:center;background:#e6f6ec;color:#087f5b;flex:none}
+.tb-howto-icon svg{width:20px;height:20px}
+.tb-howto-link>span:nth-child(2){display:flex;flex-direction:column;gap:3px;min-width:0}
+.tb-howto-link b{font-size:12px;font-weight:900}
+.tb-howto-link small{font-size:9px;color:#819489}
+.tb-howto-arrow{margin-left:auto;width:17px;height:17px;color:#087f5b;flex:none}
+.tb-history-hero{
+ display:flex;align-items:center;gap:14px;padding:19px;border-radius:23px;
+ background:linear-gradient(120deg,#064b38,#0d9369);color:#fff;
+ box-shadow:0 13px 28px rgba(6,92,62,.15)
+}
+.tb-history-icon{width:48px;height:48px;display:grid;place-items:center;border-radius:16px;background:rgba(255,255,255,.15);flex:none}
+.tb-history-icon svg{width:24px;height:24px}
+.tb-history-hero span{font-size:8px;letter-spacing:2px;font-weight:900;color:#baf1d5}
+.tb-history-hero h2{font-size:17px;font-weight:950;margin-top:3px}
+.tb-history-hero p{font-size:9px;color:#d3f3e2;margin-top:3px}
+#withdraw-history-page #sample-withdraw-history{margin-top:0!important}
+#withdraw-history-page #sample-withdraw-history h3{color:#174b39!important}
+#withdraw-history-page #sample-withdraw-history h4{color:#087f5b!important}
+#withdraw-history-page #txn-history .glass-item{background:#fff!important;border:1px solid #e1eee6!important;border-radius:16px!important}
+#withdraw-history-page #txn-history .text-white{color:#174b39!important}
+#withdraw-history-page #txn-history .text-slate-600{color:#82968a!important}
+#withdraw-history-page #sample-withdraw-history .rounded-xl{border-radius:15px!important}
+.nav-btn{min-width:0!important;width:14.1%!important;height:51px!important;font-size:8px!important;gap:3px!important}
+.nav-btn i{width:17px!important;height:17px!important}
+@media(max-width:370px){
+ .nav-btn{width:13.9%!important;font-size:7px!important}
+ .tb-wallet-panel.tb-wallet-amount-only{height:86px;min-height:86px}
+ .tb-wallet-amount-only .tb-wallet-amount{font-size:31px}
+}
+</style>
+
+
+<style id="takar-bank-brand-payment-refresh">
+.tb-bank-logo{
+ width:43px;height:43px;display:grid;place-items:center;flex:none;
+ border-radius:15px;color:#fff;
+ background:linear-gradient(145deg,#07583f,#13a675);
+ border:1px solid rgba(255,255,255,.2);
+ box-shadow:0 7px 18px rgba(8,127,91,.22),inset 0 1px 0 rgba(255,255,255,.2)
+}
+.tb-bank-logo svg{width:23px;height:23px;stroke-width:2}
+.loader-logo{background:linear-gradient(145deg,#07583f,#13a675)!important;color:#fff!important;border:1px solid rgba(255,255,255,.2)!important;box-shadow:0 0 0 7px rgba(8,127,91,.08),0 12px 30px rgba(8,127,91,.20)!important}
+.loader-logo svg{width:43px!important;height:43px!important;stroke-width:1.7}
+.tb-payment-methods{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:10px}
+.tb-method-card{
+ position:relative;min-width:0;min-height:91px;padding:13px 11px;
+ display:flex;align-items:center;gap:10px;text-align:left;
+ border:1.5px solid #e3ece6;border-radius:18px;background:#fff;
+ box-shadow:0 5px 15px rgba(23,74,55,.045);color:#174b39;
+ transition:border-color .18s,background .18s,transform .18s;
+}
+.tb-method-card:active{transform:scale(.98)}
+.tb-method-card.is-selected{border-color:#087f5b;background:linear-gradient(145deg,#f0fbf4,#fff);box-shadow:0 0 0 3px rgba(8,127,91,.08),0 8px 18px rgba(8,127,91,.07)}
+.tb-method-brand{
+ width:42px;height:42px;flex:none;border-radius:14px;
+ display:grid;place-items:center;color:#fff;font-size:25px;font-weight:950;
+ font-family:Arial,sans-serif;box-shadow:inset 0 1px 0 rgba(255,255,255,.22)
+}
+.tb-bkash-brand{background:linear-gradient(145deg,#e2136e,#bd0755)}
+.tb-nagad-brand{background:linear-gradient(145deg,#f59a23,#e66b13);font-size:22px}
+.tb-method-copy{display:flex;flex-direction:column;gap:4px;min-width:0}
+.tb-method-copy b{font-size:13px;font-weight:950;color:#174b39}
+.tb-method-copy small{font-size:8px;color:#87998f;white-space:nowrap}
+.tb-method-check{
+ position:absolute;right:8px;top:8px;width:17px;height:17px;
+ display:grid;place-items:center;border-radius:50%;background:#e8f0eb;color:transparent
+}
+.tb-method-check svg{width:11px;height:11px;stroke-width:3}
+.tb-method-card.is-selected .tb-method-check{background:#087f5b;color:#fff}
+#gateway{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;clip-path:inset(50%)!important}
+#wallet-page .payment-card{border-radius:23px!important}
+#wallet-page .payment-field label{font-size:10px!important;font-weight:900!important;color:#456c59!important}
+@media(max-width:360px){
+ .tb-payment-methods{gap:7px}
+ .tb-method-card{padding:11px 8px;gap:7px}
+ .tb-method-brand{width:36px;height:36px;border-radius:12px}
+ .tb-method-copy b{font-size:12px}
+ .tb-method-copy small{font-size:7px}
+}
+</style>
+
+
+<style id="takar-bank-history-visibility-fix">
+.tb-video-link{
+    min-height:66px;padding:13px 16px;border:1px solid #cfe9d9;
+    background:linear-gradient(100deg,#ffffff,#effaf3);
+    box-shadow:0 8px 20px rgba(8,127,91,.08);
+}
+.tb-video-link .tb-howto-icon{
+    width:43px;height:43px;border-radius:14px;
+    background:linear-gradient(145deg,#087f5b,#20a879);color:#fff;
+}
+.tb-video-link .tb-howto-icon svg{width:22px;height:22px}
+.tb-video-link b{font-size:13px;color:#07563d}
+.tb-video-link small{font-size:9px;color:#71877b}
+.tb-history-list-wrap{
+    padding:15px;border-radius:21px;background:#fff;
+    border:1px solid #e1eee6;box-shadow:0 8px 22px rgba(25,76,48,.055);
+}
+.tb-history-list-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px}
+.tb-history-list-heading>div{display:flex;flex-direction:column;gap:4px}
+.tb-history-list-heading b{font-size:13px;color:#174b39;font-weight:950}
+.tb-history-list-heading small{font-size:9px;color:#83968b}
+.tb-history-live{display:flex;align-items:center;gap:5px;padding:5px 8px;border-radius:20px;background:#e7f7ed;color:#087f5b;font-size:8px;font-weight:900}
+.tb-history-live i{width:6px;height:6px;border-radius:50%;background:#10a36e}
+.tb-history-state{
+    min-height:175px;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:9px;text-align:center;padding:22px 14px;
+    border:1px dashed #d8e9de;border-radius:17px;background:#f8fcf9;color:#174b39;
+}
+.tb-history-state>span:not(.tb-history-empty-icon){font-size:11px;color:#71877b}
+.tb-history-state b{font-size:12px;font-weight:900;color:#174b39}
+.tb-history-state small{max-width:245px;font-size:9px;line-height:1.6;color:#84978c}
+.tb-history-empty-icon{width:44px;height:44px;display:grid;place-items:center;border-radius:15px;background:#e7f7ed;color:#087f5b}
+.tb-history-empty-icon svg{width:21px;height:21px}
+.tb-history-error{background:#fffaf7;border-color:#f1dfd4}
+.tb-history-error .tb-history-empty-icon{background:#fff0e8;color:#c56c35}
+.tb-history-record{
+    display:flex;align-items:center;gap:11px;padding:12px;
+    border:1px solid #e6eee8;border-radius:16px;background:#fff;
+}
+.tb-history-record-icon{width:39px;height:39px;display:grid;place-items:center;flex:none;border-radius:13px;color:#fff}
+.tb-history-record-icon.bkash{background:linear-gradient(145deg,#e2136e,#bd0755)}
+.tb-history-record-icon.nagad{background:linear-gradient(145deg,#f59a23,#e66b13)}
+.tb-history-record-icon svg{width:18px;height:18px}
+.tb-history-record-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+.tb-history-record-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.tb-history-record-top>b{font-size:11px;font-weight:950;color:#174b39}
+.tb-history-record-main>small{font-size:8px;color:#85968c;overflow-wrap:anywhere}
+.tb-history-status{padding:4px 7px;border-radius:20px;font-size:8px;font-weight:900}
+.tb-history-status.approved{background:#e4f7eb;color:#087f5b}
+.tb-history-status.pending{background:#fff4dc;color:#b87917}
+.tb-history-status.rejected{background:#fff0ee;color:#c34d45}
+.tb-history-record-amount{font-size:13px;font-weight:950;color:#174b39;white-space:nowrap}
+#withdraw-history-page{background:transparent}
+</style>
+
+<style id="tb-random-history-style">
+.tb-random-history-scroll{max-height:680px;overflow-y:auto;padding-right:3px}
+.tb-random-history-scroll .tb-history-record{animation:tbHistIn .18s ease-out}
+.tb-random-history-scroll::-webkit-scrollbar{width:4px}
+.tb-random-history-scroll::-webkit-scrollbar-thumb{background:#cfe4d6;border-radius:8px}
+@keyframes tbHistIn{from{opacity:.35;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+</style>
+
+<script src='//libtl.com/sdk.js' data-zone='10844896' data-sdk='show_10844896'></script>
+
+<style id="takar-bank-sample-history-and-monetag">
+.tb-sample-history-wrap{
+ padding:15px;border-radius:21px;background:linear-gradient(145deg,#f5fcf7,#fff);
+ border:1px solid #dceee2;box-shadow:0 8px 22px rgba(25,76,48,.045)
+}
+.tb-sample-history-heading{display:flex;align-items:center;gap:10px;margin-bottom:13px}
+.tb-sample-history-icon{width:37px;height:37px;display:grid;place-items:center;border-radius:13px;background:#e5f6eb;color:#087f5b}
+.tb-sample-history-icon svg{width:18px;height:18px}
+.tb-sample-history-heading>div:nth-child(2){display:flex;flex-direction:column;gap:3px;flex:1}
+.tb-sample-history-heading b{font-size:12px;font-weight:950;color:#174b39}
+.tb-sample-history-heading small{font-size:8px;color:#82958a}
+.tb-sample-history-heading>span{padding:5px 8px;border-radius:20px;background:#fff2d8;color:#a56b16;font-size:8px;font-weight:950}
+.tb-sample-history-list{display:flex;flex-direction:column;gap:8px}
+.tb-sample-history-row{display:flex;align-items:center;gap:10px;padding:11px;border-radius:15px;background:#fff;border:1px solid #e7efe9}
+.tb-sample-avatar{width:36px;height:36px;display:grid;place-items:center;flex:none;border-radius:12px;color:#fff;font-family:Arial,sans-serif;font-size:20px;font-weight:950}
+.tb-sample-avatar.bkash{background:linear-gradient(145deg,#e2136e,#bd0755)}
+.tb-sample-avatar.nagad{background:linear-gradient(145deg,#f59a23,#e66b13)}
+.tb-sample-details{display:flex;flex:1;min-width:0;flex-direction:column;gap:4px}
+.tb-sample-details>b{font-size:10px;color:#174b39}
+.tb-sample-details>b small{font-size:8px;color:#8a9b91;font-weight:600}
+.tb-sample-details>span{font-size:8px;color:#8a9b91}
+.tb-sample-amount{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.tb-sample-amount>b{font-size:12px;color:#174b39;font-weight:950}
+.tb-sample-amount>span{padding:3px 7px;border-radius:20px;background:#e6f7ed;color:#087f5b;font-size:7px;font-weight:900}
+.tb-sample-history-row:nth-child(2) .tb-sample-amount>span{background:#fff3dc;color:#b87917}
+#withdraw-history-page .tb-history-list-wrap{margin-top:0}
+#withdraw-history-page .tb-history-record{padding:13px;border-radius:17px;box-shadow:0 4px 12px rgba(23,74,55,.035)}
+#withdraw-history-page .tb-history-record-amount{font-size:14px}
+</style>
+
 </head>
 <body class="pb-36">
 
+    <div id="startup-loader" aria-label="   ">
+        <div class="loader-wrap">
+            <div class="loader-logo"><i data-lucide="landmark"></i></div>
+            <div class="loader-title">টাকার ব্যাংক</div>
+            <div class="loader-sub">আপনার টাকার ব্যাংক শুরু করুন</div>
+            <div class="loader-track"><div id="loader-fill"></div></div>
+            <div id="loader-percent">1%</div>
+            <div id="loader-status" class="loader-status">আপনার অ্যাপ প্রস্তুত করা হচ্ছে...</div>
+            <div class="loader-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+        </div>
+    </div>
+
+
     <header class="p-6 flex justify-between items-center">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 glass-item flex items-center justify-center">
-                <i data-lucide="crown" class="w-5 h-5 text-yellow-500"></i>
+            <div class="tb-bank-logo">
+                <i data-lucide="landmark"></i>
             </div>
             <div>
-                <h1 style="font-family: 'Space Grotesk';" class="text-sm font-black tracking-widest uppercase">TK <span class="text-indigo-400">INCOME</span></h1>
-                <p class="text-[7px] text-slate-500 uppercase tracking-[0.3em]">100% Payment</p>
+                <h1 style="font-family: 'Hind Siliguri',sans-serif;" class="text-base font-black tracking-tight">টাকার ব্যাংক</h1>
+                <p class="text-[7px] text-slate-500 uppercase tracking-[0.3em]">     </p>
             </div>
         </div>
         <div class="glass-item px-4 py-2">
-            <span class="text-xs font-bold text-white tracking-tighter">৳<span id="top-bal">0.00</span></span>
+            <span class="text-xs font-bold text-white tracking-tighter"> <span id="top-bal">0.00</span></span>
         </div>
     </header>
 
     <main class="px-6 max-w-md mx-auto space-y-8">
         
         <div id="home-page" class="page-content space-y-8">
-            <div class="balance-card-static">
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.4em] mb-2">Total Balance</p>
-                <h2 class="text-5xl font-black text-white tracking-tighter italic">৳<span id="home-bal">0.00</span></h2>
-                <div class="mt-4 inline-flex items-center gap-2 bg-green-500/10 px-3 py-1 rounded-full border border-green-500/20">
-                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
-                    <span class="text-[9px] font-black text-green-500 uppercase">Live Earnings</span>
-                </div>
-            </div>
-
-            <div class="space-y-4">
-                <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] pl-1">Join & Earn (Special Rewards)</h3>
-                <div class="grid grid-cols-1 gap-3">
-                    <div class="glass-item p-4 flex justify-between items-center border-blue-500/10">
-                        <div class="flex items-center gap-3">
-                            <i data-lucide="message-circle" class="w-5 h-5 text-blue-400"></i>
-                            <div>
-                                <p class="text-[10px] font-black uppercase">Official Group</p>
-                                <p id="status-group" class="text-[8px] text-blue-400 font-bold">Reward: ৳70.00</p>
-                            </div>
-                        </div>
-                        <button id="btn-group" onclick="handleJoinTask('group', 'https://t.me/tkincomeoff')" class="btn-premium px-4 py-2 text-[9px] uppercase text-white">Join Now</button>
-                    </div>
-
-                    <div class="glass-item p-4 flex justify-between items-center border-green-500/10">
-                        <div class="flex items-center gap-3">
-                            <i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
-                            <div>
-                                <p class="text-[10px] font-black uppercase">Payment Proof</p>
-                                <p id="status-pay" class="text-[8px] text-green-400 font-bold">Reward: ৳70.00</p>
-                            </div>
-                        </div>
-                        <button id="btn-pay" onclick="handleJoinTask('pay', 'https://t.me/tkincomepay')" class="btn-premium px-4 py-2 text-[9px] uppercase text-white">Join Now</button>
-                    </div>
-
-                    <div class="glass-item p-4 flex justify-between items-center border-red-500/10">
-                        <div class="flex items-center gap-3">
-                            <i data-lucide="play-circle" class="w-5 h-5 text-red-400"></i>
-                            <div>
-                                <p class="text-[10px] font-black uppercase">Sponsor</p>
-                                <p id="status-video" class="text-[8px] text-red-400 font-bold">Reward: ৳70.00</p>
-                            </div>
-                        </div>
-                        <button id="btn-video" onclick="handleVideoTask('https://t.me/makemoneyonlin92')" class="btn-premium px-4 py-2 text-[9px] uppercase text-white">Watch Now</button>
-                    </div>
-                    
-                    <div class="glass-item p-4 flex justify-between items-center border-red-500/10">
-                        <div class="flex items-center gap-3">
-                            <i data-lucide="play-circle" class="w-5 h-5 text-red-400"></i>
-                            <div>
-                                <p class="text-[10px] font-black uppercase">কাজ বুঝতে ভিডিও দেখুন </p>
-                                <p id="status-video" class="text-[8px] text-red-400 font-bold"></p>
-                            </div>
-                        </div>
-                        <button id="btn-video" onclick="handleVideoTask('https://t.me/tkincomework')" class="btn-premium px-4 py-2 text-[9px] uppercase text-white">Watch Now</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <div onclick="showAdSlot(1)" class="glass-item p-6 text-center border-indigo-500/10 cursor-pointer">
-                    <i data-lucide="play-circle" class="w-8 h-8 mx-auto mb-3 text-indigo-400"></i>
-                    <p class="text-[10px] font-black uppercase tracking-widest text-white">অ্যাড স্লট ১</p>
-                    <p class="text-[9px] text-indigo-400 font-bold mt-1">+৳৩০.০০</p>
-                    <p id="slot1-count" class="text-[7px] text-slate-500 mt-1">Used: 0/10</p>
-                </div>
-                <div onclick="showAdSlot(2)" class="glass-item p-6 text-center border-cyan-500/10 cursor-pointer">
-                    <i data-lucide="zap" class="w-8 h-8 mx-auto mb-3 text-cyan-400"></i>
-                    <p class="text-[10px] font-black uppercase tracking-widest text-white">অ্যাড স্লট ২</p>
-                    <p class="text-[9px] text-cyan-400 font-bold mt-1">+৳৩০.০০</p>
-                    <p id="slot2-count" class="text-[7px] text-slate-500 mt-1">Used: 0/10</p>
-                </div>
-            </div>
-
-            <div class="space-y-4">
-                <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] pl-1">Special Web Tasks (Daily 1)</h3>
-                <div id="main-tasks" class="space-y-3">
-                </div>
-            </div>
-        </div>
-
-        <div id="wallet-page" class="page-content hidden space-y-6">
-            <div id="withdraw-lock" class="glass-item p-6 border-red-500/20 hidden">
-                <div class="flex items-center gap-3 mb-4">
-                    <i data-lucide="alert-circle" class="w-5 h-5 text-red-500"></i>
-                    <p class="text-[10px] font-black uppercase text-red-400">১৫টি রেফার ছাড়া উইথড্র হবে না</p>
-                </div>
-                <div class="progress-bar">
-                    <div id="prog-fill" class="progress-value h-full" style="width: 0%"></div>
-                </div>
-                <p id="prog-text" class="text-right text-[8px] font-bold text-slate-500 mt-2 uppercase tracking-widest">0 / 15</p>
-            </div>
-            <div class="glass-item p-8 space-y-6">
-                <h3 class="text-center text-xs font-black uppercase tracking-widest">Payout Details</h3>
-                <div class="space-y-4">
-                    <select id="gateway" class="w-full bg-white/5 p-4 rounded-xl text-xs text-white border border-white/10 outline-none">
-                        <option value="Bkash">বিকাশ (Bkash)</option>
-                        <option value="Nagad">নগদ (Nagad)</option>
-                    </select>
-                    <input id="amt" type="number" placeholder="পরিমাণ (৫০০+)" class="w-full bg-white/5 p-4 rounded-xl text-xs text-white border border-white/10 outline-none">
-                    <input id="num" type="number" placeholder="আপনার মোবাইল নম্বর" class="w-full bg-white/5 p-4 rounded-xl text-xs text-white border border-white/10 outline-none">
-                    <button id="withdraw-btn" onclick="submitWithdraw()" class="w-full py-4 btn-premium text-xs uppercase text-white">উইথড্র রিকোয়েস্ট পাঠান</button>
-                </div>
-            </div>
-            <div id="txn-history" class="space-y-3"></div>
-        </div>
-
-        <div id="refer-page" class="page-content hidden space-y-6">
-            <div class="balance-card-static py-10">
-                <i data-lucide="users" class="w-12 h-12 mx-auto mb-4 text-purple-400"></i>
-                <h2 class="text-xl font-black uppercase tracking-widest mb-2">Referral System</h2>
-                <div class="flex justify-center gap-10 mt-8">
-                    <div class="text-center">
-                        <p id="stat-ref" class="text-2xl font-black text-white">0</p>
-                        <p class="text-[8px] text-slate-500 uppercase font-bold">Total Joins</p>
-                    </div>
-                    <div class="text-center border-l border-white/10 pl-10">
-                        <p id="stat-earn" class="text-2xl font-black text-cyan-400">৳0</p>
-                        <p class="text-[8px] text-slate-500 uppercase font-bold">Earnings</p>
-                    </div>
-                </div>
-            </div>
-            <div class="glass-item p-6 space-y-4">
-                <p id="ref-link" class="text-[9px] bg-black/40 p-4 rounded-xl border border-white/5 break-all text-center text-indigo-300 font-mono"></p>
-                <button onclick="copyLink()" class="w-full py-4 btn-premium text-xs uppercase text-white">লিঙ্ক কপি করুন</button>
-            </div>
-        </div>
-
-        <div id="profile-page" class="page-content hidden space-y-6">
-            <div class="glass-item p-10 text-center border-indigo-500/20">
-                <div class="w-20 h-20 bg-indigo-500/10 rounded-full mx-auto flex items-center justify-center mb-4">
-                    <i data-lucide="user" class="w-10 h-10 text-indigo-400"></i>
-                </div>
-                <h2 id="u-name" class="text-xl font-black uppercase">AGENT</h2>
-                <p id="u-id" class="text-[9px] text-slate-500 font-mono mt-1 tracking-widest"></p>
-            </div>
-
-            <!-- Admin Broadcast Center (Hidden by Default) -->
-            <div id="admin-broadcast-sec" class="glass-item p-6 space-y-4 border-purple-500/30 hidden">
-                <div class="flex items-center gap-2">
-                    <i data-lucide="send" class="w-4 h-4 text-purple-400"></i>
-                    <h3 class="text-[10px] font-black text-purple-400 uppercase tracking-widest">Admin Broadcast Center</h3>
-                </div>
-                <textarea id="broadcast-msg" placeholder="সকল ইউজারদের পাঠাতে মেসেজ লিখুন..." class="w-full bg-white/5 p-3 rounded-xl text-xs text-white border border-white/10 outline-none h-20 resize-none"></textarea>
-                <input id="broadcast-img" type="text" placeholder="ছবির Direct URL (ঐচ্ছিক)" class="w-full bg-white/5 p-3 rounded-xl text-xs text-white border border-white/10 outline-none">
-                <button id="broadcast-btn" onclick="sendBroadcast()" class="w-full py-3 btn-premium text-xs uppercase text-white flex items-center justify-center gap-2">
-                    <i data-lucide="radio" class="w-4 h-4"></i> Send Broadcast Message
+            <section class="tb-wallet-panel tb-wallet-amount-only" aria-label="Wallet balance">
+                <div class="tb-wallet-amount">৳<span id="home-bal">0.00</span></div>
+            </section>
+            <div class="tb-wallet-actions">
+                <button type="button" onclick="changePage('wallet-page', null)" class="tb-wallet-action tb-withdraw-action">
+                    <span><i data-lucide="arrow-down-to-line"></i></span><b>টাকা তুলুন</b><small>উত্তোলন</small>
                 </button>
-                <p id="broadcast-status" class="text-[9px] text-center font-mono text-slate-400 hidden"></p>
+                <button type="button" onclick="changePage('refer-page', null)" class="tb-wallet-action tb-refer-action">
+                    <span><i data-lucide="gift"></i></span><b>বোনাস নিন</b><small>রেফার করুন</small>
+                </button>
+                <button type="button" onclick="changePage('profile-page', null)" class="tb-wallet-action tb-profile-action">
+                    <span><i data-lucide="chart-no-axes-combined"></i></span><b>আমার তথ্য</b><small>প্রোফাইল</small>
+                </button>
+            </div>
+            <a class="tb-howto-link tb-video-link" href="https://t.me/tkincomework" target="_blank" rel="noopener noreferrer">
+                <span class="tb-howto-icon"><i data-lucide="play-circle"></i></span>
+                <span><b>কাজ বুঝতে ভিডিও দেখুন</b><small>কাজের নিয়ম ও নির্দেশনা</small></span>
+                <i data-lucide="arrow-up-right" class="tb-howto-arrow"></i>
+            </a>
+
+            <div class="ad-center-card">
+                <div class="relative z-10">
+                    <div class="flex items-center justify-between mb-4"><div><p class="text-[9px] text-cyan-300 font-black uppercase tracking-[0.22em]">দৈনিক বিজ্ঞাপন</p><h3 class="text-lg font-black mt-1">বিজ্ঞাপন দেখে আয় করুন</h3><span class="tb-ad-reward">প্রতি বিজ্ঞাপনে ৳৪০</span></div><div class="w-11 h-11 rounded-2xl bg-white/5 flex items-center justify-center"><i data-lucide="play" class="w-5 h-5 text-cyan-300"></i></div></div>
+                    <div class="flex items-end justify-between mb-2"><div><p id="ad-number" class="text-2xl font-black">0 / 20</p><p id="ad-status" class="text-[9px] text-slate-400 mt-1">আজকের বিজ্ঞাপন</p></div><p class="text-sm font-black text-cyan-300">দৈনিক ২০টি</p></div>
+                    <div class="ad-progress mb-4"><div id="ad-progress-fill"></div></div>
+                    <button id="ad-watch-btn" onclick="watchNextAd()" class="w-full py-3 text-[10px] font-black uppercase text-white flex items-center justify-center gap-2"><i data-lucide="play-circle" class="w-4 h-4"></i> বিজ্ঞাপন দেখুন</button>
+                    <p class="text-center text-[8px] text-slate-500 mt-3">বিজ্ঞাপন সম্পন্ন হলে প্রযোজ্য পুরস্কার যোগ হবে</p>
+                </div>
             </div>
 
             <div class="space-y-3">
-                <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] pl-1">Dashboard</h3>
-                
-                <div class="glass-item p-4 flex justify-between items-center">
-                    <div class="flex items-center gap-3">
-                        <i data-lucide="users" class="w-5 h-5 text-indigo-400"></i>
-                        <p class="text-[10px] font-black uppercase">Total Referrals</p>
+                <div class="flex items-center justify-between px-1">
+                    <div>
+                        <h3 class="text-sm font-black text-white">টাস্ক মেনু</h3>
+                        <p class="text-[9px] text-slate-500 mt-1">অফিশিয়াল ও দৈনিক টাস্ক আলাদাভাবে সম্পন্ন করুন</p>
                     </div>
-                    <p id="profile-ref-count" class="text-xs font-black text-white">0</p>
+                    <span class="text-[8px] font-black tracking-widest text-cyan-300 bg-cyan-400/10 border border-cyan-300/10 rounded-full px-3 py-2">২টি মেনু</span>
                 </div>
-
-                <div onclick="tg.openTelegramLink('https://t.me/tkincomeoff')" class="glass-item p-4 flex justify-between items-center cursor-pointer">
-                    <div class="flex items-center gap-3">
-                        <i data-lucide="message-square" class="w-5 h-5 text-blue-400"></i>
-                        <p class="text-[10px] font-black uppercase">Official Group</p>
-                    </div>
-                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600"></i>
-                </div>
-
-                <div onclick="tg.openTelegramLink('https://t.me/tkincomepay')" class="glass-item p-4 flex justify-between items-center cursor-pointer">
-                    <div class="flex items-center gap-3">
-                        <i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
-                        <p class="text-[10px] font-black uppercase">Payment Group</p>
-                    </div>
-                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600"></i>
-                </div>
-
-                <div onclick="tg.openTelegramLink('https://t.me/tkincomework')" class="glass-item p-4 flex justify-between items-center cursor-pointer">
-                    <div class="flex items-center gap-3">
-                        <i data-lucide="play" class="w-5 h-5 text-red-500"></i>
-                        <p class="text-[10px] font-black uppercase">Tutorial Video</p>
-                    </div>
-                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-600"></i>
+                <div class="grid grid-cols-1 gap-4">
+                <button onclick="changePage('official-task-page', null)" class="glass-item p-5 flex items-center gap-4 text-left w-full">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center bg-gradient-to-br from-violet-600/30 to-cyan-500/20 border border-violet-400/20"><i data-lucide="badge-check" class="w-7 h-7 text-cyan-300"></i></div>
+                    <div class="flex-1"><h3 class="text-base font-black text-white">অফিশিয়াল টাস্ক</h3><p class="text-xs text-slate-400 mt-1">প্রতি গ্রুপ টাস্কে ৳৯০ • স্পনসর টাস্কে ৳৫৫</p></div>
+                    <i data-lucide="chevron-left" class="w-5 h-5 text-slate-400"></i>
+                </button>
+                <button onclick="changePage('daily-task-page', null)" class="glass-item p-5 flex items-center gap-4 text-left w-full">
+                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center bg-gradient-to-br from-cyan-500/25 to-emerald-500/20 border border-cyan-400/20"><i data-lucide="calendar-check" class="w-7 h-7 text-emerald-300"></i></div>
+                    <div class="flex-1"><h3 class="text-base font-black text-white">ডেইলি টাস্ক</h3><p class="text-xs text-slate-400 mt-1">প্রতিটি ডেইলি টাস্কে ৳৫৫</p></div>
+                    <i data-lucide="chevron-left" class="w-5 h-5 text-slate-400"></i>
+                </button>
                 </div>
             </div>
         </div>
 
+        <div id="official-task-page" class="page-content hidden space-y-5">
+            <div class="task-page-topline">
+                <button onclick="changePage('home-page', null)" class="task-back-btn" aria-label="হোমে ফিরুন"><i data-lucide="arrow-left"></i></button>
+                <div><span class="task-eyebrow">TAKAR BANK • VERIFIED</span><h2>অফিশিয়াল টাস্ক</h2></div>
+            </div>
+
+            <section class="official-hero">
+                <div class="official-orbit orbit-a"></div><div class="official-orbit orbit-b"></div>
+                <div class="official-hero-content">
+                    <div class="official-emblem"><i data-lucide="shield-check"></i><span></span></div>
+                    <div class="official-label">OFFICIAL MISSIONS</div>
+                    <h3>বিশ্বস্ত কাজ, সহজ টাকার ব্যাংক</h3>
+                    <p>অফিশিয়াল কমিউনিটিতে যুক্ত হন এবং নিচের কাজগুলো সম্পন্ন করুন</p>
+                    <div class="official-hero-foot"><span><i data-lucide="badge-check"></i> যাচাইকৃত টাস্ক</span><span>৪টি মিশন</span></div>
+                </div>
+            </section>
+
+            <div class="task-section-heading"><div><span>YOUR MISSIONS</span><h3>অফিশিয়াল মিশনসমূহ</h3></div><div class="section-count">০৪</div></div>
+
+            <div class="official-mission-list">
+                <article class="official-task-card official-blue">
+                    <div class="mission-symbol"><i data-lucide="users"></i><b>01</b></div>
+                    <div class="mission-info"><span class="mission-tag">COMMUNITY</span><h4>অফিশিয়াল গ্রুপ</h4><p class="tb-task-amount">কাজ সম্পন্ন করলে <b>৳৯০</b></p><p id="status-group" class="tb-task-status">অপেক্ষমাণ</p></div>
+                    <button id="btn-group" onclick="handleJoinTask('group', 'https://t.me/tkincomeoff')" class="mission-action">Join <i data-lucide="arrow-up-right"></i></button>
+                </article>
+                <article class="official-task-card official-green">
+                    <div class="mission-symbol"><i data-lucide="receipt-text"></i><b>02</b></div>
+                    <div class="mission-info"><span class="mission-tag">PAYMENT UPDATE</span><h4>পেমেন্ট প্রমাণ</h4><p class="tb-task-amount">কাজ সম্পন্ন করলে <b>৳৯০</b></p><p id="status-pay" class="tb-task-status">অপেক্ষমাণ</p></div>
+                    <button id="btn-pay" onclick="handleJoinTask('pay', 'https://t.me/tkincomepay')" class="mission-action">Join <i data-lucide="arrow-up-right"></i></button>
+                </article>
+                <article class="official-task-card official-violet">
+                    <div class="mission-symbol"><i data-lucide="play"></i><b>03</b></div>
+                    <div class="mission-info"><span class="mission-tag">SPONSORED</span><h4>স্পনসর লিংক</h4><p class="tb-task-amount">কাজ সম্পন্ন করলে <b>৳৫৫</b></p><p id="status-video" class="tb-task-status">অপেক্ষমাণ</p></div>
+                    <button id="btn-work" onclick="handleVideoTask('https://t.me/makemoneyonlin92')" class="mission-action">Open <i data-lucide="arrow-up-right"></i></button>
+                </article>
+                <article class="official-task-card official-orange">
+                    <div class="mission-symbol"><i data-lucide="megaphone"></i><b>04</b></div>
+                    <div class="mission-info"><span class="mission-tag">OFFICIAL CHANNEL</span><h4>অফিশিয়াল গ্রুপ ২</h4><p class="tb-task-amount">কাজ সম্পন্ন করলে <b>৳৫৫</b></p><p id="status-work" class="tb-task-status">অপেক্ষমাণ</p></div>
+                    <button id="btn-video" onclick="handleVideoTask('https://t.me/+BPuyrZomdpU5Yzg1')" class="mission-action">Open <i data-lucide="arrow-up-right"></i></button>
+                </article>
+            </div>
+            <div class="official-footnote"><i data-lucide="info"></i><span>প্রতিটি অফিসিয়াল টাস্কের নির্দেশনা অনুসরণ করে কাজ সম্পন্ন করুন।</span></div>
+        </div>
+
+        <div id="daily-task-page" class="page-content hidden space-y-5">
+            <div class="task-page-topline daily-topline">
+                <button onclick="changePage('home-page', null)" class="task-back-btn" aria-label="হোমে ফিরুন"><i data-lucide="arrow-left"></i></button>
+                <div><span class="task-eyebrow">TAKAR BANK • EVERY DAY</span><h2>ডেইলি টাস্ক</h2></div>
+            </div>
+
+            <section class="daily-hero">
+                <div class="daily-hero-art"><div class="daily-ring ring-one"></div><div class="daily-ring ring-two"></div><div class="daily-hero-icon"><i data-lucide="calendar-check-2"></i></div><span class="daily-spark spark-one">✦</span><span class="daily-spark spark-two">✧</span></div>
+                <div class="daily-hero-copy"><span>DAILY CHALLENGE</span><h3>প্রতিদিন এগিয়ে যান</h3><p>আজকের টাস্কগুলো সম্পন্ন করে আপনার আয় বাড়ান</p></div>
+                <div class="daily-hero-bottom"><span><i data-lucide="refresh-cw"></i> প্রতিদিন নতুন সুযোগ</span><b>৫টি টাস্ক</b></div>
+            </section>
+
+            <div class="daily-list-heading"><div><span>TODAY'S ACTIVITIES</span><h3>আজকের টাস্কসমূহ</h3></div><div class="daily-date-mark"><i data-lucide="sun"></i> TODAY</div></div>
+            <div id="main-tasks" class="daily-task-list"></div>
+            <div class="daily-tip"><i data-lucide="lightbulb"></i><div><b>ছোট্ট টিপস</b><p>প্রতিটি টাস্কের নির্দেশনা সম্পন্ন করে CLAIM বাটনে চাপ দিন।</p></div></div>
+        </div>
+
+        <div id="wallet-page" class="page-content hidden space-y-6">
+    <section class="payment-hero">
+        <div class="payment-chip"><i data-lucide="shield-check"></i> নিরাপদ পেমেন্ট</div>
+        <div class="payment-icon"><i data-lucide="wallet-cards"></i></div>
+        <p>আপনার বর্তমান ব্যালেন্স</p>
+        <h2>৳ <span id="payment-bal">0.00</span></h2>
+        <div class="payment-status"><span></span> টাকা উত্তোলন</div>
+    </section>
+
+    <section id="withdraw-lock" class="payment-lock" aria-hidden="true">
+        <div class="lock-head">
+            <div class="lock-icon"><i data-lucide="lock-keyhole"></i></div>
+            <div><strong>রেফার শর্ত যাচাই</strong><p>উত্তোলনের জন্য আপনার ১৫ জন রেফারকৃত ব্যবহারকারীর প্রত্যেককে অন্তত ১ জন করে নতুন ব্যবহারকারী রেফার করতে হবে। শর্ত পূরণ হলে উত্তোলন করা যাবে।</p></div>
+        </div>
+        <div class="payment-progress"><div id="prog-fill"></div></div>
+        <div class="lock-foot"><span>নিজে রেফার করা ব্যবহারকারী</span><b id="prog-text">0 / 15</b></div>
+    </section>
+
+    <section class="payment-card">
+        <div class="payment-card-title">
+            <div class="payment-title-icon"><i data-lucide="banknote"></i></div>
+            <div><h3>উত্তোলনের আবেদন</h3><p>সঠিক তথ্য দিয়ে ফর্ম পূরণ করুন</p></div>
+        </div>
+        <div class="payment-field">
+            <label><i data-lucide="credit-card"></i> পেমেন্ট মাধ্যম নির্বাচন করুন</label>
+            <div class="tb-payment-methods">
+                <button type="button" class="tb-method-card is-selected" data-method="Bkash" onclick="selectPaymentMethod('Bkash')">
+                    <span class="tb-method-brand tb-bkash-brand">b</span>
+                    <span class="tb-method-copy"><b>বিকাশ</b><small>bKash Personal</small></span>
+                    <span class="tb-method-check"><i data-lucide="check"></i></span>
+                </button>
+                <button type="button" class="tb-method-card" data-method="Nagad" onclick="selectPaymentMethod('Nagad')">
+                    <span class="tb-method-brand tb-nagad-brand">N</span>
+                    <span class="tb-method-copy"><b>নগদ</b><small>Nagad Personal</small></span>
+                    <span class="tb-method-check"><i data-lucide="check"></i></span>
+                </button>
+            </div>
+            <select id="gateway" aria-label="পেমেন্ট মাধ্যম">
+                <option value="Bkash" selected>বিকাশ (bKash)</option>
+                <option value="Nagad">নগদ (Nagad)</option>
+            </select>
+        </div>
+        <div class="payment-field">
+            <label><i data-lucide="coins"></i> উত্তোলনের পরিমাণ</label>
+            <div class="payment-input-wrap"><span>৳</span><input id="amt" type="number" placeholder="সর্বনিম্ন ৩০০ টাকা" min="300"></div>
+            <small>সর্বনিম্ন উত্তোলন: ৳৩০০</small>
+        </div>
+        <div class="payment-field">
+            <label><i data-lucide="smartphone"></i> মোবাইল নম্বর</label>
+            <input id="num" type="tel" inputmode="numeric" placeholder="01XXXXXXXXX">
+        </div>
+        <button id="withdraw-btn" onclick="submitWithdraw()" class="payment-submit">
+            <span>উত্তোলনের আবেদন করুন</span><i data-lucide="arrow-up-right"></i>
+        </button>
+    </section>
+
+    <section class="payment-security">
+        <i data-lucide="shield-check"></i>
+        <div><strong>নিরাপদ উত্তোলন</strong><p>আবেদন জমা দেওয়ার আগে আপনার তথ্য যাচাই করুন।</p></div>
+        <span>SECURE</span>
+    </section>
+
+</div>
+
+<div id="withdraw-history-page" class="page-content hidden space-y-6">
+    <section class="tb-history-hero">
+        <div class="tb-history-icon"><i data-lucide="receipt-text"></i></div>
+        <div><span>TAKAR BANK</span><h2>উত্তোলনের ইতিহাস</h2><p>আপনার আগের উত্তোলনের তথ্য এখানে দেখুন</p></div>
+    </section>
+    <section class="tb-history-list-wrap tb-random-demo-wrap">
+        <div class="tb-history-list-heading">
+            <div><b>উত্তোলনের হিস্টোরি</b><small></small></div>
+            <span class="tb-history-live"><i></i> Active </span>
+        </div>
+        <div id="random-withdraw-history" class="space-y-3 tb-random-history-scroll"></div>
+        <p class="text-center text-xs mt-3" style="color:#87958d"></p>
+    </section>
+
+
+
+</div>
+
+<div id="refer-page" class="page-content hidden space-y-6">
+    <section class="refer-hero">
+        <div class="refer-orbit orbit-one"></div><div class="refer-orbit orbit-two"></div>
+        <div class="refer-icon"><i data-lucide="users-round"></i></div>
+        <p class="refer-kicker">শেয়ার করুন • আয় করুন</p>
+        <h2>বন্ধুকে আমন্ত্রণ করুন</h2>
+        <p>আপনার রেফার লিংক শেয়ার করুন। আপনার লিংক দিয়ে নতুন অ্যাকাউন্ট খুললে আপনি ৳১০০ রেফার বোনাস পাবেন।</p>
+        <div class="refer-stats">
+            <div><span id="stat-ref">0</span><small>মোট বৈধ রেফার</small></div>
+            <div><span id="stat-earn">৳0</span><small>মোট রেফার বোনাস</small></div>
+        </div>
+    </section>
+
+    <div class="refer-live-note">
+        <i data-lucide="gift"></i><div><b>রেফার বোনাস</b><span>বোনাসের শর্ত প্রযোজ্য</span></div><strong>৳১০০</strong>
+    </div>
+
+    <section class="refer-link-card">
+        <div class="refer-link-head">
+            <div class="refer-link-symbol"><i data-lucide="link-2"></i></div>
+            <div><p>আপনার রেফার লিংক</p><span>লিংক কপি করে বন্ধুদের পাঠান</span></div>
+        </div>
+        <div class="refer-link-box"><span id="ref-link"></span><button onclick="copyLink()" aria-label="রেফার লিংক কপি"><i data-lucide="copy"></i></button></div>
+        <button onclick="copyLink()" class="refer-copy-btn"><i data-lucide="share-2"></i> রেফার লিংক কপি করুন</button>
+        <p class="refer-note"><i data-lucide="shield-check"></i> উত্তোলনের সময় রেফার যাচাই হবে; আপনার রেফার করা প্রত্যেককে অন্তত ১ জন নতুন ব্যবহারকারী আনতে হবে।</p>
+    </section>
+
+    <section class="refer-steps-card">
+        <div class="section-mini-head">
+            <div class="section-mini-icon"><i data-lucide="route"></i></div>
+            <div><h3>যেভাবে রেফার করবেন</h3><p>মাত্র তিনটি সহজ ধাপ অনুসরণ করুন</p></div>
+        </div>
+        <div class="refer-step"><b>০১</b><div><i data-lucide="copy"></i></div><span><strong>লিংক কপি করুন</strong><small>আপনার ব্যক্তিগত রেফার লিংক কপি করুন।</small></span></div>
+        <div class="refer-line"></div>
+        <div class="refer-step"><b>০২</b><div><i data-lucide="send"></i></div><span><strong>বন্ধুদের পাঠান</strong><small>Telegram বা অন্য মাধ্যমে লিংক শেয়ার করুন।</small></span></div>
+        <div class="refer-line"></div>
+        <div class="refer-step"><b>০৩</b><div><i data-lucide="badge-check"></i></div><span><strong>বৈধ রেফার সম্পন্ন করুন</strong><small>নতুন অ্যাকাউন্ট খুলে যোগ দেবেন। নতুন অ্যাকাউন্টে ৳১০০ স্বাগত বোনাস এবং রেফারকারী ৳১০০ পাবেন।</small></span></div>
+    </section>
+
+    <section class="refer-warning">
+        <i data-lucide="shield-alert"></i><div><strong>গুরুত্বপূর্ণ নির্দেশনা</strong><p>✨ সঠিকভাবে কাজ সম্পন্ন করুন, মাত্র ১ মিনিটের মধ্যেই পেমেন্ট পান! 💸</p></div>
+    </section>
+</div>
+
+<div id="profile-page" class="page-content hidden space-y-6">
+    <section class="glass-item p-8 text-center border-indigo-500/20 profile-hero">
+        <div class="w-20 h-20 bg-indigo-500/10 rounded-full mx-auto flex items-center justify-center mb-4">
+            <i data-lucide="user-round" class="w-10 h-10 text-indigo-400"></i>
+        </div>
+        <p class="text-xs text-indigo-300 font-bold mb-2">আপনার অ্যাকাউন্ট</p>
+        <h2 id="u-name" class="text-xl font-black">ব্যবহারকারী</h2>
+        <p id="u-id" class="text-[9px] text-slate-400 font-mono mt-2 tracking-widest"></p>
+    </section>
+
+    <section class="glass-item p-5 space-y-3">
+        <h3 class="text-sm font-black text-white flex items-center gap-2"><i data-lucide="chart-no-axes-combined" class="w-4 h-4 text-cyan-300"></i> আপনার কার্যক্রম</h3>
+        <div class="flex justify-between items-center rounded-2xl bg-white/5 p-4">
+            <span class="text-sm text-slate-300 flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-indigo-300"></i> মোট বৈধ রেফার</span>
+            <strong id="profile-ref-count" class="text-lg text-white">0</strong>
+        </div>
+    </section>
+
+    <section class="glass-item p-5 space-y-1">
+        <h3 class="text-sm font-black text-white mb-3">সহায়তা ও তথ্য</h3>
+        <div onclick="tg.openTelegramLink('https://t.me/tkincomeoff')" class="flex justify-between items-center rounded-2xl bg-white/5 p-4 cursor-pointer mb-2">
+            <div class="flex items-center gap-3"><i data-lucide="messages-square" class="w-5 h-5 text-blue-400"></i><span class="text-sm font-bold">অফিশিয়াল গ্রুপ</span></div><i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+        </div>
+        <div onclick="tg.openTelegramLink('https://t.me/tkincomepay')" class="flex justify-between items-center rounded-2xl bg-white/5 p-4 cursor-pointer mb-2">
+            <div class="flex items-center gap-3"><i data-lucide="badge-check" class="w-5 h-5 text-emerald-400"></i><span class="text-sm font-bold">পেমেন্ট প্রুফ</span></div><i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+        </div>
+        <div onclick="tg.openTelegramLink('https://t.me/+BPuyrZomdpU5Yzg1')" class="flex justify-between items-center rounded-2xl bg-white/5 p-4 cursor-pointer">
+            <div class="flex items-center gap-3"><i data-lucide="circle-play" class="w-5 h-5 text-rose-400"></i><span class="text-sm font-bold">OFFICIALGROUP 2</span></div><i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
+        </div>
+    </section>
+
+    <!-- Admin Broadcast Center (keeps existing function and IDs) -->
+    <div id="admin-broadcast-sec" class="glass-item p-6 space-y-4 border-purple-500/30 hidden">
+        <div class="flex items-center gap-2"><i data-lucide="send" class="w-4 h-4 text-purple-400"></i><h3 class="text-sm font-black text-purple-300">অ্যাডমিন ব্রডকাস্ট</h3></div>
+        <textarea id="broadcast-msg" placeholder="আপনার বার্তা লিখুন..." class="w-full bg-white/5 p-3 rounded-xl text-xs text-white border border-white/10 outline-none h-20 resize-none"></textarea>
+        <input id="broadcast-img" type="text" placeholder="ছবির সরাসরি URL (ঐচ্ছিক)" class="w-full bg-white/5 p-3 rounded-xl text-xs text-white border border-white/10 outline-none">
+        <button id="broadcast-btn" onclick="sendBroadcast()" class="w-full py-3 btn-premium text-xs uppercase text-white flex items-center justify-center gap-2"><i data-lucide="radio" class="w-4 h-4"></i> বার্তা পাঠান</button>
+        <p id="broadcast-status" class="text-[9px] text-center font-mono text-slate-400 hidden"></p>
+    </div>
+</div>
+
+
     </main>
 
-    <nav class="fixed bottom-0 left-0 right-0 nav-glass px-8 py-5 flex justify-between items-center z-50">
-        <button onclick="changePage('home-page', this)" class="nav-btn active-icon"><i data-lucide="home" class="w-6 h-6"></i></button>
-        <button onclick="changePage('refer-page', this)" class="nav-btn text-slate-600"><i data-lucide="user-plus" class="w-6 h-6"></i></button>
-        <button onclick="changePage('wallet-page', this)" class="nav-btn text-slate-600"><i data-lucide="wallet" class="w-6 h-6"></i></button>
-        <button onclick="changePage('profile-page', this)" class="nav-btn text-slate-600"><i data-lucide="user-cog" class="w-6 h-6"></i></button>
+    <nav class="fixed bottom-0 left-0 right-0 nav-glass px-2 py-3 flex justify-around items-center z-50">
+        <button onclick="changePage('home-page', this)" class="nav-btn active-icon flex flex-col items-center gap-1"><i data-lucide="house" class="w-5 h-5"></i><span>হোম</span></button>
+        <button onclick="changePage('official-task-page', this)" class="nav-btn text-slate-600 flex flex-col items-center gap-1"><i data-lucide="badge-check" class="w-5 h-5"></i><span>অফিশিয়াল</span></button>
+        <button onclick="changePage('daily-task-page', this)" class="nav-btn text-slate-600 flex flex-col items-center gap-1"><i data-lucide="calendar-check" class="w-5 h-5"></i><span>ডেইলি</span></button>
+        <button onclick="changePage('refer-page', this)" class="nav-btn text-slate-600 flex flex-col items-center gap-1"><i data-lucide="user-plus" class="w-5 h-5"></i><span>রেফার</span></button>
+        <button onclick="changePage('wallet-page', this)" class="nav-btn text-slate-600 flex flex-col items-center gap-1"><i data-lucide="wallet" class="w-5 h-5"></i><span>উত্তোলন</span></button>
+        <button onclick="changePage('withdraw-history-page', this)" class="nav-btn text-slate-600 flex flex-col items-center gap-1"><i data-lucide="receipt-text" class="w-5 h-5"></i><span>ইতিহাস</span></button>
+        <button onclick="changePage('profile-page', this)" class="nav-btn text-slate-600 flex flex-col items-center gap-1"><i data-lucide="user-round" class="w-5 h-5"></i><span>প্রোফাইল</span></button>
     </nav>
 
     <script type="module">
@@ -288,15 +1569,15 @@
 
         // Updated Firebase Configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyBqIDkdvaKaAqv5QdeoZxTOK5vYjDTq2Vc",
-            authDomain: "tk-income-8a964.firebaseapp.com",
-            databaseURL: "https://tk-income-8a964-default-rtdb.firebaseio.com",
-            projectId: "tk-income-8a964",
-            storageBucket: "tk-income-8a964.firebasestorage.app",
-            messagingSenderId: "133989035834",
-            appId: "1:133989035834:web:e2908b46f44eecafffea03",
-            measurementId: "G-M7C4WQD7WL"
-        };
+  apiKey: "AIzaSyCPQuyl1wYOl3qeYry91MLeK2I5gdHRpvA",
+  authDomain: "takarbank-b69dc.firebaseapp.com",
+  databaseURL: "https://takarbank-b69dc-default-rtdb.firebaseio.com",
+  projectId: "takarbank-b69dc",
+  storageBucket: "takarbank-b69dc.firebasestorage.app",
+  messagingSenderId: "727843739893",
+  appId: "1:727843739893:web:d2eb7cd43cfbf806e3cdbc",
+  measurementId: "G-YTY2VGHVY0"
+};
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -322,17 +1603,27 @@
                 const refBy = tg.initDataUnsafe?.start_param || null;
                 await setDoc(userRef, { 
                     uid, name: tg.initDataUnsafe?.user?.first_name || "Agent", 
-                    balance: 0.0, totalRefer: 0, 
-                    ad1Count: 0, ad2Count: 0,
+                    balance: 100.0, totalRefer: 0, 
+                    referredBy: (refBy && refBy !== uid) ? refBy : null,
+                    adCount: 0,
                     tasksDone: [],
                     joinedBonus: [],
                     videoBonus: false,
                     lastDate: new Date().toDateString(),
                     joinedAt: serverTimestamp() 
                 });
+                // FIRST LOGIN REFERRAL:
+                // A brand-new user immediately counts as 1 valid referral
+                // for the owner of the start parameter and adds ৳100.
                 if(refBy && refBy !== uid) {
                     const rRef = doc(db, "users", refBy);
-                    await updateDoc(rRef, { balance: increment(70), totalRefer: increment(1) });
+                    const rSnap = await getDoc(rRef);
+                    if(rSnap.exists()) {
+                        await updateDoc(rRef, {
+                            balance: increment(100),
+                            totalRefer: increment(1)
+                        });
+                    }
                 }
             }
 
@@ -352,18 +1643,20 @@
             const today = new Date().toDateString();
 
             const isNewDay = userData.lastDate !== today;
-            const count1 = isNewDay ? 0 : (userData.ad1Count || 0);
-            const count2 = isNewDay ? 0 : (userData.ad2Count || 0);
-
-            document.getElementById('slot1-count').innerText = `Used: ${count1}/10`;
-            document.getElementById('slot2-count').innerText = `Used: ${count2}/10`;
+            const adCount = isNewDay ? 0 : (userData.adCount || 0);
+            const adNumber=document.getElementById('ad-number'), adFill=document.getElementById('ad-progress-fill'), adStatus=document.getElementById('ad-status'), adBtn=document.getElementById('ad-watch-btn');
+            if(adNumber) adNumber.innerText=`${adCount} / 20`;
+            if(adFill) adFill.style.width=`${Math.min(100,(adCount/20)*100)}%`;
+            if(adCount>=20){ if(adStatus) adStatus.innerText='         '; if(adBtn){adBtn.disabled=true;adBtn.style.opacity='.5';adBtn.innerText='আজকের কাজ শেষ';} }
+            else if(adStatus && !window.adCountdownRunning) adStatus.innerText=`আরও ${20-adCount}টি বিজ্ঞাপন বাকি`;
             document.getElementById('home-bal').innerText = bal;
+            const payBal = document.getElementById('payment-bal'); if(payBal) payBal.innerText = bal;
             document.getElementById('top-bal').innerText = bal;
             document.getElementById('u-name').innerText = userData.name;
             document.getElementById('u-id').innerText = "NODE-ID: " + uid;
             document.getElementById('stat-ref').innerText = refCount;
             document.getElementById('profile-ref-count').innerText = refCount;
-            document.getElementById('stat-earn').innerText = "৳" + (refCount * 70);
+            document.getElementById('stat-earn').innerText = " " + (refCount * 100);
             
             // Admin Check for Broadcast Section
             const broadcastBox = document.getElementById('admin-broadcast-sec');
@@ -375,29 +1668,22 @@
 
             const bonusList = userData.joinedBonus || [];
             if(bonusList.includes('group')) {
-                document.getElementById('status-group').innerText = "Status: Claimed ✅";
+                document.getElementById('status-group').innerText = "Status: Claimed  ";
                 document.getElementById('btn-group').innerText = "Visit Group";
             }
             if(bonusList.includes('pay')) {
-                document.getElementById('status-pay').innerText = "Status: Claimed ✅";
+                document.getElementById('status-pay').innerText = "Status: Claimed  ";
                 document.getElementById('btn-pay').innerText = "Visit Proof";
             }
             if(userData.videoBonus) {
-                document.getElementById('status-video').innerText = "Status: Claimed ✅";
+                document.getElementById('status-video').innerText = "Status: Claimed  ";
                 document.getElementById('btn-video').innerText = "Watch Again";
             }
 
-            const wBtn = document.getElementById('withdraw-btn');
-            const lockPanel = document.getElementById('withdraw-lock');
-            
-            if(refCount < 15) {
-                wBtn.disabled = true; wBtn.style.opacity = "0.5";
-                lockPanel.classList.remove('hidden');
-                document.getElementById('prog-fill').style.width = (refCount / 15 * 100) + "%";
-                document.getElementById('prog-text').innerText = `${refCount} / 15`;
-            } else { 
-                wBtn.disabled = false; wBtn.style.opacity = "1"; lockPanel.classList.add('hidden'); 
-            }
+            const wBtn=document.getElementById('withdraw-btn');
+            const lockPanel=document.getElementById('withdraw-lock');
+            if(lockPanel){lockPanel.classList.remove('show');lockPanel.setAttribute('aria-hidden','true');document.getElementById('prog-fill').style.width=`${Math.min(refCount,15)/15*100}%`;document.getElementById('prog-text').innerText=`${Math.min(refCount,15)} / 15`;}
+            wBtn.disabled=false;wBtn.style.opacity='1';
         }
 
         window.renderTasks = () => {
@@ -419,21 +1705,18 @@
                 const isDone = completedTasks.includes(i);
                 
                 html += `
-                <div class="glass-item p-4 flex justify-between items-center ${isDone ? 'opacity-50' : ''}">
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center">
-                            <i data-lucide="link" class="w-5 h-5 text-indigo-400"></i>
-                        </div>
-                        <div>
-                            <p class="text-[10px] font-black text-white uppercase">টাস্ক - ${i}</p>
-                            <p class="text-[9px] text-indigo-400 font-bold">+৳৫০.০০</p>
-                        </div>
+                <div class="daily-task-card ${isDone ? 'task-is-done' : ''}">
+                    <div class="daily-task-number"><span>DAY TASK</span><b>0${i}</b></div>
+                    <div class="daily-task-icon"><i data-lucide="zap"></i></div>
+                    <div class="daily-task-details">
+                        <p class="daily-task-title">দৈনিক টাস্ক ${i}</p>
+                        <p class="daily-task-reward"><i data-lucide="coins"></i> এই কাজের পুরস্কার <b>৳৫৫</b></p>
                     </div>
                     <button id="task-btn-${i}" 
                         onclick="${isDone ? '' : `handleTask(${i}, '${link}')`}" 
-                        class="px-5 py-2.5 ${isDone ? 'bg-gray-600' : 'btn-premium'} rounded-xl text-[9px] font-black uppercase text-white italic"
+                        class="daily-start-btn ${isDone ? 'daily-claimed-btn' : 'daily-ready-btn'}"
                         ${isDone ? 'disabled' : ''}>
-                        ${isDone ? 'সম্পন্ন' : 'বিজ্ঞাপন দেখুন'}
+                        ${isDone ? 'সম্পন্ন' : 'শুরু করুন'}
                     </button>
                 </div>`;
             }
@@ -463,12 +1746,22 @@
                         let newTasks = userData.lastDate === today ? (userData.tasksDone || []) : [];
                         if(!newTasks.includes(id)) {
                             newTasks.push(id);
-                            await updateDoc(doc(db, "users", uid), { 
-                                balance: increment(50), 
-                                tasksDone: newTasks,
-                                lastDate: today
-                            });
-                            tg.showAlert("৫০ টাকা আপনার ব্যালেন্সে যোগ হয়েছে!");
+                            try {
+                                const userRef = doc(db, "users", uid);
+                                await updateDoc(userRef, { 
+                                    balance: increment(55), 
+                                    tasksDone: newTasks,
+                                    lastDate: today
+                                });
+                                const freshSnap = await getDoc(userRef);
+                                if(freshSnap.exists()) userData = { ...freshSnap.data(), uid };
+                                updateUI();
+                                tg.showAlert("         !");
+                            } catch (saveErr) {
+                                console.error('Task reward save error:', saveErr);
+                                btn.disabled = false;
+                                tg.showAlert("Task complete  ,   balance save        ");
+                            }
                         }
                     }
                 }
@@ -482,10 +1775,10 @@
                 setTimeout(async () => {
                     bonusList.push(type);
                     await updateDoc(doc(db, "users", uid), {
-                        balance: increment(70),
+                        balance: increment(90),
                         joinedBonus: bonusList
                     });
-                    tg.showAlert("অভিনন্দন! ৭০ টাকা বোনাস যোগ হয়েছে।");
+                    tg.showAlert(" !   official task bonus    ");
                 }, 4000); 
             }
         };
@@ -500,50 +1793,172 @@
             if(!userData.videoBonus) {
                 setTimeout(async () => {
                     await updateDoc(doc(db, "users", uid), {
-                        balance: increment(70),
+                        balance: increment(55),
                         videoBonus: true
                     });
-                    tg.showAlert("ভিডিও বোনাস ৭০ টাকা যোগ হয়েছে!");
+                    tg.showAlert("Website task bonus      !");
                 }, 6000);
             }
         };
 
-        window.showAdSlot = async (slotId) => {
-            const today = new Date().toDateString();
-            const isNewDay = userData.lastDate !== today;
-            const currentCount = isNewDay ? 0 : (userData[`ad${slotId}Count`] || 0);
+        let adCountdownRunning=false; window.adCountdownRunning=false;
+        const waitForMonetag=()=>new Promise((resolve,reject)=>{
+            if(typeof window.show_12112314==='function') return resolve(window.show_12112314);
+            let tries=0;
+            const timer=setInterval(()=>{
+                tries++;
+                if(typeof window.show_12112314==='function'){
+                    clearInterval(timer); resolve(window.show_12112314);
+                }else if(tries>=40){
+                    clearInterval(timer); reject(new Error('Monetag SDK did not load. Check internet, SDK URL and Zone ID.'));
+                }
+            },500);
+        });
 
-            if (currentCount >= 10) {
-                tg.showAlert(`স্লট ${slotId} এর আজকের লিমিট শেষ!`);
-                return;
+        window.watchNextAd=async()=>{
+            if(adCountdownRunning||!userData)return;
+            const today=new Date().toDateString();
+            const isNewDay=userData.lastDate!==today;
+            const currentCount=isNewDay?0:(userData.adCount||0);
+            if(currentCount>=20)return tg.showAlert('আজকের ২০টি বিজ্ঞাপন দেখা সম্পন্ন হয়েছে।');
+
+            const btn=document.getElementById('ad-watch-btn');
+            const status=document.getElementById('ad-status');
+            if(!btn||!status)return;
+            adCountdownRunning=true; window.adCountdownRunning=true;
+            btn.disabled=true; btn.style.opacity='.55'; btn.innerText='বিজ্ঞাপন লোড হচ্ছে...';
+            status.innerText='Monetag বিজ্ঞাপন প্রস্তুত হচ্ছে';
+
+            try{
+                const monetagAd=await waitForMonetag();
+                status.innerText='বিজ্ঞাপন খুলছে—অনুগ্রহ করে অপেক্ষা করুন';
+                // Prevent the UI from remaining in Loading forever if the SDK stalls.
+                const adResult=await Promise.race([
+                    monetagAd({ymid:String(uid),requestVar:'daily_task',timeout:15}),
+                    new Promise((_,reject)=>setTimeout(()=>reject(new Error('Monetag request timed out')),30000))
+                ]);
+                if(adResult && adResult.reward_event_type==='non_valued'){
+                    throw new Error('Monetag reported a non-valued ad event.');
+                }
+
+                status.innerText='রিওয়ার্ড যোগ হচ্ছে...';
+                const next=currentCount+1;
+                const obj={balance:increment(40),adCount:next,lastDate:today};
+                if(isNewDay)obj.tasksDone=[];
+                const userRef=doc(db,'users',uid);
+                await updateDoc(userRef,obj);
+                const freshSnap=await getDoc(userRef);
+                if(freshSnap.exists())userData={...freshSnap.data(),uid};
+
+                try{tg.HapticFeedback.notificationOccurred('success');}catch(e){}
+                tg.showAlert('বিজ্ঞাপন সম্পন্ন! আপনার ব্যালেন্সে ৪০ টাকা যোগ হয়েছে।');
+                updateUI();
+                if(next>=20){
+                    status.innerText='আজকের ২০টি বিজ্ঞাপন সম্পন্ন';
+                    btn.innerText='আজকের কাজ শেষ';
+                    btn.style.opacity='.5';
+                }else{
+                    status.innerText=`আর ${20-next}টি বিজ্ঞাপন বাকি`;
+                    btn.disabled=false;btn.style.opacity='1';btn.innerText='বিজ্ঞাপন দেখুন';
+                }
+            }catch(err){
+                console.error('Monetag ad error:',err);
+                status.innerText='বিজ্ঞাপন লোড হয়নি। আবার চেষ্টা করুন।';
+                btn.disabled=false;btn.style.opacity='1';btn.innerText='আবার বিজ্ঞাপন দেখুন';
+                const msg=String(err?.message||err);
+                if(msg.toLowerCase().includes('empty feed')){
+                    tg.showAlert('এই মুহূর্তে Monetag বিজ্ঞাপন নেই (Empty feed)। কিছুক্ষণ পর আবার চেষ্টা করুন।');
+                }else if(msg.toLowerCase().includes('verify')){
+                    tg.showAlert('Monetag বিজ্ঞাপন যাচাই করতে পারেনি। Telegram-এর ভেতরে আবার চেষ্টা করুন।');
+                }else if(msg.toLowerCase().includes('timed out') || msg.toLowerCase().includes('timeout')){
+                    status.innerText='Monetag সাড়া দিচ্ছে না। ইন্টারনেট/Zone ID পরীক্ষা করে আবার চেষ্টা করুন।';
+                    tg.showAlert('Monetag ৩০ সেকেন্ডেও সাড়া দেয়নি। সঠিক Main Zone ID, SDK লোড এবং Telegram Mini App পরীক্ষা করুন।');
+                }else if(msg.toLowerCase().includes('sdk did not load')){
+                    tg.showAlert('Monetag SDK লোড হয়নি। ইন্টারনেট, libtl.com এবং Zone ID পরীক্ষা করুন।');
+                }else{
+                    tg.showAlert('Monetag বিজ্ঞাপন চালু হয়নি। ইন্টারনেট ও Monetag Main Zone ID পরীক্ষা করুন।');
+                }
+            }finally{
+                adCountdownRunning=false;window.adCountdownRunning=false;
             }
+        };
 
-            if (typeof show_10844896 === 'function') {
-                show_10844896().then(async () => {
-                    const updateObj = { balance: increment(30), lastDate: today };
-                    updateObj[`ad${slotId}Count`] = isNewDay ? 1 : increment(1);
-                    if(isNewDay) updateObj.tasksDone = []; 
-                    await updateDoc(doc(db, "users", uid), updateObj);
-                    tg.HapticFeedback.notificationOccurred('success');
-                }).catch(err => tg.showAlert("Ad failed."));
-            } else { tg.showAlert("Loading Ad..."); }
+        window.selectPaymentMethod = (method) => {
+            const gateway = document.getElementById('gateway');
+            if (!gateway || !['Bkash', 'Nagad'].includes(method)) return;
+            gateway.value = method;
+            document.querySelectorAll('.tb-method-card').forEach((card) => {
+                const active = card.dataset.method === method;
+                card.classList.toggle('is-selected', active);
+                card.setAttribute('aria-pressed', active ? 'true' : 'false');
+            });
         };
 
         window.submitWithdraw = async () => {
+            const refCount = userData?.totalRefer || 0;
+            const lockPanel = document.getElementById('withdraw-lock');
+            const showLock = (message, qualifiedCount = 0) => {
+                if (lockPanel) {
+                    lockPanel.classList.add('show');
+                    lockPanel.setAttribute('aria-hidden', 'false');
+                }
+                document.getElementById('prog-fill').style.width =
+                    `${Math.min(qualifiedCount, 15) / 15 * 100}%`;
+                document.getElementById('prog-text').innerText =
+                    `${Math.min(qualifiedCount, 15)} / 15`;
+                tg.showAlert(message);
+            };
+
+            // First requirement: invite at least 15 users.
+            if (refCount < 15) {
+                showLock(
+                    `উত্তোলনের আগে অন্তত ১৫ জনকে রেফার করতে হবে। আপনার রেফার: ${refCount}/15`,
+                    refCount
+                );
+                return;
+            }
+
+            // Second requirement: each of 15 referred users must have referred
+            // at least one user themselves. This is checked when withdrawing.
+            try {
+                const referredQuery = query(
+                    collection(db, "users"),
+                    where("referredBy", "==", uid)
+                );
+                const referredSnap = await getDocs(referredQuery);
+                const qualifiedUsers = referredSnap.docs.filter(d => {
+                    const data = d.data();
+                    return (data.totalRefer || 0) >= 1;
+                });
+                const qualifiedCount = qualifiedUsers.length;
+
+                if (qualifiedCount < 15) {
+                    showLock(
+                        `আপনার মোট রেফার ${refCount} জন। কিন্তু উত্তোলনের শর্ত পূরণ করেছেন ${qualifiedCount}/15 জন।\n\nআপনার রেফার করা ১৫ জন ব্যবহারকারীর প্রত্যেককে অন্তত ১ জন করে নতুন ব্যবহারকারী রেফার করতে হবে। শর্ত পূরণ হলে আবার উত্তোলনের আবেদন করুন।`,
+                        qualifiedCount
+                    );
+                    return;
+                }
+            } catch (err) {
+                console.error("Referral verification failed:", err);
+                tg.showAlert("রেফার যাচাই করা যাচ্ছে না। অনুগ্রহ করে আবার চেষ্টা করুন।");
+                return;
+            }
+
             const amt = parseFloat(document.getElementById('amt').value);
-            const num = document.getElementById('num').value;
-            if(!amt || !num) return tg.showAlert("সব তথ্য দিন।");
-            if(amt < 500) return tg.showAlert("মিনিমাম ৫০০ টাকা।");
-            if(amt > userData.balance) return tg.showAlert("ব্যালেন্স নেই।");
-            
+            const num = document.getElementById('num').value.trim();
+            if (!amt || !num) return tg.showAlert("অনুগ্রহ করে উত্তোলনের পরিমাণ ও মোবাইল নম্বর দিন।");
+            if (amt < 300) return tg.showAlert("সর্বনিম্ন উত্তোলন ৩০০ টাকা।");
+            if (amt > userData.balance) return tg.showAlert("আপনার ব্যালেন্স পর্যাপ্ত নয়।");
+
             await updateDoc(doc(db, "users", uid), { balance: increment(-amt) });
-            await addDoc(collection(db, "withdrawals"), { 
-                uid, amount: amt, number: num, 
-                method: document.getElementById('gateway').value, 
-                status: "Pending", 
-                time: serverTimestamp() 
+            await addDoc(collection(db, "withdrawals"), {
+                uid, amount: amt, number: num,
+                method: document.getElementById('gateway').value,
+                status: "Pending",
+                time: serverTimestamp()
             });
-            tg.showAlert("রিকোয়েস্ট পাঠানো হয়েছে!");
+            tg.showAlert("আপনার উত্তোলনের আবেদন সফলভাবে জমা হয়েছে!");
             document.getElementById('amt').value = '';
             document.getElementById('num').value = '';
         };
@@ -551,7 +1966,7 @@
         // Admin Only Broadcast Functionality
         window.sendBroadcast = async () => {
             if (uid !== ADMIN_UID) {
-                tg.showAlert("আপনার ব্রডকাস্ট করার অনুমতি নেই!");
+                tg.showAlert("         !");
                 return;
             }
 
@@ -561,21 +1976,21 @@
             const btn = document.getElementById('broadcast-btn');
 
             if (!msg) {
-                tg.showAlert("অনুগ্রহ করে একটি মেসেজ লিখুন।");
+                tg.showAlert("         ");
                 return;
             }
 
             btn.disabled = true;
             btn.classList.add('opacity-50');
             statusEl.classList.remove('hidden');
-            statusEl.innerText = "ইউজার তালিকা সংগ্রহ করা হচ্ছে...";
+            statusEl.innerText = "         ...";
 
             try {
                 const querySnapshot = await getDocs(collection(db, "users"));
                 let total = querySnapshot.size;
                 let successCount = 0;
 
-                statusEl.innerText = `ব্রডকাস্ট চালু হয়েছে... 0/${total}`;
+                statusEl.innerText = `     ... 0/${total}`;
 
                 for (const userDoc of querySnapshot.docs) {
                     const recipientId = userDoc.id;
@@ -610,14 +2025,14 @@
                     }
                 }
 
-                statusEl.innerText = `✅ সম্পূর্ণ! ${successCount}/${total} জন ইউজারকে মেসেজ পাঠানো হয়েছে।`;
-                tg.showAlert(`ব্রডকাস্ট সম্পন্ন হয়েছে! ${successCount} জন মেসেজ পেয়েছেন।`);
+                statusEl.innerText = `   ! ${successCount}/${total}          `;
+                tg.showAlert(`     ! ${successCount}      `);
                 document.getElementById('broadcast-msg').value = '';
                 document.getElementById('broadcast-img').value = '';
 
             } catch (err) {
                 console.error(err);
-                statusEl.innerText = "❌ মেসেজ পাঠাতে সমস্যা হয়েছে।";
+                statusEl.innerText = "         ";
             } finally {
                 btn.disabled = false;
                 btn.classList.remove('opacity-50');
@@ -631,35 +2046,124 @@
                 n.classList.remove('active-icon');
                 n.classList.add('text-slate-600');
             });
-            btn.classList.add('active-icon');
-            btn.classList.remove('text-slate-600');
+            if (btn && btn.classList.contains('nav-btn')) {
+                btn.classList.add('active-icon');
+                btn.classList.remove('text-slate-600');
+            }
             lucide.createIcons();
             tg.HapticFeedback.impactOccurred('medium');
-            if(id === 'home-page') renderTasks();
+            if(id === 'daily-task-page') renderTasks();
+            if(id === 'refer-page'){
+                window.scrollTo({top: 0, behavior: 'smooth'});
+                setTimeout(() => {
+                    const refCard = document.querySelector('.refer-link-card');
+                    if(refCard) refCard.scrollIntoView({behavior:'smooth', block:'start'});
+                }, 80);
+            }
         }
 
         window.copyLink = () => {
             const link = document.getElementById('ref-link').innerText;
             navigator.clipboard.writeText(link);
-            tg.showAlert("লিঙ্ক কপি করা হয়েছে!");
+            tg.showAlert("রেফার লিংক কপি করা হয়েছে!");
+        }
+
+
+        // Private UI test data: deliberately synthetic and visibly labelled as Active .
+        function renderRandomWithdrawHistory() {
+            const box = document.getElementById('random-withdraw-history');
+            if (!box) return;
+            const methods = ['বিকাশ', 'নগদ'];
+            // Each row gets its own independently randomized amount.
+            // 90% are ৳1,000–৳2,000; 10% are ৳2,010–৳10,000.
+            // Amounts end in 0 (e.g. 1,000; 1,020; 1,100), as requested.
+            const now = Date.now();
+            const records = Array.from({ length: 1200 }, (_, i) => {
+                const amount = Math.random() < 0.90
+                    ? 1000 + Math.floor(Math.random() * 101) * 10
+                    : 2010 + Math.floor(Math.random() * 800) * 10;
+                let status;
+                if (i < 5) status = 'approved';
+                else if (i < 10) status = 'pending';
+                else status = Math.random() < 0.68 ? 'approved' : (Math.random() < 0.88 ? 'pending' : 'rejected');
+                const ageMinutes = Math.floor(Math.random() * 60);
+                const seconds = Math.floor(Math.random() * 60);
+                const when = new Date(now - ageMinutes * 60000 - seconds * 1000);
+                return {
+                    method: methods[Math.floor(Math.random() * methods.length)],
+                    amount,
+                    suffix: String(Math.floor(1000 + Math.random() * 9000)),
+                    status,
+                    when
+                };
+            });
+            // Shuffle the generated test rows so the sequence varies on every reload.
+            for (let i = records.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [records[i], records[j]] = [records[j], records[i]];
+            }
+            box.innerHTML = records.map(w => {
+                const approved = w.status === 'approved';
+                const rejected = w.status === 'rejected';
+                const statusText = approved ? 'সম্পন্ন' : rejected ? 'বাতিল' : 'প্রক্রিয়াধীন';
+                const statusClass = approved ? 'approved' : rejected ? 'rejected' : 'pending';
+                const timeText = w.when.toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                const methodClass = w.method === 'বিকাশ' ? 'bkash' : 'nagad';
+                const methodIcon = w.method === 'বিকাশ' ? 'b' : 'N';
+                return `<article class="tb-history-record">
+                    <div class="tb-history-record-icon ${methodClass}" style="font-weight:900">${methodIcon}</div>
+                    <div class="tb-history-record-main">
+                        <div class="tb-history-record-top"><b>${w.method}</b><span class="tb-history-status ${statusClass}">${statusText}</span></div>
+                        <small>•••• ${w.suffix} · ${timeText} · Active </small>
+                    </div>
+                    <strong class="tb-history-record-amount">৳${w.amount.toLocaleString('bn-BD')}</strong>
+                </article>`;
+            }).join('');
         }
 
         function loadHistory() {
-            const q = query(collection(db, "withdrawals"), where("uid", "==", uid), orderBy("time", "desc"));
-            onSnapshot(q, (sn) => {
-                const box = document.getElementById('txn-history');
-                box.innerHTML = sn.empty ? '<p class="text-center text-[8px] text-slate-600">No history yet.</p>' : '';
-                sn.forEach(d => {
-                    const w = d.data();
-                    box.innerHTML += `
-                    <div class="glass-item p-4 flex justify-between items-center opacity-70 mb-2">
-                        <div class="text-[9px]"><p class="font-black text-white uppercase">${w.method}</p><p class="${w.status === 'Pending' ? 'text-amber-500' : 'text-green-500'} font-bold">${w.status}</p></div>
-                        <p class="text-xs font-black italic">৳${w.amount}</p>
-                    </div>`;
-                });
-            });
+            // শুধু পেজের লোকাল ইতিহাস দেখানো হবে; Firebase live withdrawal history বন্ধ।
+            renderRandomWithdrawHistory();
         }
+
+        // Premium 1%-100% loader on every app opening
+        function runStartupLoader(){
+            const loader = document.getElementById('startup-loader');
+            const fill = document.getElementById('loader-fill');
+            const percent = document.getElementById('loader-percent');
+            const status = document.getElementById('loader-status');
+            if(!loader || !fill || !percent) return;
+            loader.classList.remove('hide');
+            document.body.classList.add('loader-active');
+            let progress = 0;
+            const statusAt = (p) => {
+                if(p < 20) return 'স্বাগতম! অ্যাপ চালু হচ্ছে';
+                if(p < 45) return 'আপনার তথ্য প্রস্তুত করা হচ্ছে';
+                if(p < 70) return 'টাস্ক ও রিওয়ার্ড লোড হচ্ছে';
+                if(p < 90) return 'আপনার ড্যাশবোর্ড তৈরি হচ্ছে';
+                if(p < 100) return 'আর মাত্র একটু অপেক্ষা করুন';
+                return 'সব প্রস্তুত! স্বাগতম 🎉';
+            };
+            fill.style.width = '0%';
+            percent.textContent = '1%';
+            if(status) status.textContent = statusAt(1);
+            const timer = setInterval(() => {
+                progress = Math.min(100, progress + 1);
+                fill.style.width = progress + '%';
+                percent.textContent = progress + '%';
+                if(status) status.textContent = statusAt(progress);
+                if(progress >= 100){
+                    clearInterval(timer);
+                    setTimeout(() => {
+                        loader.classList.add('hide');
+                        document.body.classList.remove('loader-active');
+                    }, 550);
+                }
+            }, 24);
+        }
+
+        runStartupLoader();
         init();
     </script>
 </body>
-</html>
+            </html>
