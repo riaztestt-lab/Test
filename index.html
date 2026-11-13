@@ -10,7 +10,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src='https://libtl.com/sdk.js' data-zone='12112314' data-sdk='show_12112314'></script>
+    <script src='//libtl.com/sdk.js' data-zone='10844896' data-sdk='show_10844896'></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Grotesk:wght@700&display=swap');
         
@@ -1203,7 +1203,6 @@ main{padding-bottom:110px!important}
 @keyframes tbHistIn{from{opacity:.35;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
 </style>
 
-<script src='//libtl.com/sdk.js' data-zone='10844896' data-sdk='show_10844896'></script>
 
 <style id="takar-bank-sample-history-and-monetag">
 .tb-sample-history-wrap{
@@ -1803,12 +1802,12 @@ main{padding-bottom:110px!important}
 
         let adCountdownRunning=false; window.adCountdownRunning=false;
         const waitForMonetag=()=>new Promise((resolve,reject)=>{
-            if(typeof window.show_12112314==='function') return resolve(window.show_12112314);
+            if(typeof window.show_10844896==='function') return resolve(window.show_10844896);
             let tries=0;
             const timer=setInterval(()=>{
                 tries++;
-                if(typeof window.show_12112314==='function'){
-                    clearInterval(timer); resolve(window.show_12112314);
+                if(typeof window.show_10844896==='function'){
+                    clearInterval(timer); resolve(window.show_10844896);
                 }else if(tries>=40){
                     clearInterval(timer); reject(new Error('Monetag SDK did not load. Check internet, SDK URL and Zone ID.'));
                 }
